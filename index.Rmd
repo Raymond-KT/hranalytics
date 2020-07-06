@@ -43,7 +43,6 @@ Tip을 드리기 때문에, R과 통계에 대해 전혀 모르시는 분들께�
 [* 유튜브 강의 : 국민대학교 곽기영 교수님 R 강의](https://www.youtube.com/playlist?list=PLY0OaF78qqGA42e0rXqBWCcF_C9Ib-T1x)
   
   
-  
 [* 유튜브 강의 : 통알못을 위한 통계튜브](https://www.youtube.com/channel/UCnN2E8RCEuKi-WLBrd0Nu1A)
 
 
