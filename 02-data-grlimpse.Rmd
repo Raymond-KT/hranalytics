@@ -1,0 +1,226 @@
+# Data 파악하기 {#data_glimpse}
+
+```{r setup2, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center", message=F, warning=F, fig.height = 5, cache=T, dpi = 300)
+```
+
+* 저는 데이터 분석을 진행할 때, 보통 아래와 같은 순서로 진행합니다.   
+
+  
+단계| 데이터 분석 절차    
+:---:|:---
+(1) | 데이터 복사하여 입력
+(2) | 데이터 구조 파악
+(3) | 데이터 전 처리 진행
+(4) | 데이터 분석 시행
+  
+   
+* 분석하려는 데이터가 어떤 형태로, 어떤 변수로 구성되어 있는지  
+파악 하시는 것이 향후 전처리, 분석을 진행 할 때 도움이 됩니다. 
+    
+    
+* 이번 chapter에서는 R에 내장되어 있는 **iris data**를 활용하겠습니다.   
+  
+  
+## 데이터 형식/변수 확인
+
+> **glimpse(데이터) : 데이터 를 힐끗 살펴보겠다**       
+
+   
+* 데이터가 몇 개의 관측치(row)와, 몇 개의 변수(column)로 구성되어 있는지 빠르게 보여줍니다.   
+  
+  
+* 저는 주로 데이터를 복사 붙여 넣기 한 뒤,   
+제대로 붙여 넣기가 되었는지 확인하는 용도로 사용합니다.   
+  
+  
+  
+* R에 기본 내장되어 있는 **iris** 데이터는 5개 열과 150줄로 구성되어 있습니다.  
+따라서, observation은 150, variables는 5 로 표시되어야 합니다.  
+  
+```{r tidyverse 활용, eval=FALSE}
+# 앞으로 자주 사용하게 될 tidyverse library를 로드해줍니다. 
+# 아직 설치가 되어 있지 않으시다면, install.package('tidyverse')로 설치해주세요. 
+library(tidyverse)
+```
+```{r tidyverse 활용2, include=FALSE}
+# 앞으로 자주 사용하게 될 tidyverse library를 로드해줍니다. 
+# 아직 설치가 되어 있지 않으시다면, install.package('tidyverse')로 설치해주세요. 
+library(tidyverse)
+```
+```{r glimpse 함수 활용}
+# R에 내장되어 있는 iris Data를 glimpse 함수를 활용하여 힐끗 봅니다. 
+glimpse(iris)
+```
+  
+* glimpse로는 데이터가 어떤 값으로 구성되어 있는지,  
+어떤 자료형으로 들어가 있는지, 관측값과 변수는 몇 개인지 빠르게 확인할 수 있습니다. 
+
+```
+## Observations: 150
+## Variables: 5
+## $ Sepal.Length <dbl> 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5.4,...
+```
+   
+* 위와 같은 형태로 데이터가 나올 때 **<dbl>** 이라고 된 부분이    
+자료형을 나타내 주는 부분입니다.    
+   
+* 자료형(Data type) 은 아래와 같은 종류가 자주 사용됩니다.   
+   
+```
+  +	NULL: 데이터가 없는 경우  
+  +	Logical: 불리언, 참 또는 거짓  
+  +	Int: 정수  
+  +	Double: 부동소수점 실수  
+  +	Complex: 복소수  
+  +	Character: 문자열  
+  +	List: 리스트  
+  +	Closure: 함수  
+``` 
+    
+※ 자료형에 대해서는 아래 링크 추가 확인 부탁 드립니다.  
+  
+[R의 기본 자료형](https://datascienceschool.net/view-notebook/0a66597ee82f464b9e2015e41cff8205/)
+  
+  
+* 데이터를 파악할 때, 데이터 구조(Data Structure)도 중요합니다.  
+자주 사용되는 데이터 구조는 아래와 같습니다.   
+  
+```
+  + data.frame : 데이터 프레임
+  + tibble : 데이터 프레임을 재구성한, 심플한 데이터 프레임
+  + list : 리스트
+  + matrix : 매트릭스
+  + vector : 벡터
+  + factor : 요인
+```
+  
+  
+* 데이터 구조를 확인하고 싶을 때는 str() 함수를 사용하시면 됩니다. 
+```{r str}
+str(iris)
+#iris Data는 data frame 구조를 갖는다는 것을 알 수 있습니다. 
+```
+
+
+※ 데이터 구조에 대해서는 아래 링크 추가 확인 부탁 드립니다. 
+
+[R의 데이터 구조](https://m.blog.naver.com/PostView.nhn?blogId=definitice&logNo=220967729928&proxyReferer=https:%2F%2Fwww.google.com%2F)
+
+
+## 변수 클래스 확인 
+  
+> **class(데이터) : 데이터에 들어있는 변수의 자료형(클래스)를 알려달라**  
+  
+* 자료형과 클래스는 다르기에 클래스도 확인을 해주는 것이 좋습니다.  
+저는 각 열 단위로 클래스를 확인하기 위해 apply함수와  
+class 함수를 아래와 같이 활용합니다. 
+
+```{r class}
+
+apply(iris,2,class)
+
+```
+
+## 변수 고유 값 확인 
+  
+> **unique(데이터) : 데이터 고유 값들을 보여달라**
+
+* glimpse 함수를 통해 데이터 복사 후 입력이 잘 되었는지 확인이 되었으면,  
+주요 변수가 각 행에 잘 입력되었는지 unique 함수를 통해 확인 합니다.   
+  
+* 아래와 같이 iris 데이터의 Species 항목에 대해 unique 함수를   시행하면 고유 값이 출력됩니다. 
+
+* 저는 제가 다루는 데이터의 직급/직위, 회사 등이 제대로 해당 열에 들어 있는지 파악하는데 unique함수를 주로 사용하고 있습니다. 
+
+
+```{r unique}
+
+unique(iris$Species)
+#iris 데이터의 Species 열은 어떤 값들로 구성되어 있는지 확인할 수 있습니다. 
+
+```
+
+## 결측치(NA) 확인 
+  
+> **is.na(데이터) : 데이터에 NA 값이 있나요? True/False로 알려줘요**
+
+* 데이터에 결측치(NA) 가 있는지 확인하는 is.na() 
+데이터에 결측치가 들어있는지 TRUE/FALSE를 통해 확인합니다. 
+
+```{r is.na1-1}
+
+is.na(iris)
+
+```
+
+* 위와 같이 TRUE/FALSE로 값을 반환한 것은 한 눈에 보기 쉽지 않기에,  
+보통 sum() 함수를 같이 사용하여 몇 개의 결측치가 있는지 파악합니다. 
+
+```{r sum(is.na)}
+
+sum(is.na(iris))
+
+```
+
+* NA 값이 있는 경우, 어떻게 처리를 하는지는 다음 R Tips에서 공유 드리겠습니다.  
+  
+    
+    
+
+## 요약 통계량 확인  
+  
+> **summary(데이터) : 데이터를 요약해서 보여주세요**
+  
+* 데이터의 최소, 최대, 중앙값, 평균값, 1분위값, 3분위값을 보여주며,  
+향후 각종 분석 결과를 보여주는 중요한 함수입니다.  
+  
+* 저는 데이터 전처리를 할 때 summary함수를 사용하여 분위수를 확인하고,  
+1분위수 이하, 3분위수 이상의 값들을 제거하고 분석하곤 합니다.  
+  
+* 이 외에도, summary 함수는 정말 유용하게 많이 활용됩니다.
+
+``` {r Summary}
+
+summary(iris)
+
+```
+
+
+## EDA(탐험적 데이터분석) 패키지 소개 
+
+> **ExpanD(), dlookr() 등 다양한 EDA 패키지들이 있습니다**
+
+
+* 데이터 구조가 어느정도 익숙해지고,  
+결측치나 데이터 전처리가 필요 없다면, 곧바로 EDA를 하셔도 좋습니다.   
+  
+* dlookr, ExPanDaR과 같은 좋은 패키지들이 나와 있어서  
+설치하시고 한 줄만 입력하시면 데이터 안에 있는 변수들간  
+상관/회귀/빈도 등 다양한 정보를 알 수 있습니다. 
+
+* 분석할 데이터의 class는 보고자 하는 결과 형식에 따라 바꿔주시면 됩니다. 
+
+```{r data EDA}
+
+
+#iris는 shiny app 기반으로 동작하므로, 새로운 창에서 동작합니다. 
+# 아래 코드를 # 없이 구동해보세요! 
+# library(ExPanDaR)
+# ExPanDaR::ExPanD(iris)
+
+#dlookr는 한국분이 만드신 EDA 패키지로, 다양한 기능들이 있으며, 데이터의 전반을 파악하는데 매우 유용하게 사용됩니다. 
+
+library(dlookr)
+dlookr::diagnose(iris)
+
+```
+
+
+  [ExpandaR 활용 예제 보기](https://joachim-gassen.github.io/ExPanDaR/dev/index.html)
+  
+  
+  [dlookr 패키지 활용하여 데이터 진단하기](https://velog.io/@suzin/R-%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%83%90%EC%83%89-6.-dlookr-%ED%8C%A8%ED%82%A4%EC%A7%80%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A7%84%EB%8B%A8EDA)
+
+
+

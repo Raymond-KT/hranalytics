@@ -1,0 +1,10 @@
+# 텍스트 데이터-재료 준비 {#Textmining-dtm}
+
+<body><font color="#FFFFFF"><span style="background-color:#FF0000">
+죄송합니다. 아직 작성중에 있습니다. 
+</sapn></body>
+
+```{r setup10, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center", message=F, warning=F, fig.height = 4, cache=T, dpi = 300)
+```
+  

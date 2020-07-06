@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 상관분석 - 기본 | HR 분석 실무자를 위한 R Tips</title>
+  <meta name="description" content="R Tips는 HR Analytics 입문자를 위해 제작했습니다." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 상관분석 - 기본 | HR 분석 실무자를 위한 R Tips" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="R Tips는 HR Analytics 입문자를 위해 제작했습니다." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 상관분석 - 기본 | HR 분석 실무자를 위한 R Tips" />
+  
+  <meta name="twitter:description" content="R Tips는 HR Analytics 입문자를 위해 제작했습니다." />
+  
+
+<meta name="author" content="김광태" />
+
+
+<meta name="date" content="2020-07-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-prep-2.html"/>
+<link rel="next" href="regression.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R Tips for HR Analytics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="data-Import.html"><a href="data-Import.html"><i class="fa fa-check"></i><b>1</b> Data 가져오기</a><ul>
+<li class="chapter" data-level="1.1" data-path="data-Import.html"><a href="data-Import.html#데이터-복사하기"><i class="fa fa-check"></i><b>1.1</b> 데이터 복사하기</a></li>
+<li class="chapter" data-level="1.2" data-path="data-Import.html"><a href="data-Import.html#복사한-데이터-변수-저장"><i class="fa fa-check"></i><b>1.2</b> 복사한 데이터 변수 저장</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="data-Import.html"><a href="data-Import.html#read.table-옵션-넣기"><i class="fa fa-check"></i><b>1.2.1</b> read.table() 옵션 넣기</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-glimpse.html"><a href="data-glimpse.html"><i class="fa fa-check"></i><b>2</b> Data 파악하기</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-glimpse.html"><a href="data-glimpse.html#데이터-형식변수-확인"><i class="fa fa-check"></i><b>2.1</b> 데이터 형식/변수 확인</a></li>
+<li class="chapter" data-level="2.2" data-path="data-glimpse.html"><a href="data-glimpse.html#변수-클래스-확인"><i class="fa fa-check"></i><b>2.2</b> 변수 클래스 확인</a></li>
+<li class="chapter" data-level="2.3" data-path="data-glimpse.html"><a href="data-glimpse.html#변수-고유-값-확인"><i class="fa fa-check"></i><b>2.3</b> 변수 고유 값 확인</a></li>
+<li class="chapter" data-level="2.4" data-path="data-glimpse.html"><a href="data-glimpse.html#결측치na-확인"><i class="fa fa-check"></i><b>2.4</b> 결측치(NA) 확인</a></li>
+<li class="chapter" data-level="2.5" data-path="data-glimpse.html"><a href="data-glimpse.html#요약-통계량-확인"><i class="fa fa-check"></i><b>2.5</b> 요약 통계량 확인</a></li>
+<li class="chapter" data-level="2.6" data-path="data-glimpse.html"><a href="data-glimpse.html#eda탐험적-데이터분석-패키지-소개"><i class="fa fa-check"></i><b>2.6</b> EDA(탐험적 데이터분석) 패키지 소개</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-prep-1.html"><a href="data-prep-1.html"><i class="fa fa-check"></i><b>3</b> Data 전처리-결측치 처리</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-처리하기"><i class="fa fa-check"></i><b>3.1</b> 결측치 처리하기</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치를-제거해주는-na.omit데이터"><i class="fa fa-check"></i><b>3.1.1</b> 결측치를 제거해주는 na.omit(데이터)</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-prep-1.html"><a href="data-prep-1.html#각-함수의-결측치-제거-옵션-활용"><i class="fa fa-check"></i><b>3.1.2</b> 각 함수의 결측치 제거 옵션 활용</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-요약-및-시각화-naniar-패키지"><i class="fa fa-check"></i><b>3.2</b> 결측치 요약 및 시각화 naniar 패키지</a></li>
+<li class="chapter" data-level="3.3" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-대체하기"><i class="fa fa-check"></i><b>3.3</b> 결측치 대체하기</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-prep-2.html"><a href="data-prep-2.html"><i class="fa fa-check"></i><b>4</b> Data 전처리-이상치 처리</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-확인"><i class="fa fa-check"></i><b>4.1</b> 이상치 확인</a></li>
+<li class="chapter" data-level="4.2" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-제거-및-대체"><i class="fa fa-check"></i><b>4.2</b> 이상치 제거 및 대체</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-제거"><i class="fa fa-check"></i><b>4.2.1</b> 이상치 제거</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-대체"><i class="fa fa-check"></i><b>4.2.2</b> 이상치 대체</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-처리-패키지"><i class="fa fa-check"></i><b>4.3</b> 이상치 처리 패키지</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>5</b> 상관분석 - 기본</a><ul>
+<li class="chapter" data-level="5.1" data-path="correlation.html"><a href="correlation.html#상관분석-시행"><i class="fa fa-check"></i><b>5.1</b> 상관분석 시행</a></li>
+<li class="chapter" data-level="5.2" data-path="correlation.html"><a href="correlation.html#상관분석-통계적-유의성-파악"><i class="fa fa-check"></i><b>5.2</b> 상관분석 통계적 유의성 파악</a></li>
+<li class="chapter" data-level="5.3" data-path="correlation.html"><a href="correlation.html#corrplot"><i class="fa fa-check"></i><b>5.3</b> 상관분석 시각화</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> 회귀분석-기본</a><ul>
+<li class="chapter" data-level="6.1" data-path="regression.html"><a href="regression.html#단순-선형-회귀분석"><i class="fa fa-check"></i><b>6.1</b> 단순 선형 회귀분석</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="regression.html"><a href="regression.html#독립변수-종속변수-설정하기"><i class="fa fa-check"></i><b>6.1.1</b> 독립변수 / 종속변수 설정하기</a></li>
+<li class="chapter" data-level="6.1.2" data-path="regression.html"><a href="regression.html#단순-회귀분석-하고-결과-보기"><i class="fa fa-check"></i><b>6.1.2</b> 단순 회귀분석 하고 결과 보기</a></li>
+<li class="chapter" data-level="6.1.3" data-path="regression.html"><a href="regression.html#단순-회귀분석-모델-성능-파악하기"><i class="fa fa-check"></i><b>6.1.3</b> 단순 회귀분석 모델 성능 파악하기</a></li>
+<li class="chapter" data-level="6.1.4" data-path="regression.html"><a href="regression.html#단순-선형-회귀분석-기본-가정-확인"><i class="fa fa-check"></i><b>6.1.4</b> 단순 선형 회귀분석 기본 가정 확인</a></li>
+<li class="chapter" data-level="6.1.5" data-path="regression.html"><a href="regression.html#회귀분석-그림으로-표현하기"><i class="fa fa-check"></i><b>6.1.5</b> 회귀분석 그림으로 표현하기</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="regression.html"><a href="regression.html#다중-선형회귀분석"><i class="fa fa-check"></i><b>6.2</b> 다중 선형회귀분석</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="regression.html"><a href="regression.html#독립변수종속변수-설정하기"><i class="fa fa-check"></i><b>6.2.1</b> 독립변수/종속변수 설정하기</a></li>
+<li class="chapter" data-level="6.2.2" data-path="regression.html"><a href="regression.html#다중회귀분석-시행하기"><i class="fa fa-check"></i><b>6.2.2</b> 다중회귀분석 시행하기</a></li>
+<li class="chapter" data-level="6.2.3" data-path="regression.html"><a href="regression.html#다중회귀분석-결과-확인"><i class="fa fa-check"></i><b>6.2.3</b> 다중회귀분석 결과 확인</a></li>
+<li class="chapter" data-level="6.2.4" data-path="regression.html"><a href="regression.html#변수간-관계-시각화"><i class="fa fa-check"></i><b>6.2.4</b> 변수간 관계 시각화</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ttest.html"><a href="ttest.html"><i class="fa fa-check"></i><b>7</b> 두 집단 비교 t test</a><ul>
+<li class="chapter" data-level="7.1" data-path="ttest.html"><a href="ttest.html#데이터-불러오기전처리"><i class="fa fa-check"></i><b>7.1</b> 데이터 불러오기/전처리</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ttest.html"><a href="ttest.html#데이터-가져오기"><i class="fa fa-check"></i><b>7.1.1</b> 데이터 가져오기</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ttest.html"><a href="ttest.html#데이터-확인하기"><i class="fa fa-check"></i><b>7.1.2</b> 데이터 확인하기</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ttest.html"><a href="ttest.html#데이터-응답-고유-값-확인하기"><i class="fa fa-check"></i><b>7.1.3</b> 데이터 응답 고유 값 확인하기</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ttest.html"><a href="ttest.html#결측치-이상치-확인"><i class="fa fa-check"></i><b>7.1.4</b> 결측치 이상치 확인</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ttest.html"><a href="ttest.html#t-test-준비"><i class="fa fa-check"></i><b>7.2</b> t test 준비</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ttest.html"><a href="ttest.html#원하는-데이터만-불러오기"><i class="fa fa-check"></i><b>7.2.1</b> 원하는 데이터만 불러오기</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ttest.html"><a href="ttest.html#데이터의-등분산성-확인"><i class="fa fa-check"></i><b>7.2.2</b> 데이터의 등분산성 확인</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ttest.html"><a href="ttest.html#t-test-시행"><i class="fa fa-check"></i><b>7.3</b> t test 시행</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ANOVA.html"><a href="ANOVA.html"><i class="fa fa-check"></i><b>8</b> 세 집단 이상 비교 ANOVA</a><ul>
+<li class="chapter" data-level="8.1" data-path="ttest.html"><a href="ttest.html#데이터-불러오기전처리"><i class="fa fa-check"></i><b>8.1</b> 데이터 불러오기/전처리</a></li>
+<li class="chapter" data-level="8.2" data-path="ANOVA.html"><a href="ANOVA.html#anova-준비"><i class="fa fa-check"></i><b>8.2</b> ANOVA 준비</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="ANOVA.html"><a href="ANOVA.html#독립변인-종속변인-데이터-불러오기"><i class="fa fa-check"></i><b>8.2.1</b> 독립변인 종속변인 데이터 불러오기</a></li>
+<li class="chapter" data-level="8.2.2" data-path="ANOVA.html"><a href="ANOVA.html#학력별-직무만족-boxplot으로-확인하기"><i class="fa fa-check"></i><b>8.2.2</b> 학력’별 ‘직무만족’ boxplot으로 확인하기</a></li>
+<li class="chapter" data-level="8.2.3" data-path="ANOVA.html"><a href="ANOVA.html#one-way-anova를-위해-독립변수를-factor-형태로-변환"><i class="fa fa-check"></i><b>8.2.3</b> one-way ANOVA를 위해 독립변수를 factor 형태로 변환</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="ANOVA.html"><a href="ANOVA.html#anova-실행"><i class="fa fa-check"></i><b>8.3</b> ANOVA 실행</a></li>
+<li class="chapter" data-level="8.4" data-path="ANOVA.html"><a href="ANOVA.html#anova-결과-확인"><i class="fa fa-check"></i><b>8.4</b> ANOVA 결과 확인</a></li>
+<li class="chapter" data-level="8.5" data-path="ANOVA.html"><a href="ANOVA.html#등분산성-확인"><i class="fa fa-check"></i><b>8.5</b> 등분산성 확인</a></li>
+<li class="chapter" data-level="8.6" data-path="ANOVA.html"><a href="ANOVA.html#사후검정-시행"><i class="fa fa-check"></i><b>8.6</b> 사후검정 시행</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="ANOVA.html"><a href="ANOVA.html#tukey-사후검정-시행"><i class="fa fa-check"></i><b>8.6.1</b> Tukey 사후검정 시행</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="Textmining.html"><a href="Textmining.html"><i class="fa fa-check"></i><b>9</b> 텍스트 데이터-전처리</a><ul>
+<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기-readrds"><i class="fa fa-check"></i><b>9.1</b> 텍스트 데이터 읽어 오기 readRDS()</a></li>
+<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-기본-처리"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 기본 처리</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#결측치na-처리-sum-is.na"><i class="fa fa-check"></i><b>9.2.1</b> 결측치(NA) 처리 sum(), is.na()</a></li>
+<li class="chapter" data-level="9.2.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거-unique"><i class="fa fa-check"></i><b>9.2.2</b> 중복 행 제거 unique()</a></li>
+<li class="chapter" data-level="9.2.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거-str_remove_all"><i class="fa fa-check"></i><b>9.2.3</b> 텍스트 공백 제거 str_remove_all()</a></li>
+<li class="chapter" data-level="9.2.4" data-path="Textmining.html"><a href="Textmining.html#글자-수-확인해서-의미-없는-칼럼-날리기-nchar-range"><i class="fa fa-check"></i><b>9.2.4</b> 글자 수 확인해서 의미 없는 칼럼 날리기 nchar(), range()</a></li>
+<li class="chapter" data-level="9.2.5" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.2.5</b> id 칼럼 붙이기</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#형태소-분석-r_parser_r"><i class="fa fa-check"></i><b>9.3</b> 형태소 분석 r_parser_r()</a></li>
+<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리tm-패키지-활용"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(tm 패키지 활용)</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#corpus-생성-vcorpus-vectorsource"><i class="fa fa-check"></i><b>9.4.1</b> Corpus 생성 Vcorpus() vectorSource()</a></li>
+<li class="chapter" data-level="9.4.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리-tm_map"><i class="fa fa-check"></i><b>9.4.2</b> 텍스트 데이터 전처리 tm_map</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="Textmining-dtm.html"><a href="Textmining-dtm.html"><i class="fa fa-check"></i><b>10</b> 텍스트 데이터-재료 준비</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">HR 분석 실무자를 위한 R Tips</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="correlation" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> 상관분석 - 기본</h1>
+<ul>
+<li><p>상관분석/회귀분석은 가장 기본적이면서도 강력한 분석 방법으로<br />
+간단한 내용은 엑셀에서도 정말 쉽게 분석 가능합니다.</p></li>
+<li><p>전문 통계 프로그램을 활용하면 시각화 및 고급 분석에 장점이 있으므로,<br />
+분석 주제 및 데이터에 맞게 Tool을 선택하시면 될 것 같습니다.</p></li>
+<li><p>지난 시간에 이어, R 내장 데이터인 mtcars 데이터와 아래의 네 가지 패키지를 활용하여 진행하고자 합니다.</p>
+<pre><code>* tidyverse : 데이터를 tidy하게 다루기 위한 문법 집대성한 패키지  
+* tidymodels: 각종 분석을 위한 각종 패키지를 집대성한 패키지  
+* twidlr : 각종 분석을 tidy하게 진행하는데 도움을 주는 패키지  
+* corrplot : 상관분석 결과 시각화 패키지  </code></pre>
+<p><a href="https://partrita.github.io/posts/tidy-data/">※ tidy data 개념</a></p></li>
+<li><p>이제부터 공유드리는 내용에는 ‘파이프 연산자’ <strong>‘%&gt;%’</strong> 가 활용될 예정이며,
+이 연산자를 통해 물이 흘러가듯 데이터가 흘러 들어간다고 생각하시면 됩니다.</p></li>
+<li><p>아울러, 향후 각종 분석과 머신러닝 등을 위해 tidymodels 패키지를 설치해두시면
+조금 더 편하게 분석/머신러닝을 진행하실 수 있습니다.</p></li>
+<li><p>먼저, 필요한 패키지를 pacman 패키지 p_load 함수를 활용하여 한번에 불러오겠습니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="correlation.html#cb2-1"></a>pacman<span class="op">::</span><span class="kw">p_load</span>(<span class="st">&#39;tidyverse&#39;</span>,<span class="st">&#39;tidymodels&#39;</span>,<span class="st">&#39;twidlr&#39;</span>,<span class="st">&#39;corrplot&#39;</span>) </span></code></pre></div>
+<ul>
+<li>저는 주로 바로 시각화해서 상관 관계를 확인하기 때문에,<br />
+<a href="correlation.html#corrplot">corrplot 패키지로 시각화 하기</a> 을 곧바로 참고해주셔도 됩니다.</li>
+</ul>
+<div id="상관분석-시행" class="section level2">
+<h2><span class="header-section-number">5.1</span> 상관분석 시행</h2>
+<blockquote>
+<p><strong>cor(데이터): 데이터의 변수 간 상관계수를 구하라</strong></p>
+</blockquote>
+<ul>
+<li><p>앞서 공유 드렸듯이, mtcars는 총 11개 변수로 구성되어 있습니다.</p>
+<pre><code>[, 1]	mpg	Miles/(US) gallon
+[, 2]	cyl	Number of cylinders
+[, 3]	disp	Displacement (cu.in.)
+[, 4]	hp	Gross horsepower
+[, 5]	drat	Rear axle ratio
+[, 6]	wt	Weight (1000 lbs)
+[, 7]	qsec	1/4 mile time
+[, 8]	vs	Engine (0 = V-shaped, 1 = straight)
+[, 9]	am	Transmission (0 = automatic, 1 = manual)
+[,10]	gear	Number of forward gears
+[,11]	carb	Number of carburetors</code></pre></li>
+<li><p>기본적인 변수간 상관 분석은 <strong>cor()</strong> 함수를 통해 바로 진행하실 수 있습니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="correlation.html#cb4-1"></a><span class="co"># mtcars의 11개 변수 전부를 상관분석한 뒤, 그 결과를 tidy하게 확인해보겠습니다. </span></span>
+<span id="cb4-2"><a href="correlation.html#cb4-2"></a>mtcars<span class="op">%&gt;%</span>cor<span class="op">%&gt;%</span>tidy</span></code></pre></div>
+<pre><code>## # A tibble: 11 x 12
+##    .rownames    mpg    cyl   disp     hp    drat     wt    qsec     vs      am
+##    &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+##  1 mpg        1     -0.852 -0.848 -0.776  0.681  -0.868  0.419   0.664  0.600 
+##  2 cyl       -0.852  1      0.902  0.832 -0.700   0.782 -0.591  -0.811 -0.523 
+##  3 disp      -0.848  0.902  1      0.791 -0.710   0.888 -0.434  -0.710 -0.591 
+##  4 hp        -0.776  0.832  0.791  1     -0.449   0.659 -0.708  -0.723 -0.243 
+##  5 drat       0.681 -0.700 -0.710 -0.449  1      -0.712  0.0912  0.440  0.713 
+##  6 wt        -0.868  0.782  0.888  0.659 -0.712   1     -0.175  -0.555 -0.692 
+##  7 qsec       0.419 -0.591 -0.434 -0.708  0.0912 -0.175  1       0.745 -0.230 
+##  8 vs         0.664 -0.811 -0.710 -0.723  0.440  -0.555  0.745   1      0.168 
+##  9 am         0.600 -0.523 -0.591 -0.243  0.713  -0.692 -0.230   0.168  1     
+## 10 gear       0.480 -0.493 -0.556 -0.126  0.700  -0.583 -0.213   0.206  0.794 
+## 11 carb      -0.551  0.527  0.395  0.750 -0.0908  0.428 -0.656  -0.570  0.0575
+## # … with 2 more variables: gear &lt;dbl&gt;, carb &lt;dbl&gt;</code></pre>
+<ul>
+<li><p>mtcars 라는 데이터가 cor 라는 상관분석 함수로 들어가서 tidy라는 결과보기 함수로 들어가서 위와 같이 정리되어 보여집니다. 결과를 보면, 상관계수가 꽤 높은 것들도 많이 보입니다.</p></li>
+<li><p>상관분석 method도 pearson, spearman, kendall 중 선택하실 수 있으며, 이 중 default는 pearson으로 되어 있습니다.</p></li>
+<li><p>각 방법의 차이와 상관분석의 의미에 대해서는 아래 링크 참고해주시면 됩니다.</p>
+<p><a href="https://bioinformaticsandme.tistory.com/58">상관계수 종류 및 의미</a></p>
+<p><a href="https://otexts.com/fppkr/causality.html">상관관계, 인과관계, 그리고 예측</a></p>
+<p><a href="https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/cor">cor 함수 R document</a></p></li>
+</ul>
+</div>
+<div id="상관분석-통계적-유의성-파악" class="section level2">
+<h2><span class="header-section-number">5.2</span> 상관분석 통계적 유의성 파악</h2>
+<blockquote>
+<p><strong>cor.test(변수1, 변수2, ‘방법’) : 변수1과 변수2의 상관계수를 ’방법’을 활용하여 구하라</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>cor.mtest(메트릭스 데이터,‘방법’,‘신뢰수준’ ) : ’신뢰수준’에서, ’방법’을 활용하여 매트릭스 데이터 모든 변수의 상관계수를 구하라</strong></p>
+</blockquote>
+<ul>
+<li><p>두 개의 변수에 대해서만 상관계수 검정을 하실 때는 cor.test 함수를 사용하시면 되고,<br />
+두 개 이상의 변수에 대해 상관계수 검정을 하실 때는 cor.mtest 함수를 사용하시면 됩니다.</p></li>
+<li><p>우선, 상관계수가 높게 나온 cyl과 disp의 상관계수 검정을 cor.test 함수를 활용하여 진행해보겠습니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="correlation.html#cb6-1"></a><span class="co"># default로 설정되어 있는 pearson 방법을 활용하여 상관계수 검정을 진행해보겠습니다. </span></span>
+<span id="cb6-2"><a href="correlation.html#cb6-2"></a><span class="kw">cor.test</span>(mtcars<span class="op">$</span>cyl,mtcars<span class="op">$</span>disp, <span class="dt">method =</span> <span class="st">&#39;pearson&#39;</span>)</span></code></pre></div>
+<pre><code>## 
+## 	Pearson&#39;s product-moment correlation
+## 
+## data:  mtcars$cyl and mtcars$disp
+## t = 11.445, df = 30, p-value = 1.803e-12
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.8072442 0.9514607
+## sample estimates:
+##       cor 
+## 0.9020329</code></pre>
+<ul>
+<li><p>검정 결과, p-value가 0.05보다 훨씬 작은 값이 나왔기에<br />
+해당 상관 계수는 통계적으로 유의하다고 볼 수 있습니다.</p></li>
+<li><p>“통계적으로 유의하다”는 표현을 앞으로도 자주 사용하게 될텐데, 분석을 하다보니 가장 중요한 것이 통계적인 지식인 것 같습니다. p-value에 대해서는 아래 강의 추천드립니다.</p>
+<p><a href="https://www.youtube.com./watch?v=5Xke4ao1g9E">유튜브 강의 : 1-3 왜 유의할까? - 도대체 p-값(p-value)는 무엇인가?</a></p></li>
+<li><p>cor.mtest 함수를 사용하면 해당 데이터에 존재하는 모든 변수간 상관계수 검정을 진행할 수 있는데요,<br />
+mtcars에 있는 모든 변수에 대해 상관계수 검정을 진행해보겠습니다.</p></li>
+<li><p>cor.mtest 함수를 실행하면, p값이 저장되어 있는 p, 신뢰구간의 하단을 나타내는 lowCI,<br />
+신뢰구간의 상단을 나타내는 uppCI 총 3개의 변수로 결과 값이 나옵니다.</p></li>
+<li><p>저는 p값만 사용하며, 변수가 많은 경우, 아래와 같이 출력해서 통계적 유의미성을 확인하는 것은 한계가 있습니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="correlation.html#cb8-1"></a><span class="co"># mtcars 데이터의 모든 변수간 상관계수 검정 진행</span></span>
+<span id="cb8-2"><a href="correlation.html#cb8-2"></a>mtcars<span class="op">%&gt;%</span><span class="kw">cor.mtest</span>(<span class="dt">method=</span><span class="st">&#39;pearson&#39;</span>)</span></code></pre></div>
+<pre><code>## $p
+##               [,1]         [,2]         [,3]         [,4]         [,5]
+##  [1,] 0.000000e+00 6.112687e-10 9.380327e-10 1.787835e-07 1.776240e-05
+##  [2,] 6.112687e-10 0.000000e+00 1.802838e-12 3.477861e-09 8.244636e-06
+##  [3,] 9.380327e-10 1.802838e-12 0.000000e+00 7.142679e-08 5.282022e-06
+##  [4,] 1.787835e-07 3.477861e-09 7.142679e-08 0.000000e+00 9.988772e-03
+##  [5,] 1.776240e-05 8.244636e-06 5.282022e-06 9.988772e-03 0.000000e+00
+##  [6,] 1.293959e-10 1.217567e-07 1.222320e-11 4.145827e-05 4.784260e-06
+##  [7,] 1.708199e-02 3.660533e-04 1.314404e-02 5.766253e-06 6.195826e-01
+##  [8,] 3.415937e-05 1.843018e-08 5.235012e-06 2.940896e-06 1.167553e-02
+##  [9,] 2.850207e-04 2.151207e-03 3.662114e-04 1.798309e-01 4.726790e-06
+## [10,] 5.400948e-03 4.173297e-03 9.635921e-04 4.930119e-01 8.360110e-06
+## [11,] 1.084446e-03 1.942340e-03 2.526789e-02 7.827810e-07 6.211834e-01
+##               [,6]         [,7]         [,8]         [,9]        [,10]
+##  [1,] 1.293959e-10 1.708199e-02 3.415937e-05 2.850207e-04 5.400948e-03
+##  [2,] 1.217567e-07 3.660533e-04 1.843018e-08 2.151207e-03 4.173297e-03
+##  [3,] 1.222320e-11 1.314404e-02 5.235012e-06 3.662114e-04 9.635921e-04
+##  [4,] 4.145827e-05 5.766253e-06 2.940896e-06 1.798309e-01 4.930119e-01
+##  [5,] 4.784260e-06 6.195826e-01 1.167553e-02 4.726790e-06 8.360110e-06
+##  [6,] 0.000000e+00 3.388683e-01 9.798492e-04 1.125440e-05 4.586601e-04
+##  [7,] 3.388683e-01 0.000000e+00 1.029669e-06 2.056621e-01 2.425344e-01
+##  [8,] 9.798492e-04 1.029669e-06 0.000000e+00 3.570439e-01 2.579439e-01
+##  [9,] 1.125440e-05 2.056621e-01 3.570439e-01 0.000000e+00 5.834043e-08
+## [10,] 4.586601e-04 2.425344e-01 2.579439e-01 5.834043e-08 0.000000e+00
+## [11,] 1.463861e-02 4.536949e-05 6.670496e-04 7.544526e-01 1.290291e-01
+##              [,11]
+##  [1,] 1.084446e-03
+##  [2,] 1.942340e-03
+##  [3,] 2.526789e-02
+##  [4,] 7.827810e-07
+##  [5,] 6.211834e-01
+##  [6,] 1.463861e-02
+##  [7,] 4.536949e-05
+##  [8,] 6.670496e-04
+##  [9,] 7.544526e-01
+## [10,] 1.290291e-01
+## [11,] 0.000000e+00
+## 
+## $lowCI
+##              [,1]       [,2]        [,3]       [,4]       [,5]        [,6]
+##  [1,]  1.00000000 -0.9257694 -0.92335937 -0.8852686  0.4360484 -0.93382641
+##  [2,] -0.92576936  1.0000000  0.80724418  0.6816016 -0.8429083  0.59657947
+##  [3,] -0.92335937  0.8072442  1.00000000  0.6106794 -0.8487237  0.78115863
+##  [4,] -0.88526861  0.6816016  0.61067938  1.0000000 -0.6895522  0.40251134
+##  [5,]  0.43604838 -0.8429083 -0.84872374 -0.6895522  1.0000000 -0.84997951
+##  [6,] -0.93382641  0.5965795  0.78115863  0.4025113 -0.8499795  1.00000000
+##  [7,]  0.08195487 -0.7792781 -0.67961513 -0.8475998 -0.2659470 -0.49335358
+##  [8,]  0.41036301 -0.9039393 -0.84883771 -0.8559675  0.1081948 -0.75711174
+##  [9,]  0.31755830 -0.7369979 -0.77926901 -0.5456270  0.4843991 -0.83867523
+## [10,]  0.15806177 -0.7180260 -0.75751468 -0.4544774  0.4641440 -0.77446381
+## [11,] -0.75464796  0.2184331  0.05367539  0.5431200 -0.4259976  0.09273981
+##              [,7]       [,8]       [,9]       [,10]       [,11]
+##  [1,]  0.08195487  0.4103630  0.3175583  0.15806177 -0.75464796
+##  [2,] -0.77927809 -0.9039393 -0.7369979 -0.71802597  0.21843307
+##  [3,] -0.67961513 -0.8488377 -0.7792690 -0.75751468  0.05367539
+##  [4,] -0.84759984 -0.8559675 -0.5456270 -0.45447743  0.54311998
+##  [5,] -0.26594700  0.1081948  0.4843991  0.46414402 -0.42599760
+##  [6,] -0.49335358 -0.7571117 -0.8386752 -0.77446381  0.09273981
+##  [7,]  1.00000000  0.5346428 -0.5356240 -0.52261830 -0.81780480
+##  [8,]  0.53464277  1.0000000 -0.1915957 -0.15371324 -0.76613289
+##  [9,] -0.53562398 -0.1915957  1.0000000  0.61589632 -0.29712041
+## [10,] -0.52261830 -0.1537132  0.6158963  1.00000000 -0.08250603
+## [11,] -0.81780480 -0.7661329 -0.2971204 -0.08250603  1.00000000
+## 
+## $uppCI
+##             [,1]       [,2]       [,3]       [,4]       [,5]       [,6]
+##  [1,]  1.0000000 -0.7163171 -0.7081376 -0.5860994  0.8322010 -0.7440872
+##  [2,] -0.7163171  1.0000000  0.9514607  0.9154223 -0.4646481  0.8887052
+##  [3,] -0.7081376  0.9514607  1.0000000  0.8932775 -0.4805193  0.9442902
+##  [4,] -0.5860994  0.9154223  0.8932775  1.0000000 -0.1186280  0.8192573
+##  [5,]  0.8322010 -0.4646481 -0.4805193 -0.1186280  1.0000000 -0.4839784
+##  [6,] -0.7440872  0.8887052  0.9442902  0.8192573 -0.4839784  1.0000000
+##  [7,]  0.6696186 -0.3055388 -0.1001493 -0.4774331  0.4263400  0.1852649
+##  [8,]  0.8223262 -0.6442689 -0.4808327 -0.5006318  0.6839680 -0.2556982
+##  [9,]  0.7844520 -0.2126675 -0.3055178  0.1152646  0.8501319 -0.4532461
+## [10,]  0.7100628 -0.1738615 -0.2565810  0.2332119  0.8427222 -0.2944887
+## [11,] -0.2503183  0.7397479  0.6536467  0.8708249  0.2663358  0.6755700
+##             [,7]       [,8]       [,9]      [,10]      [,11]
+##  [1,]  0.6696186  0.8223262  0.7844520  0.7100628 -0.2503183
+##  [2,] -0.3055388 -0.6442689 -0.2126675 -0.1738615  0.7397479
+##  [3,] -0.1001493 -0.4808327 -0.3055178 -0.2565810  0.6536467
+##  [4,] -0.4774331 -0.5006318  0.1152646  0.2332119  0.8708249
+##  [5,]  0.4263400  0.6839680  0.8501319  0.8427222  0.2663358
+##  [6,]  0.1852649 -0.2556982 -0.4532461 -0.2944887  0.6755700
+##  [7,]  1.0000000  0.8679076  0.1291876  0.1469065 -0.3988165
+##  [8,]  0.8679076  1.0000000  0.4883712  0.5175379 -0.2756654
+##  [9,]  0.1291876  0.4883712  1.0000000  0.8949546  0.3982389
+## [10,]  0.1469065  0.5175379  0.8949546  1.0000000  0.5684422
+## [11,] -0.3988165 -0.2756654  0.3982389  0.5684422  1.0000000</code></pre>
+</div>
+<div id="corrplot" class="section level2">
+<h2><span class="header-section-number">5.3</span> 상관분석 시각화</h2>
+<p>저는 앞의 과정들을 생략하고, 주로 corrplot을 그려서 바로 상관관계를 봅니다.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="correlation.html#cb10-1"></a><span class="co"># mtcars 데이터의 모든 변수간 상관계수 검정 진행 후, p.value 로 저장</span></span>
+<span id="cb10-2"><a href="correlation.html#cb10-2"></a>mtcars<span class="op">%&gt;%</span><span class="kw">cor.mtest</span>(<span class="dt">method=</span><span class="st">&#39;pearson&#39;</span>)-&gt;p.value</span>
+<span id="cb10-3"><a href="correlation.html#cb10-3"></a></span>
+<span id="cb10-4"><a href="correlation.html#cb10-4"></a><span class="co">#p.value 구조, 변수 확인하기 </span></span>
+<span id="cb10-5"><a href="correlation.html#cb10-5"></a><span class="kw">str</span>(p.value)</span></code></pre></div>
+<pre><code>## List of 3
+##  $ p    : num [1:11, 1:11] 0.00 6.11e-10 9.38e-10 1.79e-07 1.78e-05 ...
+##  $ lowCI: num [1:11, 1:11] 1 -0.926 -0.923 -0.885 0.436 ...
+##  $ uppCI: num [1:11, 1:11] 1 -0.716 -0.708 -0.586 0.832 ...</code></pre>
+<ul>
+<li><p>먼저 mtcars 변수들에 대해 상관계수 검정을 진행합니다. (pearson 상관계수 양측검정)</p></li>
+<li><p>str함수를 통해 p.value 의 구조를 살펴보면 p.value는 p값, lowCI값, uppCI 값으로 구성되어 있으며, 저희는 상관계수인 p값만 필요하기에 리스트 첫번째 p.value[[1]] = p값만 뽑아서 사용합니다.</p></li>
+<li><p>Rstudo에서 할 때는 dev.new() 로 새 창을 열어주고, 아래의 내용을 실행하여 그림을 그려줍니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="correlation.html#cb12-1"></a><span class="co"># dev.new()  실습할 때는 # 제거후 확인 </span></span>
+<span id="cb12-2"><a href="correlation.html#cb12-2"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span>cor <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">corrplot.mixed</span>(<span class="dt">p.mat=</span>p.value[[<span class="dv">1</span>]], <span class="dt">sig.level=</span>.<span class="dv">05</span>, <span class="dt">lower =</span> <span class="st">&#39;number&#39;</span>, <span class="dt">upper=</span><span class="st">&#39;pie&#39;</span>, <span class="dt">tl.cex=</span>.<span class="dv">6</span>, <span class="dt">tl.col=</span><span class="st">&#39;black&#39;</span>,<span class="dt">order=</span><span class="st">&#39;hclust&#39;</span>)</span></code></pre></div>
+<p><img src="RTIPS_files/figure-html/corrplot%20with%20p.value-1.png" width="2100" style="display: block; margin: auto;" /></p>
+<ul>
+<li><p>위와 같이 상관분석 결과를 한눈에 보실 수 있으며, 파란색이 진해질수록 정적 상관이, 붉은색이 진해질수록 부적 상관이 크고, pie를 차지하는 면적이 클수록 상관계수가 큼을 알 수 있습니다.</p>
+<pre><code>  mtcars %&gt;% cor %&gt;% corrplot.mixed(p.mat=p.mat[[1]], sig.level=.05, lower = &#39;number&#39;, upper=&#39;pie&#39;, tl.cex=.6, tl.col=&#39;black&#39;,order=&#39;hclust&#39;)
+</code></pre></li>
+<li><p>위 코드의 뜻은 다음과 같습니다. mtcars 원 데이터를 cor 함수에 넣어서 상관 분석을 한 뒤, corrplot.mixed 함수에 넣어 시각화를 진행합니다.</p></li>
+<li><p>corrplot.mixed 함수 내부의 옵션은 정말 여러가지가 있는데, 제가 주로 사용하는 것은 다음과 같습니다.</p>
+<pre><code>* p.mat : 상관계수 검정결과  
+* sig.level : 유의확율이며, sig.level 보다 큰 경우, 그림에 x표시됨  
+* upper/lower : 윗부분/아랫부분을 어떤 타입을 나타낼지 선택해줌  
+* order = hclust : 는 계층적 군집 결과에 따라 변수의 순서를 배열해줌  
+* tl.col =&#39;black&#39; : 중간 대각선 텍스트 라벨의 색을 검정색으로 지정함  
+* tl.cex = .6 : 중간 대각선 텍스트 라벨의 크기를 0.6으로 정함  </code></pre></li>
+<li><p>이 외에도 corrplot에는 다양한 기능들이 있는데, 더 자세한 내용은 아래 링크 참조 부탁드립니다.</p>
+<p><a href="https://rpubs.com/cardiomoon/27134">Rpubs corrplot 소개 페이지</a></p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-prep-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["RTIPS.pdf", "RTIPS.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 회귀분석-기본 | HR 분석 실무자를 위한 R Tips</title>
+  <meta name="description" content="R Tips는 HR Analytics 입문자를 위해 제작했습니다." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 회귀분석-기본 | HR 분석 실무자를 위한 R Tips" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="R Tips는 HR Analytics 입문자를 위해 제작했습니다." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 회귀분석-기본 | HR 분석 실무자를 위한 R Tips" />
+  
+  <meta name="twitter:description" content="R Tips는 HR Analytics 입문자를 위해 제작했습니다." />
+  
+
+<meta name="author" content="김광태" />
+
+
+<meta name="date" content="2020-07-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="correlation.html"/>
+<link rel="next" href="ttest.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R Tips for HR Analytics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="data-Import.html"><a href="data-Import.html"><i class="fa fa-check"></i><b>1</b> Data 가져오기</a><ul>
+<li class="chapter" data-level="1.1" data-path="data-Import.html"><a href="data-Import.html#데이터-복사하기"><i class="fa fa-check"></i><b>1.1</b> 데이터 복사하기</a></li>
+<li class="chapter" data-level="1.2" data-path="data-Import.html"><a href="data-Import.html#복사한-데이터-변수-저장"><i class="fa fa-check"></i><b>1.2</b> 복사한 데이터 변수 저장</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="data-Import.html"><a href="data-Import.html#read.table-옵션-넣기"><i class="fa fa-check"></i><b>1.2.1</b> read.table() 옵션 넣기</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-glimpse.html"><a href="data-glimpse.html"><i class="fa fa-check"></i><b>2</b> Data 파악하기</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-glimpse.html"><a href="data-glimpse.html#데이터-형식변수-확인"><i class="fa fa-check"></i><b>2.1</b> 데이터 형식/변수 확인</a></li>
+<li class="chapter" data-level="2.2" data-path="data-glimpse.html"><a href="data-glimpse.html#변수-클래스-확인"><i class="fa fa-check"></i><b>2.2</b> 변수 클래스 확인</a></li>
+<li class="chapter" data-level="2.3" data-path="data-glimpse.html"><a href="data-glimpse.html#변수-고유-값-확인"><i class="fa fa-check"></i><b>2.3</b> 변수 고유 값 확인</a></li>
+<li class="chapter" data-level="2.4" data-path="data-glimpse.html"><a href="data-glimpse.html#결측치na-확인"><i class="fa fa-check"></i><b>2.4</b> 결측치(NA) 확인</a></li>
+<li class="chapter" data-level="2.5" data-path="data-glimpse.html"><a href="data-glimpse.html#요약-통계량-확인"><i class="fa fa-check"></i><b>2.5</b> 요약 통계량 확인</a></li>
+<li class="chapter" data-level="2.6" data-path="data-glimpse.html"><a href="data-glimpse.html#eda탐험적-데이터분석-패키지-소개"><i class="fa fa-check"></i><b>2.6</b> EDA(탐험적 데이터분석) 패키지 소개</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-prep-1.html"><a href="data-prep-1.html"><i class="fa fa-check"></i><b>3</b> Data 전처리-결측치 처리</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-처리하기"><i class="fa fa-check"></i><b>3.1</b> 결측치 처리하기</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치를-제거해주는-na.omit데이터"><i class="fa fa-check"></i><b>3.1.1</b> 결측치를 제거해주는 na.omit(데이터)</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-prep-1.html"><a href="data-prep-1.html#각-함수의-결측치-제거-옵션-활용"><i class="fa fa-check"></i><b>3.1.2</b> 각 함수의 결측치 제거 옵션 활용</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-요약-및-시각화-naniar-패키지"><i class="fa fa-check"></i><b>3.2</b> 결측치 요약 및 시각화 naniar 패키지</a></li>
+<li class="chapter" data-level="3.3" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-대체하기"><i class="fa fa-check"></i><b>3.3</b> 결측치 대체하기</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-prep-2.html"><a href="data-prep-2.html"><i class="fa fa-check"></i><b>4</b> Data 전처리-이상치 처리</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-확인"><i class="fa fa-check"></i><b>4.1</b> 이상치 확인</a></li>
+<li class="chapter" data-level="4.2" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-제거-및-대체"><i class="fa fa-check"></i><b>4.2</b> 이상치 제거 및 대체</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-제거"><i class="fa fa-check"></i><b>4.2.1</b> 이상치 제거</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-대체"><i class="fa fa-check"></i><b>4.2.2</b> 이상치 대체</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-처리-패키지"><i class="fa fa-check"></i><b>4.3</b> 이상치 처리 패키지</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>5</b> 상관분석 - 기본</a><ul>
+<li class="chapter" data-level="5.1" data-path="correlation.html"><a href="correlation.html#상관분석-시행"><i class="fa fa-check"></i><b>5.1</b> 상관분석 시행</a></li>
+<li class="chapter" data-level="5.2" data-path="correlation.html"><a href="correlation.html#상관분석-통계적-유의성-파악"><i class="fa fa-check"></i><b>5.2</b> 상관분석 통계적 유의성 파악</a></li>
+<li class="chapter" data-level="5.3" data-path="correlation.html"><a href="correlation.html#corrplot"><i class="fa fa-check"></i><b>5.3</b> 상관분석 시각화</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> 회귀분석-기본</a><ul>
+<li class="chapter" data-level="6.1" data-path="regression.html"><a href="regression.html#단순-선형-회귀분석"><i class="fa fa-check"></i><b>6.1</b> 단순 선형 회귀분석</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="regression.html"><a href="regression.html#독립변수-종속변수-설정하기"><i class="fa fa-check"></i><b>6.1.1</b> 독립변수 / 종속변수 설정하기</a></li>
+<li class="chapter" data-level="6.1.2" data-path="regression.html"><a href="regression.html#단순-회귀분석-하고-결과-보기"><i class="fa fa-check"></i><b>6.1.2</b> 단순 회귀분석 하고 결과 보기</a></li>
+<li class="chapter" data-level="6.1.3" data-path="regression.html"><a href="regression.html#단순-회귀분석-모델-성능-파악하기"><i class="fa fa-check"></i><b>6.1.3</b> 단순 회귀분석 모델 성능 파악하기</a></li>
+<li class="chapter" data-level="6.1.4" data-path="regression.html"><a href="regression.html#단순-선형-회귀분석-기본-가정-확인"><i class="fa fa-check"></i><b>6.1.4</b> 단순 선형 회귀분석 기본 가정 확인</a></li>
+<li class="chapter" data-level="6.1.5" data-path="regression.html"><a href="regression.html#회귀분석-그림으로-표현하기"><i class="fa fa-check"></i><b>6.1.5</b> 회귀분석 그림으로 표현하기</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="regression.html"><a href="regression.html#다중-선형회귀분석"><i class="fa fa-check"></i><b>6.2</b> 다중 선형회귀분석</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="regression.html"><a href="regression.html#독립변수종속변수-설정하기"><i class="fa fa-check"></i><b>6.2.1</b> 독립변수/종속변수 설정하기</a></li>
+<li class="chapter" data-level="6.2.2" data-path="regression.html"><a href="regression.html#다중회귀분석-시행하기"><i class="fa fa-check"></i><b>6.2.2</b> 다중회귀분석 시행하기</a></li>
+<li class="chapter" data-level="6.2.3" data-path="regression.html"><a href="regression.html#다중회귀분석-결과-확인"><i class="fa fa-check"></i><b>6.2.3</b> 다중회귀분석 결과 확인</a></li>
+<li class="chapter" data-level="6.2.4" data-path="regression.html"><a href="regression.html#변수간-관계-시각화"><i class="fa fa-check"></i><b>6.2.4</b> 변수간 관계 시각화</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ttest.html"><a href="ttest.html"><i class="fa fa-check"></i><b>7</b> 두 집단 비교 t test</a><ul>
+<li class="chapter" data-level="7.1" data-path="ttest.html"><a href="ttest.html#데이터-불러오기전처리"><i class="fa fa-check"></i><b>7.1</b> 데이터 불러오기/전처리</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ttest.html"><a href="ttest.html#데이터-가져오기"><i class="fa fa-check"></i><b>7.1.1</b> 데이터 가져오기</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ttest.html"><a href="ttest.html#데이터-확인하기"><i class="fa fa-check"></i><b>7.1.2</b> 데이터 확인하기</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ttest.html"><a href="ttest.html#데이터-응답-고유-값-확인하기"><i class="fa fa-check"></i><b>7.1.3</b> 데이터 응답 고유 값 확인하기</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ttest.html"><a href="ttest.html#결측치-이상치-확인"><i class="fa fa-check"></i><b>7.1.4</b> 결측치 이상치 확인</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ttest.html"><a href="ttest.html#t-test-준비"><i class="fa fa-check"></i><b>7.2</b> t test 준비</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ttest.html"><a href="ttest.html#원하는-데이터만-불러오기"><i class="fa fa-check"></i><b>7.2.1</b> 원하는 데이터만 불러오기</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ttest.html"><a href="ttest.html#데이터의-등분산성-확인"><i class="fa fa-check"></i><b>7.2.2</b> 데이터의 등분산성 확인</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ttest.html"><a href="ttest.html#t-test-시행"><i class="fa fa-check"></i><b>7.3</b> t test 시행</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ANOVA.html"><a href="ANOVA.html"><i class="fa fa-check"></i><b>8</b> 세 집단 이상 비교 ANOVA</a><ul>
+<li class="chapter" data-level="8.1" data-path="ttest.html"><a href="ttest.html#데이터-불러오기전처리"><i class="fa fa-check"></i><b>8.1</b> 데이터 불러오기/전처리</a></li>
+<li class="chapter" data-level="8.2" data-path="ANOVA.html"><a href="ANOVA.html#anova-준비"><i class="fa fa-check"></i><b>8.2</b> ANOVA 준비</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="ANOVA.html"><a href="ANOVA.html#독립변인-종속변인-데이터-불러오기"><i class="fa fa-check"></i><b>8.2.1</b> 독립변인 종속변인 데이터 불러오기</a></li>
+<li class="chapter" data-level="8.2.2" data-path="ANOVA.html"><a href="ANOVA.html#학력별-직무만족-boxplot으로-확인하기"><i class="fa fa-check"></i><b>8.2.2</b> 학력’별 ‘직무만족’ boxplot으로 확인하기</a></li>
+<li class="chapter" data-level="8.2.3" data-path="ANOVA.html"><a href="ANOVA.html#one-way-anova를-위해-독립변수를-factor-형태로-변환"><i class="fa fa-check"></i><b>8.2.3</b> one-way ANOVA를 위해 독립변수를 factor 형태로 변환</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="ANOVA.html"><a href="ANOVA.html#anova-실행"><i class="fa fa-check"></i><b>8.3</b> ANOVA 실행</a></li>
+<li class="chapter" data-level="8.4" data-path="ANOVA.html"><a href="ANOVA.html#anova-결과-확인"><i class="fa fa-check"></i><b>8.4</b> ANOVA 결과 확인</a></li>
+<li class="chapter" data-level="8.5" data-path="ANOVA.html"><a href="ANOVA.html#등분산성-확인"><i class="fa fa-check"></i><b>8.5</b> 등분산성 확인</a></li>
+<li class="chapter" data-level="8.6" data-path="ANOVA.html"><a href="ANOVA.html#사후검정-시행"><i class="fa fa-check"></i><b>8.6</b> 사후검정 시행</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="ANOVA.html"><a href="ANOVA.html#tukey-사후검정-시행"><i class="fa fa-check"></i><b>8.6.1</b> Tukey 사후검정 시행</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="Textmining.html"><a href="Textmining.html"><i class="fa fa-check"></i><b>9</b> 텍스트 데이터-전처리</a><ul>
+<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기-readrds"><i class="fa fa-check"></i><b>9.1</b> 텍스트 데이터 읽어 오기 readRDS()</a></li>
+<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-기본-처리"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 기본 처리</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#결측치na-처리-sum-is.na"><i class="fa fa-check"></i><b>9.2.1</b> 결측치(NA) 처리 sum(), is.na()</a></li>
+<li class="chapter" data-level="9.2.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거-unique"><i class="fa fa-check"></i><b>9.2.2</b> 중복 행 제거 unique()</a></li>
+<li class="chapter" data-level="9.2.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거-str_remove_all"><i class="fa fa-check"></i><b>9.2.3</b> 텍스트 공백 제거 str_remove_all()</a></li>
+<li class="chapter" data-level="9.2.4" data-path="Textmining.html"><a href="Textmining.html#글자-수-확인해서-의미-없는-칼럼-날리기-nchar-range"><i class="fa fa-check"></i><b>9.2.4</b> 글자 수 확인해서 의미 없는 칼럼 날리기 nchar(), range()</a></li>
+<li class="chapter" data-level="9.2.5" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.2.5</b> id 칼럼 붙이기</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#형태소-분석-r_parser_r"><i class="fa fa-check"></i><b>9.3</b> 형태소 분석 r_parser_r()</a></li>
+<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리tm-패키지-활용"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(tm 패키지 활용)</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#corpus-생성-vcorpus-vectorsource"><i class="fa fa-check"></i><b>9.4.1</b> Corpus 생성 Vcorpus() vectorSource()</a></li>
+<li class="chapter" data-level="9.4.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리-tm_map"><i class="fa fa-check"></i><b>9.4.2</b> 텍스트 데이터 전처리 tm_map</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="Textmining-dtm.html"><a href="Textmining-dtm.html"><i class="fa fa-check"></i><b>10</b> 텍스트 데이터-재료 준비</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">HR 분석 실무자를 위한 R Tips</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="regression" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> 회귀분석-기본</h1>
+<ul>
+<li><p>기본적인 회귀분석은 단 한줄로 실행 가능하지만,<br />
+<em>단순 선형회귀, 로지스틱 (다중)회귀, 위계적 (다중)회귀, Cox 비례 회귀</em> 등<br />
+분석하시고자 하는 가설에 따라, 데이터 형태에 따라 매우 다양한 회귀분석 방법이 존재합니다.</p></li>
+<li><p>회귀분석-기본에서는 <em>단순 회귀분석</em>과 <em>다중 회귀분석</em>에 대해 간단하게 공유드리겠습니다.</p></li>
+<li><p>HR 데이터의 경우, 회귀분석을 통해 Insight를 얻는 경우가 많은데,<br />
+회귀분석을 한 뒤, 그 결과를 바르게 해석하는 것은 쉽지 않은 것 같습니다.</p></li>
+<li><p>상관분석에 이어, 회귀분석에서도 mtcars 데이터를 활용하겠습니다.</p></li>
+<li><p>기본적인 회귀분석은 별도의 패키지를 설치하지 않아도 하실 수 있으나,
+조금 더 편하게 진행하실 수 있도록 필요한 패키지 몇 가지를 더 설치하시기를 추천드립니다.</p></li>
+<li><p>회귀분석에 앞서, 아래의 유튜브 강의와 자료를 보시고 회귀분석 기본 개념에 대해 익히시면 좋을 것 같습니다.</p>
+<p><a href="https://www.youtube.com./watch?v=dcMvKmkNn8w&amp;list=PLalb9l0_6WApDZGksoHt474fy1U35Bv-T">유튜브 강의 : 회귀분석(OLS)</a></p>
+<p><a href="https://mindscale.kr/course/basic-stat-r">마인드스케일 : R통계 기초</a></p></li>
+</ul>
+<hr />
+<div id="단순-선형-회귀분석" class="section level2">
+<h2><span class="header-section-number">6.1</span> 단순 선형 회귀분석</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="regression.html#cb1-1"></a><span class="co"># 회귀분석에 필요한 라이브러리를 로드해줍니다.</span></span>
+<span id="cb1-2"><a href="regression.html#cb1-2"></a>pacman<span class="op">::</span><span class="kw">p_load</span>(<span class="st">&#39;tidyverse&#39;</span>,<span class="st">&#39;tidymodels&#39;</span>,<span class="st">&#39;twidlr&#39;</span>,<span class="st">&#39;PerformanceAnalytics&#39;</span>, <span class="st">&#39;car&#39;</span>, <span class="st">&#39;QuantPsyc&#39;</span>) </span></code></pre></div>
+<div id="독립변수-종속변수-설정하기" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> 독립변수 / 종속변수 설정하기</h3>
+<ul>
+<li><p>단순 회귀 분석은 어떤 변수가 어떤 변수에 영향을 주는지 확인하기 위해 시행하므로,<br />
+영향을 주는 변수(독립변수)와, 영향을 받는 변수(종속변수)를 정해주시면 됩니다.</p>
+<pre><code>* 독립 : 종속 변수에 영향을 주는 변수  
+* 종속 : 독립 변수에 의해 영향을 받는 변수  
+  (예) 조직의 인원수(독립)이 조직몰입(종속)에 영향을 미치는가? </code></pre></li>
+<li><p>mtcars에 포함된 데이터는 다음과 같습니다.</p>
+<pre><code>[, 1]          mpg     Miles/(US) gallon
+[, 2]          cyl        Number of cylinders
+[, 3]          disp      Displacement (cu.in.)
+[, 4]          hp       Gross horsepower
+[, 5]          drat      Rear axle ratio
+[, 6]          wt        Weight (1000 lbs)
+[, 7]          qsec     1/4 mile time
+[, 8]          vs        Engine (0 = V-shaped, 1 = straight)
+[, 9]          am       Transmission (0 = automatic, 1 = manual)
+[,10]          gear     Number of forward gears
+[,11]          carb     Number of carburetors</code></pre></li>
+<li><p>mtcars 데이터 중, 차의 무게 wt 변수가 차의 연비 mpg에 영향을 미치는지 확인해보겠습니다.</p>
+<pre><code>* **독립 : 차의 무게 wt**  
+* **종속 : 차의 연비 mpg**</code></pre></li>
+</ul>
+</div>
+<div id="단순-회귀분석-하고-결과-보기" class="section level3">
+<h3><span class="header-section-number">6.1.2</span> 단순 회귀분석 하고 결과 보기</h3>
+<blockquote>
+<p><strong>lm()%&gt;%tidy : 회귀분석을 하고, 결과를 tidy하게 보여주세요</strong></p>
+</blockquote>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="regression.html#cb5-1"></a> mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt) <span class="op">%&gt;%</span><span class="st"> </span>tidy</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)    37.3      1.88      19.9  8.24e-19
+## 2 wt             -5.34     0.559     -9.56 1.29e-10</code></pre>
+<pre><code>  mtcars %&gt;% lm(mpg ~ wt) %&gt;% tidy</code></pre>
+<ul>
+<li><p>mtcars의 데이터를 회귀분석 lm 수식에 넣고, (종속:mpg ~ 독립:wt) 분석을 한 뒤, 결과를 tidy하게 나타내라 는 뜻입니다.</p></li>
+<li><p>위의 결과를 보시면, p-value가 0.05 미만으로 나와서 통계적으로 유의미하며,<br />
+회귀 계수는 -5.34가 나왔습니다.</p></li>
+<li><p>이를 단순하게 해석하면 무게가 1 증가 할 때, 연비는 5.34 감소한다고 보시면 됩니다.</p></li>
+</ul>
+</div>
+<div id="단순-회귀분석-모델-성능-파악하기" class="section level3">
+<h3><span class="header-section-number">6.1.3</span> 단순 회귀분석 모델 성능 파악하기</h3>
+<blockquote>
+<p><strong>lm()%&gt;%glance : 회귀분석 모델의 성능을 정리해서 보여주세요</strong></p>
+</blockquote>
+<ul>
+<li>분석 모델의 성능을 파악할 때는 glance 함수를 활용합니다.</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="regression.html#cb8-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt) <span class="op">%&gt;%</span><span class="st"> </span>glance</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 11
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.753         0.745  3.05      91.4 1.29e-10     2  -80.0  166.  170.
+## # ... with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</code></pre>
+<ul>
+<li><p>r.squared, F-statistic 지표를 통해, 수립한 회귀모형이 데이터를 잘 설명하는지 확인할 수 있습니다.</p></li>
+<li><p>adj.rsquared 값이 높게 나왔고, p.value가 0.05 미만으로 통계적으로 유의하기에<br />
+이제 데이터가 회귀분석의 기본 가정을 만족하는지 살펴봐야 합니다.</p>
+<pre><code>* adj.r.squared 는 수정된 결정계수/설명력을 말하며, 0.745로 비교적 높게 나왔습니다.  
+이를 단순하게 해석하면, 차의 무게가 차의 연비를 74.5% 설명할 수 있다 고 보시면 됩니다.  
+
+* 첫번째 열에 r.squared 값이 있고, 두번째 열에 adj.r.squared 값이 있는데,  
+독립변수의 개수가 증가할 수록 r.squared 값이 커지기에 독립변수가 한개 이상이라면,   ajd.r.squared 값을 확인하시면 됩니다.  
+
+* statistic는 F통계량을 말하며, F통계량의 p.value 역시 0.05보다 작아  
+통계적으로 유의미함을 알 수 있고, 회귀 모형이 데이터에 잘 맞음을 알 수 있습니다. </code></pre></li>
+</ul>
+</div>
+<div id="단순-선형-회귀분석-기본-가정-확인" class="section level3">
+<h3><span class="header-section-number">6.1.4</span> 단순 선형 회귀분석 기본 가정 확인</h3>
+<ul>
+<li><p>회귀분석을 함에 앞서, 반드시 확인해야 하는 기본 가정이 있습니다.<br />
+</p></li>
+<li><p>선형 회귀분석의 경우, 네가지 가정을 확인해주어야 합니다.</p></li>
+<li><p>가정의 의미와 검정 결과를 확인하는 방법에 대해서는 다른 chapter에서 ‘등분산, 정규성 검정’ 만 따로 다루면서 함께 진행해보겠습니다.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">구분</th>
+<th align="center">내용</th>
+<th align="left">확인방법</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">선형성</td>
+<td align="left">독립변수-종속변수 산점도 그려보기</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">등분산성</td>
+<td align="left">독립변수-잔차 산점도 그려보기</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">독립성</td>
+<td align="left">잔차에 대한 Durvbin watson 검정</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">정규성</td>
+<td align="left">표준화된 잔차 정규성 검정</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="regression.html#cb11-1"></a><span class="co"># 1. 산점도 그려보기 </span></span>
+<span id="cb11-2"><a href="regression.html#cb11-2"></a><span class="kw">plot</span>(mtcars<span class="op">$</span>wt,mtcars<span class="op">$</span>mpg)</span></code></pre></div>
+<p><img src="RTIPS_files/figure-html/simple%20check-1.png" width="2100" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="regression.html#cb12-1"></a><span class="co"># 2. 등분산성 확인 </span></span>
+<span id="cb12-2"><a href="regression.html#cb12-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb12-3"><a href="regression.html#cb12-3"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt) <span class="op">%&gt;%</span><span class="st"> </span>plot</span></code></pre></div>
+<p><img src="RTIPS_files/figure-html/simple%20check-2.png" width="2100" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="regression.html#cb13-1"></a><span class="co"># 3. 독립성 확인 (상한 이상 값 나올 경우, 독립성 확인)</span></span>
+<span id="cb13-2"><a href="regression.html#cb13-2"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt) <span class="op">%&gt;%</span><span class="st"> </span>residuals<span class="op">%&gt;%</span>durbinWatsonTest</span></code></pre></div>
+<pre><code>## [1] 1.251727</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="regression.html#cb15-1"></a><span class="co"># 4. 정규성 확인 (p-value &gt; 0.05 이면 정규성 가정 가능)</span></span>
+<span id="cb15-2"><a href="regression.html#cb15-2"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt) <span class="op">%&gt;%</span><span class="st"> </span>residuals<span class="op">%&gt;%</span>shapiro.test</span></code></pre></div>
+<pre><code>## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  .
+## W = 0.94508, p-value = 0.1044</code></pre>
+</div>
+<div id="회귀분석-그림으로-표현하기" class="section level3">
+<h3><span class="header-section-number">6.1.5</span> 회귀분석 그림으로 표현하기</h3>
+<blockquote>
+<p><strong>ggplot(옵션): 옵션을 활용해서 그림을 그릴거에요 + geom_point(옵션):옵션을 활용해서 점을 그리고요 + geom_smooth(옵션): 옵션을 활용해서 선을 그려주세요 </strong></p>
+</blockquote>
+<ul>
+<li>두 변수의 회귀분석 결과는 그래프로 보시면 더 명확하게 보실 수 있습니다.<br />
+</li>
+<li><em>ggplot을 활용한 시각화 방법에 대해서는 향후 더 자세히 다룰 예정입니다.</em></li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="regression.html#cb17-1"></a>mtcars<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>wt,<span class="dt">y=</span>mpg))<span class="op">+</span><span class="kw">geom_point</span>()<span class="op">+</span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;loess&#39;</span>, <span class="dt">level=</span>.<span class="dv">95</span>)</span></code></pre></div>
+<p><img src="RTIPS_files/figure-html/ggplot%20regression-1.png" width="2100" style="display: block; margin: auto;" /></p>
+<pre><code>mtcars%&gt;%ggplot(aes(x=wt,y=mpg))+geom_point()+geom_smooth(method = &#39;loess&#39;, level=.95)</code></pre>
+<ul>
+<li><p><strong>mtcars%&gt;%ggplot(aes(x=wt,y=mpg)):</strong> 데이터를 ggplot 함수에 넣고, x축은 무게wt, y축은 연비 mpg를 넣어라,</p></li>
+<li><p><strong>geom_point()+geom_smooth(method = ‘loess’, level=.95):</strong> 그리고 이를 점으로 표시하고(geom_point), loess 방식으로 회귀분석 하여 95% 신뢰구간을 포함한 회귀선을 그려라 (geom_smooth)는 뜻입니다.</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="다중-선형회귀분석" class="section level2">
+<h2><span class="header-section-number">6.2</span> 다중 선형회귀분석</h2>
+<div id="독립변수종속변수-설정하기" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> 독립변수/종속변수 설정하기</h3>
+<ul>
+<li>다중회귀분석은 독립변수를 2개 이상으로 설정하시는 경우에 활용하시면 됩니다.</li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="regression.html#cb19-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span>.) <span class="op">%&gt;%</span><span class="st"> </span>tidy</span></code></pre></div>
+<pre><code>## # A tibble: 11 x 5
+##    term        estimate std.error statistic p.value
+##    &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1 (Intercept)  12.3      18.7        0.657  0.518 
+##  2 cyl          -0.111     1.05      -0.107  0.916 
+##  3 disp          0.0133    0.0179     0.747  0.463 
+##  4 hp           -0.0215    0.0218    -0.987  0.335 
+##  5 drat          0.787     1.64       0.481  0.635 
+##  6 wt           -3.72      1.89      -1.96   0.0633
+##  7 qsec          0.821     0.731      1.12   0.274 
+##  8 vs            0.318     2.10       0.151  0.881 
+##  9 am            2.52      2.06       1.23   0.234 
+## 10 gear          0.655     1.49       0.439  0.665 
+## 11 carb         -0.199     0.829     -0.241  0.812</code></pre>
+<ul>
+<li><p>종속변수 외, 데이터의 모든 변수를 독립변수로 넣고 돌리고자 하실 때는 위와 같이 (종속~.) 써주시면 되고,</p></li>
+<li><p>몇 가지 변수만 독립변수로 정하시려면, (종속 ~ 독립1+독립2+독립3+독립4) 와 같이 독립변수들을 + 기호로 연결해주시면 됩니다.</p></li>
+</ul>
+</div>
+<div id="다중회귀분석-시행하기" class="section level3">
+<h3><span class="header-section-number">6.2.2</span> 다중회귀분석 시행하기</h3>
+<ul>
+<li>mtcars 데이터 중, 차의 무게wt 와 기통 cyl, 엔진타입vs, 마력vs 가 연비에 어떤 영향을 주는지 확인해보겠습니다.</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="regression.html#cb21-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span>wt<span class="op">+</span>cyl<span class="op">+</span>vs<span class="op">+</span>hp) <span class="op">%&gt;%</span><span class="st"> </span>tidy</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)  38.5       3.34     11.5    6.14e-12
+## 2 wt           -3.18      0.774    -4.11   3.26e- 4
+## 3 cyl          -0.905     0.679    -1.33   1.94e- 1
+## 4 vs            0.155     1.62      0.0957 9.24e- 1
+## 5 hp           -0.0179    0.0122   -1.46   1.56e- 1</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="regression.html#cb23-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span>wt<span class="op">+</span>cyl<span class="op">+</span>vs<span class="op">+</span>hp) <span class="op">%&gt;%</span><span class="st"> </span>glance</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 11
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.843         0.820  2.56      36.3 1.70e-10     5  -72.7  157.  166.
+## # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</code></pre>
+<ul>
+<li><p>다중 회귀분석 결과는 모두 유의하게 영향을 미치는 것으로 나왔고, adj.r.squared 값도 0.82로 높게 나왔습니다.</p></li>
+<li><p>선형 단순 회귀와 마찬가지로 다중 회귀분석에서도 고려해줘야 하는 사항이 있습니다.</p></li>
+</ul>
+</div>
+<div id="다중회귀분석-결과-확인" class="section level3">
+<h3><span class="header-section-number">6.2.3</span> 다중회귀분석 결과 확인</h3>
+<ul>
+<li><p>다중 회귀분석을 하실 경우, <em>다중공선성</em>과 <em>변수 측정 단위</em>를 확인해주셔야 합니다.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">구분</th>
+<th align="left">내용</th>
+<th align="left">확인방법</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">다중공선성</td>
+<td align="left">변수간 상관관계가 높지 않은지 확인</td>
+<td align="left">QuantPsyc 패키지 vif 함수</td>
+</tr>
+<tr class="even">
+<td align="center">표준화</td>
+<td align="left">변수의 측정단위 같은지 확인</td>
+<td align="left">car 패키지 lm.beta 함수</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<div id="분산팽창인자vif-확인" class="section level4">
+<h4><span class="header-section-number">6.2.3.1</span> 분산팽창인자(VIF) 확인</h4>
+<pre><code>mtcars %&gt;% lm(mpg ~wt+cyl+vs+hp) %&gt;% vif %&gt;% tidy</code></pre>
+<ul>
+<li>mtcars 데이터를 종속~독립 관계에 따라 회귀분석을 진행하고, 변수들간 다중공선성을 확인하고 결과를 tidy하게 나타내라</li>
+</ul>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="regression.html#cb26-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span>wt<span class="op">+</span>cyl<span class="op">+</span>vs<span class="op">+</span>hp) <span class="op">%&gt;%</span><span class="st"> </span>vif <span class="op">%&gt;%</span><span class="st"> </span>tidy</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 2
+##   names     x
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 wt     2.72
+## 2 cyl    6.97
+## 3 vs     3.14
+## 4 hp     3.34</code></pre>
+<ul>
+<li>vif 값은 ’분산 팽창 계수’를 의미하며 1에서 10 미만이면 다중 공선성이 없다고 보기에, wt,cyl,vs,hp 모두 활용하실 수 있습니다. <em>(더미 변수 활용 시 3 미만)</em></li>
+</ul>
+</div>
+<div id="표준화된-회귀계수-확인" class="section level4">
+<h4><span class="header-section-number">6.2.3.2</span> 표준화된 회귀계수 확인</h4>
+<pre><code>mtcars %&gt;% lm(mpg ~wt+cyl+vs+hp) %&gt;% lm.beta %&gt;% tidy</code></pre>
+<ul>
+<li><p>mtcars 데이터를 종속~독립 관계에 따라 회귀분석을 진행하고 표준화된 회귀계수 값을 tidy하게 나타내라</p></li>
+<li><p>mtcars 데이터는 측정 단위가 모두 다르기 때문에 표준화된 회귀계수를 봐야 합니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="regression.html#cb29-1"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span>wt<span class="op">+</span>cyl<span class="op">+</span>vs<span class="op">+</span>hp) <span class="op">%&gt;%</span><span class="st"> </span>lm.beta <span class="op">%&gt;%</span><span class="st"> </span>tidy</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 2
+##   names       x
+##   &lt;chr&gt;   &lt;dbl&gt;
+## 1 wt    -0.517 
+## 2 cyl   -0.268 
+## 3 vs     0.0129
+## 4 hp    -0.203</code></pre>
+<ul>
+<li><p>결과를 보면, 무게 wt가 가장 큰 표준화된 회귀 계수를 갖음을 알 수 있습니다.</p></li>
+<li><p>이를 단순히 연비에 무게 wt가 가장 큰 영향을 준다고 볼 수도 있지만,<br />
+사실 표준화된 회귀 계수가 변수의 상대적 중요도를 나타낸다고 단정지어 말할 수 없습니다.</p></li>
+<li><p>이에, 최근에는 상대적 중요도를 뜻하는 shapley value regression를 활용하기도 합니다. 관련 내용은 <em>회귀분석 - 심화</em> 편에서 다루도록 하겠습니다.</p>
+<p><a href="http://www.kdiss.org/journal/download_pdf.php?doi=0.7465/jkdi.2019.30.4.771">KOVO V-리그 경기력 요인의 상대적 중요도 탐색</a></p>
+<p><a href="https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002198316">선형회귀에서 표준화 회귀계수에 대한 소고</a></p></li>
+</ul>
+</div>
+</div>
+<div id="변수간-관계-시각화" class="section level3">
+<h3><span class="header-section-number">6.2.4</span> 변수간 관계 시각화</h3>
+<blockquote>
+<p><strong>chart.correlation(데이터): 데이터의 변수간 상관관계를 시각화해서 보여달라</strong></p>
+</blockquote>
+<ul>
+<li><p>마지막으로 변수별 분포와 회귀선, 상관관계까지 한번에 확인할 수 있는 방법을 공유 드리겠습니다.</p></li>
+<li><p><strong>performanceAnalytics 패키지</strong>에 있는 함수를 통해 다양한 변수간 관계를 한번에 그림으로 확인하실 수 있습니다.</p>
+<pre><code>mtcars%&gt;%select_at(vars(mpg,wt,cyl,vs,hp))%&gt;%chart.Correlation(histogram=TRUE, pch=19)</code></pre></li>
+<li><p>mtcars 데이터 중 mpg, wt, cyl, vs, hp 만 선택하여 상관관계 차트를 그려주라는 뜻입니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="regression.html#cb32-1"></a>mtcars<span class="op">%&gt;%</span><span class="kw">select_at</span>(<span class="kw">vars</span>(mpg,wt,cyl,vs,hp))<span class="op">%&gt;%</span><span class="kw">chart.Correlation</span>(<span class="dt">histogram=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="RTIPS_files/figure-html/chart%20of%20reg_corr-1.png" width="2100" style="display: block; margin: auto;" /></p>
+<ul>
+<li>위와 같이 회귀선과 상관계수/상관계수검정 결과까지 한번에 확인하실 수 있습니다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="correlation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ttest.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["RTIPS.pdf", "RTIPS.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

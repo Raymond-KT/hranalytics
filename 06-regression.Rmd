@@ -1,0 +1,311 @@
+# 회귀분석-기본 {#regression}  
+
+
+```{r setup6, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center", message=F, warning=F, fig.height = 4, cache=T, dpi = 300)
+```
+  
+  
+* 기본적인 회귀분석은 단 한줄로 실행 가능하지만,  
+*단순 선형회귀, 로지스틱 (다중)회귀, 위계적 (다중)회귀, Cox 비례 회귀* 등  
+분석하시고자 하는 가설에 따라, 데이터 형태에 따라 매우 다양한 회귀분석 방법이 존재합니다. 
+
+* 회귀분석-기본에서는 *단순 회귀분석*과 *다중 회귀분석*에 대해 간단하게 공유드리겠습니다.  
+  
+* HR 데이터의 경우, 회귀분석을 통해 Insight를 얻는 경우가 많은데,  
+회귀분석을 한 뒤, 그 결과를 바르게 해석하는 것은 쉽지 않은 것 같습니다.  
+  
+* 상관분석에 이어, 회귀분석에서도 mtcars 데이터를 활용하겠습니다.  
+  
+  
+* 기본적인 회귀분석은 별도의 패키지를 설치하지 않아도 하실 수 있으나, 
+조금 더 편하게 진행하실 수 있도록 필요한 패키지 몇 가지를 더 설치하시기를 추천드립니다.   
+  
+* 회귀분석에 앞서, 아래의 유튜브 강의와 자료를 보시고 회귀분석 기본 개념에 대해  익히시면 좋을 것 같습니다.  
+  
+  
+  [유튜브 강의 : 회귀분석(OLS) ](https://www.youtube.com./watch?v=dcMvKmkNn8w&list=PLalb9l0_6WApDZGksoHt474fy1U35Bv-T)
+
+  [마인드스케일 : R통계 기초](https://mindscale.kr/course/basic-stat-r)
+  
+  
+```{r library6-1, include=FALSE}
+# 오늘 활용할 패키지를 로드 해줍니다.  
+pacman::p_load('tidyverse','tidymodels','twidlr','PerformanceAnalytics', 'car', 'QuantPsyc','car') 
+```  
+
+---  
+
+
+
+
+## 단순 선형 회귀분석  
+  
+  
+  
+```{r library6, eval=FALSE}
+# 회귀분석에 필요한 라이브러리를 로드해줍니다.
+pacman::p_load('tidyverse','tidymodels','twidlr','PerformanceAnalytics', 'car', 'QuantPsyc') 
+```
+
+
+### 독립변수 / 종속변수 설정하기  
+  
+* 단순 회귀 분석은 어떤 변수가 어떤 변수에 영향을 주는지 확인하기 위해 시행하므로,  
+영향을 주는 변수(독립변수)와, 영향을 받는 변수(종속변수)를 정해주시면 됩니다.  
+  
+  ```
+  * 독립 : 종속 변수에 영향을 주는 변수  
+  * 종속 : 독립 변수에 의해 영향을 받는 변수  
+    (예) 조직의 인원수(독립)이 조직몰입(종속)에 영향을 미치는가? 
+  ```
+  
+  
+* mtcars에 포함된 데이터는 다음과 같습니다. 
+  ```
+  [, 1]          mpg     Miles/(US) gallon
+  [, 2]          cyl        Number of cylinders
+  [, 3]          disp      Displacement (cu.in.)
+  [, 4]          hp       Gross horsepower
+  [, 5]          drat      Rear axle ratio
+  [, 6]          wt        Weight (1000 lbs)
+  [, 7]          qsec     1/4 mile time
+  [, 8]          vs        Engine (0 = V-shaped, 1 = straight)
+  [, 9]          am       Transmission (0 = automatic, 1 = manual)
+  [,10]          gear     Number of forward gears
+  [,11]          carb     Number of carburetors
+  ```
+  
+* mtcars 데이터 중, 차의 무게 wt 변수가 차의 연비 mpg에 영향을 미치는지 확인해보겠습니다.  
+  
+  ```
+  * **독립 : 차의 무게 wt**  
+  * **종속 : 차의 연비 mpg**
+  ```
+
+
+### 단순 회귀분석 하고 결과 보기  
+  
+> **lm()%>%tidy : 회귀분석을 하고, 결과를 tidy하게 보여주세요**
+  
+```{r lm}
+ mtcars %>% lm(mpg ~ wt) %>% tidy
+```
+  
+    
+  ```
+    mtcars %>% lm(mpg ~ wt) %>% tidy
+  ```
+  
+* mtcars의 데이터를 회귀분석 lm 수식에 넣고, (종속:mpg ~ 독립:wt) 분석을 한 뒤, 결과를 tidy하게 나타내라 는 뜻입니다. 
+  
+
+* 위의 결과를 보시면, p-value가 0.05 미만으로 나와서 통계적으로 유의미하며,  
+회귀 계수는 -5.34가 나왔습니다.  
+  
+* 이를 단순하게 해석하면 무게가 1 증가 할 때, 연비는 5.34 감소한다고 보시면 됩니다.  
+  
+  
+  
+### 단순 회귀분석 모델 성능 파악하기  
+  
+> **lm()%>%glance : 회귀분석 모델의 성능을 정리해서 보여주세요**
+  
+* 분석 모델의 성능을 파악할 때는 glance 함수를 활용합니다.  
+  
+  
+```{r glance}
+mtcars %>% lm(mpg ~ wt) %>% glance
+```
+  
+  
+* r.squared, F-statistic 지표를 통해, 수립한 회귀모형이 데이터를 잘 설명하는지 확인할 수 있습니다.  
+  
+  
+* adj.rsquared 값이 높게 나왔고, p.value가 0.05 미만으로 통계적으로 유의하기에  
+이제 데이터가 회귀분석의 기본 가정을 만족하는지 살펴봐야 합니다.  
+  
+  
+  ```
+  * adj.r.squared 는 수정된 결정계수/설명력을 말하며, 0.745로 비교적 높게 나왔습니다.  
+  이를 단순하게 해석하면, 차의 무게가 차의 연비를 74.5% 설명할 수 있다 고 보시면 됩니다.  
+  
+  * 첫번째 열에 r.squared 값이 있고, 두번째 열에 adj.r.squared 값이 있는데,  
+독립변수의 개수가 증가할 수록 r.squared 값이 커지기에 독립변수가 한개 이상이라면,   ajd.r.squared 값을 확인하시면 됩니다.  
+  
+  * statistic는 F통계량을 말하며, F통계량의 p.value 역시 0.05보다 작아  
+  통계적으로 유의미함을 알 수 있고, 회귀 모형이 데이터에 잘 맞음을 알 수 있습니다. 
+  ```
+  
+### 단순 선형 회귀분석 기본 가정 확인  
+  
+* 회귀분석을 함에 앞서, 반드시 확인해야 하는 기본 가정이 있습니다.  
+* 선형 회귀분석의 경우, 네가지 가정을 확인해주어야 합니다. 
+* 가정의 의미와 검정 결과를 확인하는 방법에 대해서는 다른 chapter에서 '등분산, 정규성 검정' 만 따로 다루면서 함께 진행해보겠습니다. 
+  
+  |구분|내용|확인방법|
+  |:--:|:--:|:--|
+  |1|선형성|독립변수-종속변수 산점도 그려보기|plot(x,y)|
+  |2|등분산성|독립변수-잔차 산점도 그려보기|plot(회귀데이터)|
+  |3|독립성|잔차에 대한 Durvbin watson 검정|car 패키지 durbinWatsonTest()|
+  |4|정규성|표준화된 잔차 정규성 검정|shapiro.test()|  
+
+```{r simple check}
+# 1. 산점도 그려보기 
+plot(mtcars$wt,mtcars$mpg)
+
+# 2. 등분산성 확인 
+par(mfrow=c(2,2))
+mtcars %>% lm(mpg ~ wt) %>% plot
+
+# 3. 독립성 확인 (상한 이상 값 나올 경우, 독립성 확인)
+mtcars %>% lm(mpg ~ wt) %>% residuals%>%durbinWatsonTest
+
+# 4. 정규성 확인 (p-value > 0.05 이면 정규성 가정 가능)
+mtcars %>% lm(mpg ~ wt) %>% residuals%>%shapiro.test
+
+```
+  
+  
+  
+### 회귀분석 그림으로 표현하기  
+  
+  > **ggplot(옵션): 옵션을 활용해서 그림을 그릴거에요  + geom_point(옵션):옵션을 활용해서 점을 그리고요 + geom_smooth(옵션): 옵션을 활용해서 선을 그려주세요 **
+  
+ * 두 변수의 회귀분석 결과는 그래프로 보시면 더 명확하게 보실 수 있습니다.  
+ * *ggplot을 활용한 시각화 방법에 대해서는 향후 더 자세히 다룰 예정입니다.*
+  
+```{r ggplot regression}
+mtcars%>%ggplot(aes(x=wt,y=mpg))+geom_point()+geom_smooth(method = 'loess', level=.95)
+```
+  
+    
+  ```
+  mtcars%>%ggplot(aes(x=wt,y=mpg))+geom_point()+geom_smooth(method = 'loess', level=.95)
+  ```
+* **mtcars%>%ggplot(aes(x=wt,y=mpg)):** 데이터를 ggplot 함수에 넣고, x축은 무게wt, y축은 연비 mpg를 넣어라, 
+
+* **geom_point()+geom_smooth(method = 'loess', level=.95):** 그리고 이를 점으로 표시하고(geom_point), loess 방식으로 회귀분석 하여 95% 신뢰구간을 포함한 회귀선을 그려라 (geom_smooth)는 뜻입니다.
+  
+  
+---
+  
+## 다중 선형회귀분석  
+  
+  
+### 독립변수/종속변수 설정하기  
+  
+  
+* 다중회귀분석은 독립변수를 2개 이상으로 설정하시는 경우에 활용하시면 됩니다.  
+  
+  
+```{r multi reg}
+mtcars %>% lm(mpg ~.) %>% tidy
+```
+
+* 종속변수 외, 데이터의 모든 변수를 독립변수로 넣고 돌리고자 하실 때는 위와 같이 (종속~.) 써주시면 되고,  
+  
+* 몇 가지 변수만 독립변수로 정하시려면, (종속 ~ 독립1+독립2+독립3+독립4) 와 같이 독립변수들을 + 기호로 연결해주시면 됩니다. 
+  
+   
+
+### 다중회귀분석 시행하기 
+
+* mtcars 데이터 중, 차의 무게wt 와 기통 cyl, 엔진타입vs, 마력vs 가 연비에 어떤 영향을 주는지 확인해보겠습니다.  
+  
+```{r multi reg2}
+mtcars %>% lm(mpg ~wt+cyl+vs+hp) %>% tidy
+
+mtcars %>% lm(mpg ~wt+cyl+vs+hp) %>% glance
+```
+
+* 다중 회귀분석 결과는 모두 유의하게 영향을 미치는 것으로 나왔고, adj.r.squared 값도 0.82로 높게 나왔습니다.  
+  
+* 선형 단순 회귀와 마찬가지로 다중 회귀분석에서도 고려해줘야 하는 사항이 있습니다.  
+  
+  
+### 다중회귀분석 결과 확인
+  
+  
+* 다중 회귀분석을 하실 경우, *다중공선성*과 *변수 측정 단위*를 확인해주셔야 합니다.  
+
+  |구분|내용|확인방법|
+  |:--:|:--|:--|
+  |다중공선성|변수간 상관관계가 높지 않은지 확인|QuantPsyc 패키지 vif 함수|
+  |표준화|변수의 측정단위 같은지 확인|car 패키지 lm.beta 함수|
+  
+
+#### 분산팽창인자(VIF) 확인 
+  
+  ```
+  mtcars %>% lm(mpg ~wt+cyl+vs+hp) %>% vif %>% tidy
+  ```
+    
+* mtcars 데이터를 종속~독립 관계에 따라 회귀분석을 진행하고, 변수들간 다중공선성을 확인하고 결과를 tidy하게 나타내라  
+
+    
+```{r vif check}
+mtcars %>% lm(mpg ~wt+cyl+vs+hp) %>% vif %>% tidy
+```
+  
+* vif 값은 '분산 팽창 계수'를 의미하며 1에서 10 미만이면 다중 공선성이 없다고 보기에, wt,cyl,vs,hp 모두 활용하실 수 있습니다. *(더미 변수 활용 시 3 미만)*  
+  
+  
+#### 표준화된 회귀계수 확인  
+    
+  ```
+  mtcars %>% lm(mpg ~wt+cyl+vs+hp) %>% lm.beta %>% tidy
+  ```
+
+* mtcars 데이터를 종속~독립 관계에 따라 회귀분석을 진행하고 표준화된 회귀계수 값을 tidy하게 나타내라  
+  
+* mtcars 데이터는 측정 단위가 모두 다르기 때문에 표준화된 회귀계수를 봐야 합니다. 
+
+
+```{r lm.beat}
+mtcars %>% lm(mpg ~wt+cyl+vs+hp) %>% lm.beta %>% tidy
+```
+* 결과를 보면, 무게 wt가 가장 큰 표준화된 회귀 계수를 갖음을 알 수 있습니다.  
+  
+* 이를 단순히 연비에 무게 wt가 가장 큰 영향을 준다고 볼 수도 있지만,  
+사실 표준화된 회귀 계수가 변수의 상대적 중요도를 나타낸다고 단정지어 말할 수 없습니다.  
+  
+* 이에, 최근에는 상대적 중요도를 뜻하는 shapley value regression를 활용하기도 합니다.  관련 내용은 *회귀분석 - 심화* 편에서 다루도록 하겠습니다.  
+  
+  [KOVO V-리그 경기력 요인의 상대적 중요도  탐색](http://www.kdiss.org/journal/download_pdf.php?doi=0.7465/jkdi.2019.30.4.771)  
+  
+  [선형회귀에서 표준화 회귀계수에 대한 소고](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002198316)  
+  
+  
+  
+### 변수간 관계 시각화 
+
+>  **chart.correlation(데이터): 데이터의 변수간 상관관계를 시각화해서 보여달라**
+  
+* 마지막으로 변수별 분포와 회귀선, 상관관계까지 한번에 확인할 수 있는 방법을 공유 드리겠습니다.  
+  
+* **performanceAnalytics 패키지**에 있는 함수를 통해 다양한 변수간 관계를 한번에 그림으로 확인하실 수 있습니다.  
+  
+  ```
+  mtcars%>%select_at(vars(mpg,wt,cyl,vs,hp))%>%chart.Correlation(histogram=TRUE, pch=19)
+  ```
+
+* mtcars 데이터 중 mpg, wt, cyl, vs, hp 만 선택하여 상관관계 차트를 그려주라는 뜻입니다. 
+
+ 
+```{r chart of reg_corr}
+mtcars%>%select_at(vars(mpg,wt,cyl,vs,hp))%>%chart.Correlation(histogram=TRUE, pch=20)
+```
+
+* 위와 같이 회귀선과 상관계수/상관계수검정 결과까지 한번에 확인하실 수 있습니다. 
+
+
+
+
+
+
+
+
+
+
+

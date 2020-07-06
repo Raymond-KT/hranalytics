@@ -1,0 +1,175 @@
+
+# Data 전처리-결측치 처리 {#data_prep_1}
+
+* 데이터 전처리는 크게 **(1) 결측치 처리**와 **(2) 이상값 처리** 로 나눌 수 있습니다.  
+이번 chapter에서는 결측치를 파악하고, 처리 하는 법을 공유 드리겠습니다.     
+  
+
+```{r setup3, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center", message=F, warning=F, fig.height = 5, cache=T, dpi = 300)
+```
+
+
+* 이번에는 R에 기본 내장되어 있는 **naniar 패키지의 riskfactors 데이터**를 활용하겠습니다.   
+    
+* 먼저, 필요한 라이브러리를 호출합니다.  
+  
+  
+```{r library3-1, warning=FALSE, include=FALSE}
+
+#데이터 구조를 시각적으로 확인할 수 있는 visdat 패키지도 호출합니다. 
+library('tidyverse','naniar', 'visdat')
+
+```
+
+```{r library3-2, warning=FALSE, eval=FALSE}
+
+#데이터 구조를 시각적으로 확인할 수 있는 visdat 패키지도 호출합니다. 
+library('tidyverse', 'naniar', 'visdat')
+
+```
+  
+  
+* 이제 오늘 활용할 riskfactors 데이터를 파악해 보겠습니다.  
+  
+* str함수를 통해 riskfactors 데이터가 어떤 자료형과 어떤 구조로 되어 있는지 확인하실 수 있습니다.  
+  
+   
+```{r glimpse, include = TRUE}
+
+str(riskfactors)
+
+```
+    
+* riskfactors 데이터는 34개의 변수(열)와 245개의 관측치(행)로 구성되어 있으며,  
+tibble 데이터 구조를 갖고 있음을 알 수 있습니다. 
+      
+      
+---
+## 결측치 처리하기 
+   
+   
+### 결측치를 제거해주는 na.omit(데이터)    
+      
+> **na.omit(데이터) : 데이터의 결측치를 제거하라**
+  
+  
+  
+* 데이터에 값이 들어 있지 않은 경우, NA로 표시가 됩니다.     
+  
+   
+* 저는 처음 데이터 분석을 진행할 때는 NA를 처리하지 않고 진행하시는 것을 추천 드립니다.  
+  
+     
+* NA가 한 개만 들어있어도 해당 줄을 다 날리기 때문에  
+아까운 다른 데이터까지 다 날려버릴 수도 있습니다.  
+  
+  
+* 아래의 예제를 보시면, na.omit으로 결측치를 날렸을 때  
+riskfactors의 관측치가 0으로, 모든 값 (행)이 없어진 것을 확인하실 수 있습니다.  
+  
+
+```{r na.omit 실습, include=TRUE}
+
+glimpse(na.omit(riskfactors))
+
+```
+  
+  
+* na.omit 함수 안에 데이터를 넣으시면 해당 데이터의 NA값이 포함된 관측치(행)을 제거합니다.  
+
+
+### 각 함수의 결측치 제거 옵션 활용 
+
+* 저는 결측지는 우선 그대로 두고, 분석을 진행해 보시는 것을 추천드립니다.    
+  
+* 회귀, 상관 등 대부분의 분석 함수들이 na값을 제외하고 분석을 진행하는 옵션을 갖추고 있습니다.    
+  
+* NA를 처리 하지 않은 상태에서 함수의 NA처리 옵션을 활용하여 돌려 보시고, 이후 NA를 처리하시고 돌려보시는 것을 추천 드립니다.    
+
+* 대부분의 함수에 na값을 제외하고 돌릴 수 있는 인자가 있습니다.   
+    
+* sum 함수의 경우, na.rm 옵션으로 na값을 제외하고 구할 수 있습니다.    
+* 아래의 예를 보시면, na.rm 옵션이 없을 때는 결과가 NA가 나오지만,   
+* na.rm 옵션이 있을 때는 NA 값을 제외한 값들의 sum 결과가 표시됨을 보실 수 있습니다.        
+  
+  
+  
+```{r na.rm 실습}
+# NA값이 포함되어 있는 데이터의 sum을 구하면, 결과값이 NA로 나옵니다. 
+sum(riskfactors$diet_fruit)
+
+# sum 함수에서 NA값을 제거하고 sum하는 옵션인 na.rm=T 를 넣으면 값이 나옵니다. 
+sum(riskfactors$diet_fruit,na.rm=T)
+```
+  
+  
+* 회귀분석의 경우에는 na.action 옵션이 있습니다.  
+* na.action 옵션에 따라 잔차에 차이가 발생합니다.   
+
+```
+lm(bmi~pregnant,riskfactors,na.action = na.omit) 
+```
+* na.action 조건을 na.omit으로 주었을 경우, NA값을 제외 시키며,  
+이에 따라 결측치가 제거된 후 위와 같이 회귀분석이 실행됩니다.  
+
+---
+## 결측치 요약 및 시각화 naniar 패키지
+  
+* naniar 패키지를 활용하시면 결측치를 쉽고 빠르게 파악하실 수 있습니다.  
+* 우선 **miss_case_summary** 함수를 활용하시면 행 기준으로 결측치가 몇 개 있는지  
+결측치가 그 행의 전체 데이터 중 몇 퍼센트를 차지하는지 알려줍니다.  
+
+* **miss_var_summary** 함수는 열 기준으로 알려줍니다.  
+  
+  
+```{r narniar package}
+# 관찰값(행) 기준의 결측치 탐색
+miss_case_summary(riskfactors) 
+
+# 변수(열) 기준의 결측치 탐색
+miss_var_summary(riskfactors) 
+```
+  
+
+  
+* **vis_miss** 함수를 활용하여 간단하게 시각화하여 확인할 수도 있습니다.  
+  
+
+```{r vis_miss 함수}
+
+vis_miss(riskfactors)
+
+```
+
+
+* **gg_miss_upset** 함수를 활용하시면, 어떤 패턴으로 결측치가 존재하는지 확인하실 수 있습니다.  
+    
+* 아래의 예를 보시면, 5개 데이터가 모두 없는 경우가 72건으로 가장 많았고,  
+그 다음은 smoke_last, smoke_stop, pregnant 값이 없는 경우가 42건으로 많았습니다  
+  
+  
+
+```{r gg_miss_upset}
+
+gg_miss_upset(riskfactors)
+
+```
+  
+
+---
+## 결측치 대체하기  
+  
+* 저희가 보유하고 있는 데이터는 그 수가 많기에, 결측치를 대체하지 않고,  
+제거한 후 사용하여도 원하는 분석결과를 얻으실 수도 있습니다.
+  
+* 결측치를 대체하여 분석하기 원하신다면 아래의 포스팅 참고 부탁 드립니다.  
+  
+* mice, rpart, DMwR 등의 패키지를 활용하여 결측치를 대체하실 수 있습니다.    
+  
+  
+  
+* 자세한 내용은 아래 링크 참조 부탁 드립니다.   
+  
+  [결측치 처리 기본개념](https://m.blog.naver.com/tjdudwo93/221142961499)  
+  [결측치 처리(the book)](https://thebook.io/006723/ch09/02/02/)

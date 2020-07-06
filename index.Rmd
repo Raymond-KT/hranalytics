@@ -1,0 +1,53 @@
+--- 
+title: "HR 분석 실무자를 위한 R Tips"
+author: "김광태"
+date: "`r Sys.Date()`"
+bibliography:
+- book.bib
+- packages.bib
+description: 'R Tips는 HR Analytics 입문자를 위해 제작했습니다.'
+documentclass: book
+link-citations: yes
+site: bookdown::bookdown_site
+biblio-style: apalike
+output: html_document
+---
+
+# Introduction {-}
+
+R Tips는 인사실 HR Analytics 추진 과정에서,  
+각 팀의 HR Analytics 담당자 분들께  
+조금이나마 도움을 드리기 위해 제작하고 있습니다.  
+  
+  
+R 프로그램을 활용하여 HR Analytics를 진행하실 때  
+참고하실만한 가장 기초적인 내용으로 구성되어 있으며,  
+작성하는 저 역시 배우는 단계에 있기에, 부족한 점이 많이 있습니다.  
+  
+  
+혹시 오류가 있거나, 보기 불편하신 내용이 있으신 경우  
+언제든지 말씀 부탁 드립니다.  
+
+향후 계속해서 내용을 보완하면서,  
+도움이 되는 컨텐츠 공유 드리도록 하겠습니다.  
+  
+    
+    
+R 설치 및 기본적인 문법에 대해서는 알고 계신다는 전제 하에  
+Tip을 드리기 때문에, R과 통계에 대해 전혀 모르시는 분들께는  
+유튜브 등 다양한 채널에서 무료로 진행되고 있는 R 기초 강좌를  
+수강하시기를 권해드립니다.  
+  
+개인적으로 아래의 유튜브 채널을 추천드립니다. 
+
+[* 유튜브 강의 : 국민대학교 곽기영 교수님 R 강의](https://www.youtube.com/playlist?list=PLY0OaF78qqGA42e0rXqBWCcF_C9Ib-T1x)
+  
+  
+  
+[* 유튜브 강의 : 통알못을 위한 통계튜브](https://www.youtube.com/channel/UCnN2E8RCEuKi-WLBrd0Nu1A)
+
+
+
+
+
+※ R Tips는 *[bookown](https://bookdown.org/)*을 활용하여 제작하였습니다

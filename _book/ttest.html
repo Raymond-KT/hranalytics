@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 두 집단 비교 t test | HR 분석 실무자를 위한 R Tips</title>
+  <meta name="description" content="R Tips는 HR Analytics 입문자를 위해 제작했습니다." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 두 집단 비교 t test | HR 분석 실무자를 위한 R Tips" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="R Tips는 HR Analytics 입문자를 위해 제작했습니다." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 두 집단 비교 t test | HR 분석 실무자를 위한 R Tips" />
+  
+  <meta name="twitter:description" content="R Tips는 HR Analytics 입문자를 위해 제작했습니다." />
+  
+
+<meta name="author" content="김광태" />
+
+
+<meta name="date" content="2020-07-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="regression.html"/>
+<link rel="next" href="ANOVA.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R Tips for HR Analytics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="data-Import.html"><a href="data-Import.html"><i class="fa fa-check"></i><b>1</b> Data 가져오기</a><ul>
+<li class="chapter" data-level="1.1" data-path="data-Import.html"><a href="data-Import.html#데이터-복사하기"><i class="fa fa-check"></i><b>1.1</b> 데이터 복사하기</a></li>
+<li class="chapter" data-level="1.2" data-path="data-Import.html"><a href="data-Import.html#복사한-데이터-변수-저장"><i class="fa fa-check"></i><b>1.2</b> 복사한 데이터 변수 저장</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="data-Import.html"><a href="data-Import.html#read.table-옵션-넣기"><i class="fa fa-check"></i><b>1.2.1</b> read.table() 옵션 넣기</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-glimpse.html"><a href="data-glimpse.html"><i class="fa fa-check"></i><b>2</b> Data 파악하기</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-glimpse.html"><a href="data-glimpse.html#데이터-형식변수-확인"><i class="fa fa-check"></i><b>2.1</b> 데이터 형식/변수 확인</a></li>
+<li class="chapter" data-level="2.2" data-path="data-glimpse.html"><a href="data-glimpse.html#변수-클래스-확인"><i class="fa fa-check"></i><b>2.2</b> 변수 클래스 확인</a></li>
+<li class="chapter" data-level="2.3" data-path="data-glimpse.html"><a href="data-glimpse.html#변수-고유-값-확인"><i class="fa fa-check"></i><b>2.3</b> 변수 고유 값 확인</a></li>
+<li class="chapter" data-level="2.4" data-path="data-glimpse.html"><a href="data-glimpse.html#결측치na-확인"><i class="fa fa-check"></i><b>2.4</b> 결측치(NA) 확인</a></li>
+<li class="chapter" data-level="2.5" data-path="data-glimpse.html"><a href="data-glimpse.html#요약-통계량-확인"><i class="fa fa-check"></i><b>2.5</b> 요약 통계량 확인</a></li>
+<li class="chapter" data-level="2.6" data-path="data-glimpse.html"><a href="data-glimpse.html#eda탐험적-데이터분석-패키지-소개"><i class="fa fa-check"></i><b>2.6</b> EDA(탐험적 데이터분석) 패키지 소개</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-prep-1.html"><a href="data-prep-1.html"><i class="fa fa-check"></i><b>3</b> Data 전처리-결측치 처리</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-처리하기"><i class="fa fa-check"></i><b>3.1</b> 결측치 처리하기</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치를-제거해주는-na.omit데이터"><i class="fa fa-check"></i><b>3.1.1</b> 결측치를 제거해주는 na.omit(데이터)</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-prep-1.html"><a href="data-prep-1.html#각-함수의-결측치-제거-옵션-활용"><i class="fa fa-check"></i><b>3.1.2</b> 각 함수의 결측치 제거 옵션 활용</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-요약-및-시각화-naniar-패키지"><i class="fa fa-check"></i><b>3.2</b> 결측치 요약 및 시각화 naniar 패키지</a></li>
+<li class="chapter" data-level="3.3" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-대체하기"><i class="fa fa-check"></i><b>3.3</b> 결측치 대체하기</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-prep-2.html"><a href="data-prep-2.html"><i class="fa fa-check"></i><b>4</b> Data 전처리-이상치 처리</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-확인"><i class="fa fa-check"></i><b>4.1</b> 이상치 확인</a></li>
+<li class="chapter" data-level="4.2" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-제거-및-대체"><i class="fa fa-check"></i><b>4.2</b> 이상치 제거 및 대체</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-제거"><i class="fa fa-check"></i><b>4.2.1</b> 이상치 제거</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-대체"><i class="fa fa-check"></i><b>4.2.2</b> 이상치 대체</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-처리-패키지"><i class="fa fa-check"></i><b>4.3</b> 이상치 처리 패키지</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>5</b> 상관분석 - 기본</a><ul>
+<li class="chapter" data-level="5.1" data-path="correlation.html"><a href="correlation.html#상관분석-시행"><i class="fa fa-check"></i><b>5.1</b> 상관분석 시행</a></li>
+<li class="chapter" data-level="5.2" data-path="correlation.html"><a href="correlation.html#상관분석-통계적-유의성-파악"><i class="fa fa-check"></i><b>5.2</b> 상관분석 통계적 유의성 파악</a></li>
+<li class="chapter" data-level="5.3" data-path="correlation.html"><a href="correlation.html#corrplot"><i class="fa fa-check"></i><b>5.3</b> 상관분석 시각화</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> 회귀분석-기본</a><ul>
+<li class="chapter" data-level="6.1" data-path="regression.html"><a href="regression.html#단순-선형-회귀분석"><i class="fa fa-check"></i><b>6.1</b> 단순 선형 회귀분석</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="regression.html"><a href="regression.html#독립변수-종속변수-설정하기"><i class="fa fa-check"></i><b>6.1.1</b> 독립변수 / 종속변수 설정하기</a></li>
+<li class="chapter" data-level="6.1.2" data-path="regression.html"><a href="regression.html#단순-회귀분석-하고-결과-보기"><i class="fa fa-check"></i><b>6.1.2</b> 단순 회귀분석 하고 결과 보기</a></li>
+<li class="chapter" data-level="6.1.3" data-path="regression.html"><a href="regression.html#단순-회귀분석-모델-성능-파악하기"><i class="fa fa-check"></i><b>6.1.3</b> 단순 회귀분석 모델 성능 파악하기</a></li>
+<li class="chapter" data-level="6.1.4" data-path="regression.html"><a href="regression.html#단순-선형-회귀분석-기본-가정-확인"><i class="fa fa-check"></i><b>6.1.4</b> 단순 선형 회귀분석 기본 가정 확인</a></li>
+<li class="chapter" data-level="6.1.5" data-path="regression.html"><a href="regression.html#회귀분석-그림으로-표현하기"><i class="fa fa-check"></i><b>6.1.5</b> 회귀분석 그림으로 표현하기</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="regression.html"><a href="regression.html#다중-선형회귀분석"><i class="fa fa-check"></i><b>6.2</b> 다중 선형회귀분석</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="regression.html"><a href="regression.html#독립변수종속변수-설정하기"><i class="fa fa-check"></i><b>6.2.1</b> 독립변수/종속변수 설정하기</a></li>
+<li class="chapter" data-level="6.2.2" data-path="regression.html"><a href="regression.html#다중회귀분석-시행하기"><i class="fa fa-check"></i><b>6.2.2</b> 다중회귀분석 시행하기</a></li>
+<li class="chapter" data-level="6.2.3" data-path="regression.html"><a href="regression.html#다중회귀분석-결과-확인"><i class="fa fa-check"></i><b>6.2.3</b> 다중회귀분석 결과 확인</a></li>
+<li class="chapter" data-level="6.2.4" data-path="regression.html"><a href="regression.html#변수간-관계-시각화"><i class="fa fa-check"></i><b>6.2.4</b> 변수간 관계 시각화</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ttest.html"><a href="ttest.html"><i class="fa fa-check"></i><b>7</b> 두 집단 비교 t test</a><ul>
+<li class="chapter" data-level="7.1" data-path="ttest.html"><a href="ttest.html#데이터-불러오기전처리"><i class="fa fa-check"></i><b>7.1</b> 데이터 불러오기/전처리</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ttest.html"><a href="ttest.html#데이터-가져오기"><i class="fa fa-check"></i><b>7.1.1</b> 데이터 가져오기</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ttest.html"><a href="ttest.html#데이터-확인하기"><i class="fa fa-check"></i><b>7.1.2</b> 데이터 확인하기</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ttest.html"><a href="ttest.html#데이터-응답-고유-값-확인하기"><i class="fa fa-check"></i><b>7.1.3</b> 데이터 응답 고유 값 확인하기</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ttest.html"><a href="ttest.html#결측치-이상치-확인"><i class="fa fa-check"></i><b>7.1.4</b> 결측치 이상치 확인</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ttest.html"><a href="ttest.html#t-test-준비"><i class="fa fa-check"></i><b>7.2</b> t test 준비</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ttest.html"><a href="ttest.html#원하는-데이터만-불러오기"><i class="fa fa-check"></i><b>7.2.1</b> 원하는 데이터만 불러오기</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ttest.html"><a href="ttest.html#데이터의-등분산성-확인"><i class="fa fa-check"></i><b>7.2.2</b> 데이터의 등분산성 확인</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ttest.html"><a href="ttest.html#t-test-시행"><i class="fa fa-check"></i><b>7.3</b> t test 시행</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ANOVA.html"><a href="ANOVA.html"><i class="fa fa-check"></i><b>8</b> 세 집단 이상 비교 ANOVA</a><ul>
+<li class="chapter" data-level="8.1" data-path="ttest.html"><a href="ttest.html#데이터-불러오기전처리"><i class="fa fa-check"></i><b>8.1</b> 데이터 불러오기/전처리</a></li>
+<li class="chapter" data-level="8.2" data-path="ANOVA.html"><a href="ANOVA.html#anova-준비"><i class="fa fa-check"></i><b>8.2</b> ANOVA 준비</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="ANOVA.html"><a href="ANOVA.html#독립변인-종속변인-데이터-불러오기"><i class="fa fa-check"></i><b>8.2.1</b> 독립변인 종속변인 데이터 불러오기</a></li>
+<li class="chapter" data-level="8.2.2" data-path="ANOVA.html"><a href="ANOVA.html#학력별-직무만족-boxplot으로-확인하기"><i class="fa fa-check"></i><b>8.2.2</b> 학력’별 ‘직무만족’ boxplot으로 확인하기</a></li>
+<li class="chapter" data-level="8.2.3" data-path="ANOVA.html"><a href="ANOVA.html#one-way-anova를-위해-독립변수를-factor-형태로-변환"><i class="fa fa-check"></i><b>8.2.3</b> one-way ANOVA를 위해 독립변수를 factor 형태로 변환</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="ANOVA.html"><a href="ANOVA.html#anova-실행"><i class="fa fa-check"></i><b>8.3</b> ANOVA 실행</a></li>
+<li class="chapter" data-level="8.4" data-path="ANOVA.html"><a href="ANOVA.html#anova-결과-확인"><i class="fa fa-check"></i><b>8.4</b> ANOVA 결과 확인</a></li>
+<li class="chapter" data-level="8.5" data-path="ANOVA.html"><a href="ANOVA.html#등분산성-확인"><i class="fa fa-check"></i><b>8.5</b> 등분산성 확인</a></li>
+<li class="chapter" data-level="8.6" data-path="ANOVA.html"><a href="ANOVA.html#사후검정-시행"><i class="fa fa-check"></i><b>8.6</b> 사후검정 시행</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="ANOVA.html"><a href="ANOVA.html#tukey-사후검정-시행"><i class="fa fa-check"></i><b>8.6.1</b> Tukey 사후검정 시행</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="Textmining.html"><a href="Textmining.html"><i class="fa fa-check"></i><b>9</b> 텍스트 데이터-전처리</a><ul>
+<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기-readrds"><i class="fa fa-check"></i><b>9.1</b> 텍스트 데이터 읽어 오기 readRDS()</a></li>
+<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-기본-처리"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 기본 처리</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#결측치na-처리-sum-is.na"><i class="fa fa-check"></i><b>9.2.1</b> 결측치(NA) 처리 sum(), is.na()</a></li>
+<li class="chapter" data-level="9.2.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거-unique"><i class="fa fa-check"></i><b>9.2.2</b> 중복 행 제거 unique()</a></li>
+<li class="chapter" data-level="9.2.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거-str_remove_all"><i class="fa fa-check"></i><b>9.2.3</b> 텍스트 공백 제거 str_remove_all()</a></li>
+<li class="chapter" data-level="9.2.4" data-path="Textmining.html"><a href="Textmining.html#글자-수-확인해서-의미-없는-칼럼-날리기-nchar-range"><i class="fa fa-check"></i><b>9.2.4</b> 글자 수 확인해서 의미 없는 칼럼 날리기 nchar(), range()</a></li>
+<li class="chapter" data-level="9.2.5" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.2.5</b> id 칼럼 붙이기</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#형태소-분석-r_parser_r"><i class="fa fa-check"></i><b>9.3</b> 형태소 분석 r_parser_r()</a></li>
+<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리tm-패키지-활용"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(tm 패키지 활용)</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#corpus-생성-vcorpus-vectorsource"><i class="fa fa-check"></i><b>9.4.1</b> Corpus 생성 Vcorpus() vectorSource()</a></li>
+<li class="chapter" data-level="9.4.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리-tm_map"><i class="fa fa-check"></i><b>9.4.2</b> 텍스트 데이터 전처리 tm_map</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="Textmining-dtm.html"><a href="Textmining-dtm.html"><i class="fa fa-check"></i><b>10</b> 텍스트 데이터-재료 준비</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">HR 분석 실무자를 위한 R Tips</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ttest" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> 두 집단 비교 t test</h1>
+<ul>
+<li><p>HR 데이터 분석 시, 많이 활용하는 방법 중 하나가 <strong>집단 간 차이 분석</strong>입니다.</p></li>
+<li><p><em>직급, 세대, 남성/여성, 학력, 신입/경력</em> 등 다양한 관점에서 집단을 나누고, 어떤 차이가 있는지 살펴보면서 Insight를 얻어냅니다.</p></li>
+<li><p>직급에 따른 차이 (G1,G2,G3,G4)를 확인하거나, 소속 본부 간 차이, 상/하위 집단 간 인식 차이 등을 확인 할 때 주로 사용하며, <strong>두 집단의 차이는 T-test</strong>, <strong>세 집단 이상의 차이는 ANOVA 및 사후검정(multiple comparison)</strong> 을 통해 확인합니다.</p></li>
+<li><p>아래와 같이 t test와 ANOVA 에 대해 설명해주는 표가 있어서, 가져와 보았습니다.</p>
+<div class="figure">
+<img src="https://mblogthumb-phinf.pstatic.net/20140922_125/gallupkorea_1411380898830TrxEG_JPEG/1.jpg?type=w2" alt="" />
+<p class="caption">T test와 ANOVA 검정 (출처: 한국갤럽 연구1본부 블로그)</p>
+</div></li>
+<li><p>오늘은 첫 시간에 공유드렸던 Kaggle에 올라와 있는 IBM의 HR 데이터를 활용하여 내용 공유 드리겠습니다.</p>
+<p><a href="https://www.notion.so/yeahbeeat/IBM-HR-Data-from-Caggle-b5b4753db0a64f5aae4d3d207e14ecf9">IBM HR Data Download link</a></p></li>
+<li><p>우선 필요한 라이브러리를 불러옵니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="ttest.html#cb1-1"></a>pacman<span class="op">::</span><span class="kw">p_load</span>(<span class="st">&#39;tidyverse&#39;</span>,<span class="st">&#39;tidymodels&#39;</span>,<span class="st">&#39;twidlr&#39;</span>,<span class="st">&#39;dplyr&#39;</span>)</span></code></pre></div>
+<hr />
+<div id="데이터-불러오기전처리" class="section level2">
+<h2><span class="header-section-number">7.1</span> 데이터 불러오기/전처리</h2>
+<div id="데이터-가져오기" class="section level3">
+<h3><span class="header-section-number">7.1.1</span> 데이터 가져오기</h3>
+<ul>
+<li><a href="data-Import.html#data_Import">데이터 가져오기</a>에서 공유드렸던 내용을 참고하시어, 첨부된 엑셀 데이터를 변수로 저장합니다.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="ttest.html#cb2-1"></a>IBM.HR &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&#39;clipboard&#39;</span>,<span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>,<span class="dt">quote =</span> <span class="st">&quot;&quot;</span>, <span class="dt">header =</span> T)</span></code></pre></div>
+<ul>
+<li>ANOVA 에서도 해당 데이터를 사용할 예정이므로, RDS 데이터로 저장해둡니다.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="ttest.html#cb3-1"></a>IBM.HR<span class="op">%&gt;%</span><span class="kw">saveRDS</span>(<span class="st">&#39;IBM.HR.RDS&#39;</span>)</span></code></pre></div>
+</div>
+<div id="데이터-확인하기" class="section level3">
+<h3><span class="header-section-number">7.1.2</span> 데이터 확인하기</h3>
+<ul>
+<li>데이터를 잘 가져왔는지 확인해줍니다.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="ttest.html#cb4-1"></a> <span class="kw">glimpse</span>(IBM.HR)</span></code></pre></div>
+<pre><code>## Rows: 1,470
+## Columns: 35
+## $ Age                      &lt;int&gt; 41, 49, 37, 33, 27, 32, 59, 30, 38, 36, 35,…
+## $ Attrition                &lt;chr&gt; &quot;Yes&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;,…
+## $ BusinessTravel           &lt;chr&gt; &quot;Travel_Rarely&quot;, &quot;Travel_Frequently&quot;, &quot;Trav…
+## $ DailyRate                &lt;int&gt; 1102, 279, 1373, 1392, 591, 1005, 1324, 135…
+## $ Department               &lt;chr&gt; &quot;Sales&quot;, &quot;Research &amp; Development&quot;, &quot;Researc…
+## $ DistanceFromHome         &lt;int&gt; 1, 8, 2, 3, 2, 2, 3, 24, 23, 27, 16, 15, 26…
+## $ Education                &lt;int&gt; 2, 1, 2, 4, 1, 2, 3, 1, 3, 3, 3, 2, 1, 2, 3…
+## $ EducationField           &lt;chr&gt; &quot;Life Sciences&quot;, &quot;Life Sciences&quot;, &quot;Other&quot;, …
+## $ EmployeeCount            &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ EmployeeNumber           &lt;int&gt; 1, 2, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 1…
+## $ EnvironmentSatisfaction  &lt;int&gt; 2, 3, 4, 4, 1, 4, 3, 4, 4, 3, 1, 4, 1, 2, 3…
+## $ Gender                   &lt;chr&gt; &quot;Female&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Female&quot;, &quot;Male&quot;,…
+## $ HourlyRate               &lt;int&gt; 94, 61, 92, 56, 40, 79, 81, 67, 44, 94, 84,…
+## $ JobInvolvement           &lt;int&gt; 3, 2, 2, 3, 3, 3, 4, 3, 2, 3, 4, 2, 3, 3, 2…
+## $ JobLevel                 &lt;int&gt; 2, 2, 1, 1, 1, 1, 1, 1, 3, 2, 1, 2, 1, 1, 1…
+## $ JobRole                  &lt;chr&gt; &quot;Sales Executive&quot;, &quot;Research Scientist&quot;, &quot;L…
+## $ JobSatisfaction          &lt;int&gt; 4, 2, 3, 3, 2, 4, 1, 3, 3, 3, 2, 3, 3, 4, 3…
+## $ MaritalStatus            &lt;chr&gt; &quot;Single&quot;, &quot;Married&quot;, &quot;Single&quot;, &quot;Married&quot;, &quot;…
+## $ MonthlyIncome            &lt;int&gt; 5993, 5130, 2090, 2909, 3468, 3068, 2670, 2…
+## $ MonthlyRate              &lt;int&gt; 19479, 24907, 2396, 23159, 16632, 11864, 99…
+## $ NumCompaniesWorked       &lt;int&gt; 8, 1, 6, 1, 9, 0, 4, 1, 0, 6, 0, 0, 1, 0, 5…
+## $ Over18                   &lt;chr&gt; &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;…
+## $ OverTime                 &lt;chr&gt; &quot;Yes&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;, &quot;Yes…
+## $ PercentSalaryHike        &lt;int&gt; 11, 23, 15, 11, 12, 13, 20, 22, 21, 13, 13,…
+## $ PerformanceRating        &lt;int&gt; 3, 4, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 3…
+## $ RelationshipSatisfaction &lt;int&gt; 1, 4, 2, 3, 4, 3, 1, 2, 2, 2, 3, 4, 4, 3, 2…
+## $ StandardHours            &lt;int&gt; 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80,…
+## $ StockOptionLevel         &lt;int&gt; 0, 1, 0, 0, 1, 0, 3, 1, 0, 2, 1, 0, 1, 1, 0…
+## $ TotalWorkingYears        &lt;int&gt; 8, 10, 7, 8, 6, 8, 12, 1, 10, 17, 6, 10, 5,…
+## $ TrainingTimesLastYear    &lt;int&gt; 0, 3, 3, 3, 3, 2, 3, 2, 2, 3, 5, 3, 1, 2, 4…
+## $ WorkLifeBalance          &lt;int&gt; 1, 3, 3, 3, 3, 2, 2, 3, 3, 2, 3, 3, 2, 3, 3…
+## $ YearsAtCompany           &lt;int&gt; 6, 10, 0, 8, 2, 7, 1, 1, 9, 7, 5, 9, 5, 2, …
+## $ YearsInCurrentRole       &lt;int&gt; 4, 7, 0, 7, 2, 7, 0, 0, 7, 7, 4, 5, 2, 2, 2…
+## $ YearsSinceLastPromotion  &lt;int&gt; 0, 1, 0, 3, 2, 3, 0, 0, 1, 7, 0, 0, 4, 1, 0…
+## $ YearsWithCurrManager     &lt;int&gt; 5, 7, 0, 0, 2, 6, 0, 0, 8, 7, 3, 8, 3, 2, 3…</code></pre>
+<ul>
+<li><p>복사해온 데이터를 glimpse() 함수로 확인해보면, 총 1,470개의 관측치(행) 이 있고, 35개의 변수(열) 이 있습니다.</p></li>
+<li><p>이는 35개 문항에 대한 1,470명의 정보를 의미합니다.</p></li>
+</ul>
+<hr />
+</div>
+<div id="데이터-응답-고유-값-확인하기" class="section level3">
+<h3><span class="header-section-number">7.1.3</span> 데이터 응답 고유 값 확인하기</h3>
+<ul>
+<li><p>오늘 집단간 차이 검정은 여러 변수 중 학력, 직무만족, 일과 삶의 균형 세 변수만 활용하여 아래의 내용을 확인하고자 합니다.</p>
+<pre><code>1. &#39;학력&#39;에 따른 &#39;직무만족&#39;의 차이  
+2. &#39;학력&#39;에 따른 &#39;일과 삶의 균형&#39;의 차이  </code></pre></li>
+<li><p>먼저, 해당 변수에 어떤 값들이 입력되어 있는지 unique 함수를 통해 살펴보겠습니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="ttest.html#cb7-1"></a><span class="kw">unique</span>(IBM.HR<span class="op">$</span>Education)</span></code></pre></div>
+<pre><code>## [1] 2 1 4 3 5</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="ttest.html#cb9-1"></a><span class="kw">unique</span>(IBM.HR<span class="op">$</span>JobSatisfaction)</span></code></pre></div>
+<pre><code>## [1] 4 2 3 1</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="ttest.html#cb11-1"></a><span class="kw">unique</span>(IBM.HR<span class="op">$</span>WorkLifeBalance)</span></code></pre></div>
+<pre><code>## [1] 1 3 2 4</code></pre>
+<ul>
+<li><p>kaggle 홈페이지에는 숫자별로 어떤 값을 의미하는지 상세 설명이 나와 있습니다.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>Education</strong></th>
+<th align="left"><strong>JobSatisfaction</strong></th>
+<th align="left"><strong>WorkLifeBalance</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1 ‘Below College’</td>
+<td align="left">1 ‘Low’</td>
+<td align="left">1 ‘Bad’</td>
+</tr>
+<tr class="even">
+<td align="left">2 ‘College’</td>
+<td align="left">2 ‘Medium’</td>
+<td align="left">2 ‘Good’</td>
+</tr>
+<tr class="odd">
+<td align="left">3 ‘Bachelor’</td>
+<td align="left">3 ‘High’</td>
+<td align="left">3 ‘Better’</td>
+</tr>
+<tr class="even">
+<td align="left">4 ‘Master’</td>
+<td align="left">4 ‘Very High’</td>
+<td align="left">4 ‘Best’</td>
+</tr>
+<tr class="odd">
+<td align="left">5 ‘Doctor’</td>
+<td align="left">-</td>
+<td align="left">-</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div id="결측치-이상치-확인" class="section level3">
+<h3><span class="header-section-number">7.1.4</span> 결측치 이상치 확인</h3>
+<ul>
+<li>검정을 시작하기 전에 데이터에 결측치가 없는지 확인합니다.</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="ttest.html#cb13-1"></a>IBM.HR<span class="op">%&gt;%</span>is.na<span class="op">%&gt;%</span>sum</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<pre><code>IBM.HR%&gt;%is.na%&gt;%sum</code></pre>
+<ul>
+<li><p>IBM.HR 데이터에 결측치가 있는 경우 TRUE 값을 반환하는 is.na 함수에 넣고, TRUE의 수를 더해서 알려주는 sum에 넣으라는 뜻입니다.</p></li>
+<li><p>결과는 0으로 결측치가 없는 것으로 확인되었습니다.</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="t-test-준비" class="section level2">
+<h2><span class="header-section-number">7.2</span> t test 준비</h2>
+<div id="원하는-데이터만-불러오기" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> 원하는 데이터만 불러오기</h3>
+<ul>
+<li><p>두 집단 간 차이를 분석하는 T test 실습을 위해, 우선 <em>대졸(Bachelor)</em>과 <em>전문대졸 미만 (Below College)</em> 두 집단을 비교해보겠습니다.</p></li>
+<li><p>대졸과 전문대졸 미만의 학력을 갖고 있는 인원의 직무만족 데이터만 가져오기 위해 아래와 같이 <strong><em>select 함수, subset 함수</em></strong>를 활용했습니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="ttest.html#cb16-1"></a>IBM.HR<span class="op">%&gt;%</span><span class="kw">select</span>(Education,JobSatisfaction)<span class="op">%&gt;%</span></span>
+<span id="cb16-2"><a href="ttest.html#cb16-2"></a><span class="st">  </span><span class="kw">subset</span>(Education<span class="op">==</span><span class="st">&quot;1&quot;</span><span class="op">|</span>Education<span class="op">==</span><span class="st">&quot;3&quot;</span>)-&gt;IBM.HR.test</span>
+<span id="cb16-3"><a href="ttest.html#cb16-3"></a><span class="kw">glimpse</span>(IBM.HR.test)</span></code></pre></div>
+<pre><code>## Rows: 742
+## Columns: 2
+## $ Education       &lt;int&gt; 1, 1, 3, 1, 3, 3, 3, 1, 3, 3, 1, 3, 1, 3, 3, 3, 3, 3…
+## $ JobSatisfaction &lt;int&gt; 2, 2, 1, 3, 3, 3, 2, 3, 3, 4, 1, 3, 1, 4, 4, 4, 4, 1…</code></pre>
+<pre><code>IBM.HR%&gt;%select(Education,JobSatisfaction)%&gt;%subset(Education==&quot;1&quot;|Education==&quot;3&quot;)-&gt;IBM.HR.test</code></pre>
+<ul>
+<li>IBM.HR 데이터에서 Education 과 JobSatisfaction 열만 Select 하고, Education 관측치 중 1과 3인 데이터만 IBM.HR.test 변수에 넣으라는 뜻입니다.</li>
+</ul>
+</div>
+<div id="데이터의-등분산성-확인" class="section level3">
+<h3><span class="header-section-number">7.2.2</span> 데이터의 등분산성 확인</h3>
+<ul>
+<li><p>이제, IBM.HR.test 데이터를 활용하여 t test를 진행하겠습니다.<br />
+t test를 실시하기 위해서는 데이터가 <strong>등분산성</strong>과 <strong>정규성</strong>을 만족해야 합니다.</p></li>
+<li><p>설문조사 응답 데이터는 대부분 정규성과 등분산성을 만족하지만, 간혹 그렇지 않은 경우도 있습니다.</p></li>
+<li><p>등분산성을 만족하지 않는 경우, 아래와 같이 다양한 검정 방법이 준비되어 있으니, 데이터에 맞게 활용하시면 됩니다.</p></li>
+<li><p>등분산성은 비교 대상이 되는 모집단이 동일한 분산을 가져야 한다는 가정을 말하며,<br />
+정규성은 데이터가 정규분포를 따르고 있는지를 말합니다.</p></li>
+<li><p>데이터의 관측치가 31개 이상이면 정규성을 따르기 때문에,<br />
+보유하고 계신 거의 대부분의 데이터가 정규성은 만족할 것입니다.</p></li>
+<li><p>따라서 등분산성만 확인하시면 되며, 아래와 같이 <strong><em>var.test() 함수</em></strong>를 통해 두 집단이 등분산성을 만족하는지 확인하실 수 있습니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="ttest.html#cb19-1"></a><span class="kw">var.test</span>(IBM.HR.test[IBM.HR.test<span class="op">$</span>Education<span class="op">==</span><span class="st">&quot;1&quot;</span>,<span class="dv">2</span>],</span>
+<span id="cb19-2"><a href="ttest.html#cb19-2"></a>         IBM.HR.test[IBM.HR.test<span class="op">$</span>Education<span class="op">==</span><span class="st">&quot;3&quot;</span>,<span class="dv">2</span>], <span class="dt">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>## 
+## 	F test to compare two variances
+## 
+## data:  IBM.HR.test[IBM.HR.test$Education == &quot;1&quot;, 2] and IBM.HR.test[IBM.HR.test$Education == &quot;3&quot;, 2]
+## F = 0.98675, num df = 169, denom df = 571, p-value = 0.9322
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.7799196 1.2689366
+## sample estimates:
+## ratio of variances 
+##          0.9867542</code></pre>
+<pre><code>var.test(IBM.HR.test[IBM.HR.test$Education==&quot;1&quot;,2],
+         IBM.HR.test[IBM.HR.test$Education==&quot;3&quot;,2], conf.level = 0.95)</code></pre>
+<ul>
+<li><p><em>I BM.HR.test[IBM.HR.test$Education==“1”,2]</em>는 IBM.HR.test 데이터에서 Education이 1(전문대졸 미만)인 관측치의 JobSatisfaction 만 가져오라는 것이며,</p></li>
+<li><p><em>IBM.HR.test[IBM.HR.test$Education==“3”,2]</em>는 IBM.HR.test 데이터에서 Education이 3(대졸)인 관측치의 JobSatisfaction 값 만 가져오라는 뜻 입니다.<br />
+</p></li>
+<li><p><em>conf.level</em>은 신뢰구간을 95%로 설정 한다는 뜻 입니다.</p></li>
+<li><p>두 집단의 등분산성을 검정한 결과를 보면, p-value 가 0.05 보다 크기 때문에 등분산성을 만족한다고 볼 수 있습니다.</p></li>
+<li><p><em>var.test</em>는 두 데이터의 분산이 같다 는 영가설을 기준으로 검정을 하는 것입니다. 따라서, p-value가 0.05보다 크면 영가설이 참이기에 두 집단의 분산이 같다. 즉, 등분산성을 만족한다고 볼 수 있습니다.</p></li>
+<li><p>p-value=0.9322로 0.05보다 현저하게 크므로, 대졸미만과 대졸의 직무만족 응답 값은 등분산성을 만족합니다.</p></li>
+</ul>
+</div>
+</div>
+<div id="t-test-시행" class="section level2">
+<h2><span class="header-section-number">7.3</span> t test 시행</h2>
+<ul>
+<li><p>t.test() 함수에도 Data의 수, 데이터가 짝을 이루는지, 등분산성/정규성을 만족하는지에 따라 다양한 방식이 존재합니다.</p></li>
+<li><p>저희는 Data의 수가 30개가 넘고, 짝을 이루고 있지 않으면서 등분산성을 만족하기에 2-sample T-test를 시행하면 됩니다.</p></li>
+<li><p>2-sample T test외, 다른 방식의 검정 방법에 대해서는 향후 하나씩 공유드리겠습니다.</p></li>
+<li><p>2 sample Test는 아래와 같이 t.test()를 실행하시면 되며, t.test함수는 아래와 같이 작성하시면 됩니다.</p></li>
+<li><p>t.test(관측치~집단 구분 기준, 데이터프레임, t-test 유형, 신뢰범위)</p></li>
+</ul>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="ttest.html#cb22-1"></a>  <span class="kw">t.test</span>(JobSatisfaction<span class="op">~</span>Education,IBM.HR.test,<span class="dt">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>## 
+## 	Welch Two Sample t-test
+## 
+## data:  JobSatisfaction by Education
+## t = 1.5417, df = 278.65, p-value = 0.1243
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.04094193  0.33674613
+## sample estimates:
+## mean in group 1 mean in group 3 
+##        2.800000        2.652098</code></pre>
+<ul>
+<li><p>두 그룹 간의 평균 차이는 2.8 - 2.652098 = 0.147902 인데,<br />
+p-value = 0.1243으로 유의미한 차이가 아닌 것으로 나타났습니다.</p></li>
+<li><p>대졸 미만과, 대졸 구성원 간 직무만족의 차이는 통계적으로 유의미하지 않은 것으로 확인 되었습니다.</p></li>
+<li><p>동일한 방법으로 WorkLifeBalance도 시행해보았으나, 통계적으로 유의미한 차이는 없었습니다.</p></li>
+<li><p>보다 자세한 내용에 대해서는 T-test에 대한 유튜브 강의 링크 참고 부탁 드립니다.</p>
+<p><a href="https://www.youtube.com/watch?v=mEWQ_vl3IPw&amp;list=PLalb9l0_6WArHh18Plrn8uIGBUKalqsf-">유튜브: 통알못을 위한 통계튜브 ttest</a></p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ANOVA.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["RTIPS.pdf", "RTIPS.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
