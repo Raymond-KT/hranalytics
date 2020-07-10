@@ -1,10 +1,1061 @@
 # 텍스트 데이터-재료 준비 {#Textmining-dtm}
-
-<body><font color="#FFFFFF"><span style="background-color:#FF0000">
-죄송합니다. 아직 작성중에 있습니다. 
-</sapn></body>
+  
 
 ```{r setup10, include=FALSE}
 knitr::opts_chunk$set(fig.align = "center", message=F, warning=F, fig.height = 4, cache=T, dpi = 300)
 ```
+
   
+## dtm, corpus 생각해보기  
+  
+* 텍스트 데이터의 경우, 전처리가 정말 중요합니다. 특히 한글 텍스트 데이터를 분석하신다면, 사용자 사전을 만드시거나, 형태소 분석 이후 띄어쓰기가 제대로 되어 있는지 확인 및 수정하시고 분석을 진행하셔야 합니다.  
+  
+```
+예를 들어 형태소 분석을 한 뒤, "기업문화" 라고 Parsing되어야 하는데,   
+"기업"과 "문화" 로 Parsing이 되었다면 사용자 사전을 통해 다시 잡아주거나, 직접 수정해줘야 합니다. 
+```
+  
+  
+* 이처럼 사용자 사전을 활용하여 텍스트 데이터를 제대로 전처리 하는 과정을 상세히 안내드리는 것도 필요하지만, 우선 어떤 텍스트 분석이 어떻게 사용되는지 간단하게라도 공유드리고자 합니다.  
+  
+  
+※ Corpus 다시 생각해보기  
+  
+> 한 사람의 주관식 응답 값을 형태소 분석하여 (명사+동사+형용사)로 만들고,  
+그것을 한 주머니에 담아 놓은 것을 **Corpus** 라고 생각하시면 쉽습니다.  
+  
+* 그 예로 제가 공유 드렸던 현대자동차 기업 평판 데이터 첫 행에는 "대기업인 만큼 복지와 급여가 안정적이고 네임밸류가 아직 있고 문화도 좋아 지는 중" 이라는 문장이 들어 있었습니다.  
+  
+  
+```{r HMC text head}
+HMC_txt[1,1]
+```
+
+ 
+* 이를 NLP4kec 형태소 분석기를 활용하여 형태소 분석을 하면  
+"기업 만큼 복지 급여 안정 네임 밸류 있다 문화 좋다 지다 중" 으로 parsing 됩니다.  
+    
+  
+```{r HMC text parsing}
+r_parser_r(HMC_txt[1,1], language = 'ko')
+```
+  
+* 이렇게 Parsing된 결과와 Meta data와 content가 합쳐져서 Corpus가 됩니다.  
+  
+```{r parsing to corp} 
+# parsing 된 텍스트
+corp[[1]][[1]]  
+  
+# Meta data  
+corp[[1]][[2]]  
+```
+## tm 패키지 활용
+
+(3) 문서-단어 행렬 생성 TermDocumentMartix(), DocumentTermMatrix()
+
+앞서 만든 Corpus를 TermDocumentMartix() 함수에 넣으면 단어 -문서 행렬이 만들어지고,
+
+DocumentTermMatrix() 함수에 넣으면 문서 - 단어 행렬이 만들어집니다.
+
+
+ 
+
+> dtm_corp<- DocumentTermMatrix(corp)
+
+> tdm_corp<- TermDocumentMatrix(corp)
+
+
+ 
+
+위와 같이 함수 하나로 간단하게 Corpus로부터 TDM, DTM을 만드실 수 있습니다.
+
+
+ 
+
+inspect 함수를 사용하여 만든 TDM과 DTM을 확인해보면 문서 고유 번호와
+
+해당 문서에 특정 단어가 몇 번 나오는지(단어 출현 횟수, Term Frequency) 정리된 테이블을 보실 수 있습니다.
+
+
+ 
+
+TDM을 치환(Transpose) 한 것이 DTM 이라고 생각하시면 됩니다.
+
+
+ 
+
+dtm_corp%>%inspect
+
+<<DocumentTermMatrix (documents: 1214, terms: 651)>>
+
+Non-/sparse entries: 2845/787469
+
+Sparsity           : 100%
+
+Maximal term length: 6
+
+Weighting          : term frequency (tf)
+
+Sample             :
+
+      Terms
+
+Docs   글로벌 다니다 다양하다 대하다 따르다 분위기 비하다 자동차
+
+  109       0      0        0      0      0      0      0      1
+
+  116       1      0        0      0      0      1      1      0
+
+  1168      0      0        0      1      0      0      0      0
+
+  264       0      0        0      0      2      2      0      0
+
+  448       0      0        0      0      0      0      0      0
+
+tdm_corp%>%inspect
+
+<<TermDocumentMatrix (terms: 651, documents: 1214)>>
+
+Non-/sparse entries: 2845/787469
+
+Sparsity           : 100%
+
+Maximal term length: 6
+
+Weighting          : term frequency (tf)
+
+Sample             :
+
+          Docs
+
+Terms      109 116 1168 264 448 513 726 766 927 931
+
+  글로벌     0   1    0   0   0   0   1   0   0   1
+
+  다니다     0   0    0   0   0   0   0   1   0   0
+
+  다양하다   0   0    0   0   0   0   1   0   0   0
+
+  대하다     0   0    1   0   0   0   0   0   1   0
+
+  따르다     0   0    0   2   0   0   0   1   0   0
+
+
+ 
+
+(6) 단어 - 빈도 확인하기 colsums()
+
+이제 TDM까지 만들었으니, 활용을 해볼 차례입니다.
+
+dtm_corp, tdm_corp를 보면 weighting에 term frequency 가 있습니다.
+
+
+ 
+
+weighting은 각 셀에 저장할 값을 계산하는 가중치 함수를 지정합니다.
+
+기본은 단어의 출현 횟수를 세는 term frequency(TF)로 되어 있고,
+이를 TF-IDF, Bin, Smart 등의 옵션으로 바꿀 수도 있습니다.
+
+
+ 
+
+> dtm_corp
+
+<<DocumentTermMatrix (documents: 1214, terms: 651)>>
+
+Non-/sparse entries: 2845/787469
+
+Sparsity           : 100%
+
+Maximal term length: 6
+
+Weighting          : term frequency (tf)
+
+
+ 
+
+> tdm_corp
+
+<<TermDocumentMatrix (terms: 651, documents: 1214)>>
+
+Non-/sparse entries: 2845/787469
+
+Sparsity           : 100%
+
+Maximal term length: 6
+
+Weighting          : term frequency (tf)
+
+
+ 
+
+dtm_corp, 문서 - 단어 행렬을 활용하여 단어별 출현한 빈도수를 계산해 보겠습니다.
+
+dtm_corp는 단어 하나 당 하나의 열로 구성되어 있으므로, 단어의 출현 빈도 계산을 위해서는
+
+열에 나타난 숫자를 모두 더해주면 됩니다.
+
+
+ 
+
+열 기준 합계는 colsums() 함수로 구할 수 있는데,
+
+현재 dtm_corp는 List 안에 List가 있는 형태이기 때문에 colsums 함수를 사용할 수 있는 matrix형태로 바꿔줘야 합니다.
+
+
+ 
+
+dtm_corp %>% as.matrix() %>% colSums()-> wordFreq
+
+dtm_corp 를 matrix로 변환해서 열 합계를 구한 뒤, 그것을 wordFreq 로 만들어라
+
+
+ 
+
+> dtm_corp %>% as.matrix() %>% colSums()-> wordFreq
+
+> wordFreq
+
+      1000원         10개         10분     10퍼센트         12시
+
+           1            1            1            1            2
+
+        13년         14년         17시         19시        1시간
+
+           1            1            1            1            3
+
+        20년         24세     25퍼센트        2종류         30년
+
+           1            1            1            1            1
+
+        30대         30분        3시간        4시간         50대
+
+           1            1            1            2            1
+
+        50분         50세       52시간         60살      750프로
+
+           1            1            4            1            1
+
+
+ 
+
+위와 같이, wordFreq 를 보시면 단어와 해당 단어의 출현 횟수로 구성되어 있음을 알 수 있습니다.
+
+
+ 
+
+wordFreq는 벡터나 데이터프레임이 아닌 value 입니다. 이름이 붙어 있는 숫자로 구성되어 있으며,
+
+그 숫자 별로 단어가 속성(attribute) 값으로 포함되어 있습니다.
+
+
+ 
+
+많이 출현한 단어가 가장 위로 올라오도록 조정하고, 상위 20개만 볼까요?
+
+wordFreq <- wordsFreq[order(wordsFreq, decreasing = TRUE)]
+
+wordFreq 변수를 내림 차순으로 정렬하라는 뜻입니다.
+
+
+ 
+
+> wordFreq <- wordsFreq[order(wordsFreq, decreasing = TRUE)]
+
+> head(x = wordsFreq, n = 20)
+
+있다 하다 좋다 많다 문화 기업 주다 없다 회사 업무 연봉 않다 복지 되다
+
+1685 1391  925  697  690  611  575  573  571  568  515  471  461  444
+
+높다 시간 보다 노조 사람 근무
+
+ 442  367  342  329  315  300
+
+
+ 
+
+저희는 처음 형태소 분석을 할 때, 명사+동사+형용사 를 포함하여 구분하였기 때문인지
+
+있다, 하다, 좋다, 많다 와 같은 동사가 가장 많이 나왔습니다.
+
+
+ 
+
+wordFreq라는 벡터를 데이터 프레임으로 보기 좋게 정리해보겠습니다.
+
+
+ 
+
+wordDf <- data.frame( word = names(x = wordsFreq),
+                              freq = wordsFreq,
+                              row.names = NULL) %>% arrange(desc(x = freq))
+
+>
+
+ 
+
+wordFreq는 value이기에 데이터프레임으로 바꿔줄 때, 속성(attribute)으로 포함되어 있는
+
+이름을 word 열로 구성하고 해당 word의 출현 빈도를 freq 열로 만들어서 내림 차순으로 만들라는 뜻입니다.
+
+
+ 
+
+그리고 그 두개의 열을 wordDf라는 데이터 프레임으로 만들었습니다.
+
+
+ 
+
+> wordDf <- data.frame(
+
++   word = names(x = wordsFreq),
+
++   freq = wordsFreq,
+
++   row.names = NULL) %>%
+
++   arrange(desc(x = freq))
+
+> wordDf
+
+          word freq
+
+1         있다 1685
+
+2         하다 1391
+
+3         좋다  925
+
+4         많다  697
+
+5         문화  690
+
+6         기업  611
+
+7         주다  575
+
+8         없다  573
+
+9         회사  571
+
+10        업무  568
+
+
+ 
+
+위와 같이 단어와 빈도수로 구성된 단어-빈도 데이터프레임을 쉽게 만들 수 있습니다.
+
+
+ 
+
+
+ 
+
+(7) 단어 - 빈도로 가장 쉽게 만들 수 있는 단어구름 그리기 wordcloud()
+
+
+ 
+
+R에서는 단어구름을 쉽게 만들 수 있는 wordcloud 패키지를 제공합니다.
+
+해당 패키지를 설치하신 후, 라이브러리를 불러오시면,
+
+아래와 같이 간단하게 단어구름을 그려보실 수 있습니다.
+
+
+ 
+
+wordcloud(wordDf$word, wordDf$freq, max.words=100, colors=blues)
+
+wordDf 데이터 프레임에 들어있는 단어와 빈도를 활용하여, blues 색을 가지고 단어구름을 그려라
+
+
+ 
+
+> install.packages('wordcloud')
+
+> library(wordcloud)
+
+> dev.new()> blues <- brewer.pal(8, "Blues")[-(1:2)]
+
+> wordcloud(wordDf$word, wordDf$freq, max.words=100, colors=blues)
+
+
+ 
+
+
+
+
+ 
+
+단어 구름을 그릴 때는, 형태소 분석 하실 때 명사만 가지고 하시는 것이 좋습니다.
+
+Konlp 패키지의 extraNoun함수를 사용해서 형태소 분석을 다시 하신 뒤
+
+dtm 변환하시고, 빈도수 데이터 프레임을 만드셔서 단어 구름 그리시면 됩니다!
+
+
+ 
+
+세부 옵션은 아래 링크 참조하시면 됩니다.
+
+https://cran.r-project.org/web/packages/wordcloud/wordcloud.pdf
+
+
+ 
+
+(7) 단어 - 빈도로 가장 쉽게 만들 수 있는 트리맵 그리기 treemap()
+
+
+ 
+
+단어구름과 동일하게, treemap 패키지를 활용하시면 아주 쉽게 트리맵도 그리실 수 있습니다.
+
+트리맵 패키지를 설치하시고, 아래와 같이 실행하시면 트리맵이 완성됩니다.
+
+
+ 
+
+> treemap(    dtf = wordDf,    title = '고빈도 단어 트리맵',    index = c('word'),    vSize = 'freq',
+
+   fontsize.labels = 14,    palette = pal,    border.col = 'white')
+
+
+ 
+
+wordDf 데이터프레임을 가지고 트리맵을 그려라, 제목은 '고빈도 단어 트리맵', 트리맵의 인덱스는 wordDf의 word열 값으로 하고,
+
+트리맵의 사이즈는 freq열 값을 사용해라. 인덱스 크기는 14, 색상은 pal 을 활용하고, 트리별 외곽선은 흰색으로 지정해라.
+
+
+ 
+
+세부 옵션은 아래 링크 참조하시면 됩니다.
+
+https://cran.r-project.org/web/packages/treemap/index.html
+
+
+ 
+
+> install.packages('treemap)
+
+> library(treemap)
+
+> dev.new()
+
+NULL
+
+> treemap(
+
++   dtf = wordDf,
+
++   title = '고빈도 단어 트리맵',
+
++   index = c('word'),
+
++   vSize = 'freq',
+
++   fontsize.labels = 14,
+
++   palette = pal,
+
++   border.col = 'white')
+
+
+ 
+
+
+ 
+
+
+
+
+ 
+
+
+ 
+
+(8) 단어 상관 행렬 만들기 cor()
+
+
+ 
+
+앞서 빈도 수를 활용한 단어구름과 트리맵 그리기는
+
+그 단어가 정말 중요한지, 그 단어가 어떤 맥락에서 나온 것인지 알 수가 없기에 개인적으로 거의 활용하지 않습니다.
+
+
+ 
+
+단어가 어떤 맥락에서 사용되었고, 어느정도 중요한지 알게 해주는
+
+단어-네트워크맵, 토픽 모델링 등의 방법을 주로 사용하고 있으며,
+
+이를 잘 사용하시기 위해서는 TF-IDF(단어 빈도 - 역 문서 빈도)에 대한 이해가 반드시 필요합니다.
+
+
+ 
+
+이를 위해 아래의 링크 글을 읽어보시기를 권해드립니다.
+
+https://wikidocs.net/31698
+
+
+ 
+
+단어간 상관 행렬은 앞서 만든 dtm을 가지고 한 줄로 만드실 수 있습니다.
+
+
+ 
+
+>  dtm_corp %>% as.matrix() %>% cor() -> corTerms
+
+dtm_corp를 cor()함수가 사용 가능한 매트릭스 형태로 바꾸고, 상관분석을 진행하라.
+
+그리고 그 결과를 corTerms에 넣어라.
+
+
+ 
+
+>  dtm_corp %>% as.matrix() %>% cor() -> corTerms
+
+> corTerms
+
+                    1000원          10개          10분      10퍼센트
+
+1000원        1.0000000000 -0.0008244023 -0.0008244023 -0.0008244023
+
+                     12시          13년          14년          17시
+
+1000원       -0.001166362 -0.0008244023 -0.0008244023 -0.0008244023
+
+                      19시        1시간          20년          24세
+
+1000원       -0.0008244023 -0.001106417 -0.0008244023 -0.0008244023
+
+                  25퍼센트         2종류          30년          30대
+
+1000원       -0.0008244023 -0.0008244023 -0.0008244023 -0.0008244023
+
+
+ 
+
+위와 같이 단어 간 상관계수가 나온 것을 확인하실 수 있습니다.
+
+
+ 
+
+일반적으로 단어 상관 행렬을 만들 때는 DTM에서 가중치를 TF-IDF로 주고, 이를 활용해 상관 행렬을 만들어 활용합니다.
+
+
+ 
+
+하지만, 저희가 만든 dtm_corp는 단순히 단어의 빈도(Term Frequency)를 가중치로 주었기 때문에
+
+단어의 중요도를 고려한 상관행렬이 아닙니다.
+
+
+ 
+
+금번 메일에서 TF-IDF로 DTM을 만들고, 상관행렬을 만들어 단어-네트워크 맵 까지 진행하고자 하였으나,
+
+메일이 너무 길어져서 다음 번에 TF-IDF로 DTM을 만들어서 진행하는 법을 공유 드리도록 하겠습니다.
+
+
+ 
+
+감사합니다.
+
+
+ 
+
+R Tips (9) 텍스트 분석 - 텍스트 전처리, 형태소 분석, Corpus 생성
+
+
+ 
+
+안녕하십니까.
+
+오늘은 R 기반 텍스트 분석에 대해 공유 드리고자 합니다.
+
+
+ 
+
+텍스트 분석 역시 범위가 매우 넓지만,
+
+우선, 그동안 제가 활용해온 텍스트 분석 기법 중심으로 간략하게 소개드리려고 합니다.
+
+
+ 
+
+일반적인 텍스트 마이닝 프로세스에서는 텍스트 데이터를 가져오는 것부터 시작하지만,
+
+저희는 이미 데이터가 확보되어 있는 상황에서 분석을 하기 때문에 해당 단계는 생략하고,
+
+아래와 같은 순서대로 공유 드리겠습니다.
+
+
+ 
+
+
+ 
+
+cid:image006.png@01D63E8E.F9DD8210
+
+
+ 
+
+아울러, 아래 내용을 보시기에 앞서 데이터홀릭 EP(41.3) 인트로 오브 형태소오오오!/형태소의 개념과 텍스트 분석
+
+팟캐스트를 들으시면 텍스트 분석/형태소 분석에 대해 조금 더 이해하기 쉬우십니다.
+
+
+ 
+
+유튜브 : https://www.youtube.com/watch?v=yJyl4Mhvd6g
+
+팟빵 : http://www.podbbang.com/ch/1771386
+
+
+ 
+
+
+ 
+
+텍스트 분석은, 지난 해 크롤링 해두었던 '잡플래닛의 현대자동차 평판 데이터'를 기반으로 진행하겠습니다.
+
+
+ 
+
+첨부 드린 RDS 데이터를 읽어 오셔서 진행 하시면 됩니다!
+
+
+ 
+
+사용하실 패키지를 불러옵니다.
+
+
+ 
+
+> pacman::p_load('tidymodels','tidytext','KONLP','NLP4kec' ,'stringr','tm')
+
+
+ 
+
+1. 텍스트 데이터 읽어 오기 readRDS()
+
+readRDS() 함수를 활용하여 공유 드린 RDS 데이터를 읽어옵니다.
+
+텍스트를 읽어온 뒤, 분석을 위해 데이터 프레임으로 변환해 줍니다.
+
+
+ 
+
+총 1,367행의 텍스트 데이터가 있음을 알 수 있습니다.
+
+
+ 
+
+> HMC_txt <- readRDS('현대자동차_기업평판_장점.RDS')
+
+> glimpse(H_txt)
+
+chr [1:1367] "대기업인 만큼 복지와 급여가 안정적이고 네임밸류가 아직 있고 문화도 좋아지는중" ...
+
+> HMC_txt<- as.data.frame(HMC_txt, stringsAsFactors = F)
+> HMC_txt%>%nrow
+ 1367
+
+ 
+
+2. 텍스트 데이터 기본 처리
+
+(1) 결측치(NA) 처리 sum(), is.na()
+
+결측치 확인 결과, 없는 것으로 확인되었습니다.
+
+ > sum(is.na(HMC_txt))
+[1] 0
+
+ 
+
+(2) 중복 행 제거 unique()
+
+중복된 행을 제거해줍니다.
+
+행이 1,367개에서, 1,214개로 줄었습니다.
+
+> HMC_txt <- unique(HMC_txt)
+> HMC_txt%>%nrow()
+[1] 1214
+
+ 
+
+(3) 텍스트 공백 제거 str_remove_all()
+
+텍스트에 포함되어 있는 공백을 제거합니다.
+
+str_remove_all 함수에서 pattern 에 정규표현식 을 입력하면, 정규표현식에 해당되는 문자가 제거됩니다.
+
+정규표현식 \\s+는 한개 이상의 공백을 의미하며, 정규표현식 및 데이터 전처리에 대한 세부 내용은 링크 참조 부탁 드립니다.
+
+
+ 
+
+> # 텍스트의 공백을 제거합니다. NLP4kec 형태소 분석기가 띄어쓰기를 구분합니다
+> HMC_txt %>% str_remove_all(pattern = '\\s+')
+[1] "c(\"대기업인만큼복지와급여가안정적이고네임밸류가아직
+
+ 
+
+'기업 문화', '기업문화' 와 같이 동일한 단어라도
+
+사람마다 띄어쓰기를 하는 부분이 모두 다르기에 텍스트 분석하는데 어려움이 있습니다.
+
+따라서 공백을 모두 제거한 뒤 추후 형태소 분석기를 통해 단어/띄어쓰기를 구분해줍니다.
+
+
+ 
+
+stringr 패키지를 활용하여 특수문자 제거, 숫자 제거, 구두점 제거 등을 해줄 수 있으나,
+
+형태소/Corpus 변환 후, tm 라이브러리에 있는 tm_map 함수를 활용하시는 것이 훨씬 간편합니다.
+
+
+ 
+
+
+ 
+
+(4) 글자 수 확인해서 의미 없는 칼럼 날리기 nchar(), range()
+
+
+ 
+
+글자 수를 확인하여, 최소 글자 수, 최대 글자 수를 구합니다.
+
+> HMC_txt_range <- HMC_txt %>% nchar() %>% range()
+> print(HMC_txt_range)
+[1]   2 321
+
+ 
+
+다섯 글자 기준 미만에 포함된 열이 무엇인지 확인해봅니다.
+
+HMC_txt$content[nchar(x = HMC_txt$content) < 5]
+[1] "임금"     "고용안정"
+
+ 
+
+임금과 고용안정도 의미가 있어 보여서, 우선 그대로 형태소 분석을 진행해보겠습니다.
+
+
+ 
+
+(5) id 칼럼 붙이기
+
+형태소 분석 이후 원본 Data를 보존하기 위해 id 칼럼을 붙여줍니다.
+
+id 칼럼을 추가하는 함수를 생성하여 간편하게 붙여 줍니다.
+
+
+ 
+
+# 객체에 id를 추가하는 함수를 생성합니다.
+
+generateIDs <- function(obj, index = 'id') {
+
+ 
+
+  # 객체의 종류에 따라 길이를 계산합니다.
+
+  if (obj %>% class() == 'data.frame') {
+
+    n <- nrow(x = obj)
+
+  } else {
+
+    n <- length(x = obj)
+
+  }
+
+ 
+
+  # id를 생성합니다.
+
+  id <- str_c(
+
+    index,
+
+    str_pad(
+
+      string = 1:n,
+
+      width = ceiling(x = log10(x = n)),
+
+      side = 'left',
+
+      pad = '0') )
+
+ 
+
+  # 결과를 반환합니다.
+
+  return(id)
+
+} 
+
+HMC_txt$id <- generateIDs(obj = HMC_txt, index = 'doc')
+
+
+ 
+
+열 이름을 content와 id로 설정해줍니다.
+
+> names(HMC_txt) <- c("content","id")
+
+ 
+
+
+ 
+
+3. 형태소 분석 r_parser_r()
+
+기본적인 텍스트 데이터 처리를 한 뒤, 형태소 분석을 진행합니다.
+
+
+ 
+
+형태소란 언어에 있어, '최소 의미 단위'를 의미합니다.
+
+형태소 분석은 형태소를 분석하는 것이 아니라, 한 문장을 형태소 단위로 분절하는 것을 말합니다.
+
+https://mblogthumb-phinf.pstatic.net/MjAxNzA5MTVfMjY0/MDAxNTA1NDA2MzA5MDk3.Zb5TBwoJuN49TJi4wArzFKWxNj2E82P7C6jXRz23e4og.gL5rk5QQH2_TGo441X5gvkk3E149mywwOptVKVamYcQg.PNG.sw4r/image.png?type=w800
+
+한나눔, 꼬꼬마, Komoran, Khaiii, mecab 등 정말 다양한 형태소 분석기가 개발되어 있으며,
+
+아래 링크를 보시면, 형태소 분석기 성능 비교를 해놓은 것을 확인하실 수 있습니다.
+
+
+https://passerby14.tistory.com/3
+
+
+ 
+
+직접 Tokenizing 을 하는 것은 쉽지 않기 때문에 형태소 분석기의 성능이 중요합니다.
+
+
+ 
+
+저는 주로 mecab 기반의 NLP4kec 형태소 분석기를 사용하기에,
+
+이번에도 NLP4kec 를 사용하여 형태소 분석을 진행하겠습니다.
+
+
+ 
+
+NLP4kec 패키지는 http://bit.ly/NLP4kec_win_1_4 에서 다운 하실 수 있으며,
+
+https://github.com/NamyounKim/NLP4kec 여기 보시고 설치하시면 됩니다.
+
+
+ 
+
+NLP4kec 패키지는 한글은 '은전한닢 형태소 분석기' 를 사용하고, 영어, 중국어는 Stanford core NLP를 사용합니다.
+
+NLP4kec 패키지를 사용하시면 텍스트 데이터를 입력 받아 형태소를 분석 한 뒤 tm 패키지에서 사용할 수 있습니다.
+
+
+ 
+
+HMC_txt의 텍스트 데이터를 r_parser_r 함수를 기반으로 parsing 해보겠습니다.
+
+
+> Parsed_HMC <- r_parser_r(HMC_txt$content,language = "ko")
+Language : ko
+Total Rows : 1214
+6월 09, 2020 5:38:41 오후 org.bitbucket.eunjeon.seunjeon.LexiconDict load
+정보: terms loading is completed. (3955 ms)
+6월 09, 2020 5:38:42 오후 org.bitbucket.eunjeon.seunjeon.LexiconDict load
+정보: mapper loading is completed. (1025 ms)
+6월 09, 2020 5:38:43 오후 org.bitbucket.eunjeon.seunjeon.LexiconDict load
+정보: double-array trie loading is completed. (1025 ms)
+Processed 100 rows
+Processed 200 rows
+
+ 
+
+Parsed 된 데이터를 보시면, 아래와 같습니다.
+
+NLP4kec 패키지는 용언(동사+형용사)들을 기본형의 형태로 바꾸어 변환해주는 장점이 있습니다. (stemming 작업을 자동으로 수행)
+
+
+ 
+
+일반적으로 많이 사용되는 KoNLP 패키지에서 용언 누락을 방지하기 위해서는 extractNoun 함수가 아닌, SimplePos09나, SimplePos22 함수를 사용해야 하는데,
+
+전처리 과정에서 점검/수행해야 하는 부분이 많아 명사+동사+형용사 를 분석하기에는 NLP4kec 패키지가 좋은 것 같습니다.
+
+
+ 
+
+아래와 같이 Parsing된 텍스트 데이터를 보시면, 유연근 무제, 자율 복장 등 띄어쓰기가 제대로 되지 않은 단어들이 보입니다.
+
+이러한 단어들은 사용자 사전을 구축해서 제대로 처리되도록 할 수도 있고, 한 단어씩 수정해줄 수도 있습니다.
+
+이제 형태소 분석된 데이터를 tm 패키지로 넘겨서 데이터 전처리를 마무리 해보겠습니다.
+
+
+ 
+
+> Parsed_HMC[1:10]
+ [1] "기업 만큼 복지 급여 안정 네임 밸류 있다 문화 좋다 지다 중 "                                                                           
+ [2] "분위기 좋다 지다 꼰대 문화 없다 지다 곳 비하다 수도 "                                                                                 
+ [3] "연월 차 쓸다 자유 유연근 무제 자율 복장 도입 근무 분위기 좋다 지다 "                                                                  
+ [4] "요즘 하락 추세 않다 페이 상당 구성원 간 끈끈하다 있다 술 인하다 끈끈하다 않다 무엇 이곳 구성원 것 자체 얻다 사회 시선 부가 이익 있다 "
+ [5] "연차 자유 쓸다 일 때 최대한 지원 하다 주다 협업 중시 분위기 개인주의 없다 "                                                           
+ [6] "기업 자부심 부여 체계 교육 통하다 인재 육성 추구 "                                                                                    
+ [7] "기업 자금력 바탕 유능 젊다 인재 포진 있다 한국 시장 절대 마켓 쉐어 있다 시도 보다 수 있다 아이디어 많다 "                             
+ [8] "자기 계발 꾸준하다 하다 수 쓸다 선후배 교류 하다 수 있다 연차 눈치 보다 쓰다 수 있다 "                                                
+ [9] "다양하다 직무 경험 수 있다 기업 향후 발전 가능 있다 곳 "                                                                              
+[10] "가족 같다 기업 문화 시스템 사람 의하다 운영 나름 정 "         
+
+ 
+
+
+ 
+
+4. tm 패키지 활용
+
+tm은 text mining의 약자로 Corpus(말뭉치)를 기본으로 텍스트 데이터 전처리를
+
+매우 쉽게 진행할 수 있게 해줍니다.
+
+
+ 
+
+tm 패키지 활용에 앞서 https://statkclee.github.io/ml/ml-wordcloud.html 이곳의 글을 읽으시면
+
+전체적으로 이해하시는데 큰 도움을 받으실 수 있을 것 같습니다.
+
+
+ 
+
+(1) Corpus 생성 Vcorpus() vectorSource()
+
+
+ 
+
+앞서 parsing한 데이터를 갖고 말뭉치(Corpus)를 만들어줍니다.
+
+
+ 
+
+VectorSource() 함수는 Character Vector로부터 Corpus를 만들어주는 중간다리 역할을 하는 함수라고 생각하시면 되며,
+
+데이터 프레임 형태에 따라 Vector이면 Vectorsource(), Dataframe 형태이면 DataframeSource()를 활용하시면 됩니다.
+
+Vcorpus 함수는 앞서 Source로 만들어준 데이터를 corpus로 만들어주는 역할을 합니다.
+
+/read/image/original/?mimeSN=1592547069.778188.30592.42752&offset=379650&size=79108&u=chriskt&cid=image005.png@01D64002.FCFC1720&contentType=image/png&filename=image005.png&org=1
+
+
+ 
+
+말뭉치(Corpus)는 Content 와 Meta를 가지는 특정한 형태의 텍스트 데이터 뭉치 라고 보시면 됩니다.
+
+
+ 
+
+> corp <- VCorpus(VectorSource(Parsed_HMC))
+> inspect(corp[1])
+<<VCorpus>>
+Metadata:  corpus specific: 0, document level (indexed): 0
+Content:  documents: 1
+ 
+
+[[1]]
+<<PlainTextDocument>>
+Metadata:  7
+Content:  chars: 35
+
+ 
+
+(2) 텍스트 데이터 전처리 tm_map
+
+
+ 
+
+corpus형태로 만들면 tm패키지의 데이터 전처리 함수를 쉽게 사용하실 수 있습니다.
+
+
+ 
+
+우선 저는 특수문자 제거만 해보겠습니다.
+
+> corp <-  tm_map(corp, removePunctuation)
+
+ 
+
+tm_map 함수를 활용하면 공백제거, 숫자제거, 특수문자 제거 등을 편하게 하실 수 있습니다.
+
+자세한 내용은 https://wikidocs.net/33918 참조하시면 됩니다.
+
+
+ 
+
+
+ 
+
+오늘은 Corpus 생성까지 진행해보았으며, 다음 시간에 Document Term Matrix를 활용하여
+
+아래의 텍스트 분석 기법을 적용하는 방법에 대해 하나씩 공유 드리겠습니다.
+
+
+ 
+
+※ 텍스트 분석 기법
+
+(1) 빈도 수 분석 (워드 클라우드, 트리맵 등) (2) 키워드-네트워크맵 (3) LDA 토픽 모델링
+
+(4) 문서 유형 분류 (5) Context 분석 (6) 감성분석
+
+
+ 
+
+
+ 
+
+Corpus와 Document Term Matrix에 대해서만 이해하시고, 제대로 만드시면,
+
+텍스트 분석을 위한 기본 재료를 갖추신 것이기에
+
+위의 여러 기법들을 적용하는 것은 상대적으로 쉽게 느껴지실 것 같습니다.
+
+
+ 
+
+감사합니다.
+
+
+ 
+
+
+ 
+
+※ R 기반 텍스트 분석 도움 URL
+
+텍스트 마이닝을 활용한 기업리뷰 분석
+
+LDA를 활용한 토픽 트렌드 분석
+
+네이버 뉴스 기사 크롤링/기술분석
+
+Must Learning with R(문자열 데이터 다루기)
+
+
+ 
+
+※ R 기반 크롤링 방법에 대해서는 R코홀릭 유튜브채널을 보시면 많은 도움 되실 것 같습니다.

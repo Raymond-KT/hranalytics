@@ -24,7 +24,7 @@
 <meta name="author" content="김광태" />
 
 
-<meta name="date" content="2020-07-06" />
+<meta name="date" content="2020-07-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -151,11 +151,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-prep-1.html"><a href="data-prep-1.html"><i class="fa fa-check"></i><b>3</b> Data 전처리-결측치 처리</a><ul>
 <li class="chapter" data-level="3.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-처리하기"><i class="fa fa-check"></i><b>3.1</b> 결측치 처리하기</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치를-제거해주는-na.omit데이터"><i class="fa fa-check"></i><b>3.1.1</b> 결측치를 제거해주는 na.omit(데이터)</a></li>
+<li class="chapter" data-level="3.1.1" data-path="data-prep-1.html"><a href="data-prep-1.html#na_omit"><i class="fa fa-check"></i><b>3.1.1</b> 결측치 제거</a></li>
 <li class="chapter" data-level="3.1.2" data-path="data-prep-1.html"><a href="data-prep-1.html#각-함수의-결측치-제거-옵션-활용"><i class="fa fa-check"></i><b>3.1.2</b> 각 함수의 결측치 제거 옵션 활용</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-요약-및-시각화-naniar-패키지"><i class="fa fa-check"></i><b>3.2</b> 결측치 요약 및 시각화 naniar 패키지</a></li>
-<li class="chapter" data-level="3.3" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-대체하기"><i class="fa fa-check"></i><b>3.3</b> 결측치 대체하기</a></li>
+<li class="chapter" data-level="3.2" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-대체하기"><i class="fa fa-check"></i><b>3.2</b> 결측치 대체하기</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="data-prep-2.html"><a href="data-prep-2.html"><i class="fa fa-check"></i><b>4</b> Data 전처리-이상치 처리</a><ul>
 <li class="chapter" data-level="4.1" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-확인"><i class="fa fa-check"></i><b>4.1</b> 이상치 확인</a></li>
@@ -213,18 +212,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="Textmining.html"><a href="Textmining.html"><i class="fa fa-check"></i><b>9</b> 텍스트 데이터-전처리</a><ul>
-<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기-readrds"><i class="fa fa-check"></i><b>9.1</b> 텍스트 데이터 읽어 오기 readRDS()</a></li>
-<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-기본-처리"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 기본 처리</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#결측치na-처리-sum-is.na"><i class="fa fa-check"></i><b>9.2.1</b> 결측치(NA) 처리 sum(), is.na()</a></li>
-<li class="chapter" data-level="9.2.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거-unique"><i class="fa fa-check"></i><b>9.2.2</b> 중복 행 제거 unique()</a></li>
-<li class="chapter" data-level="9.2.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거-str_remove_all"><i class="fa fa-check"></i><b>9.2.3</b> 텍스트 공백 제거 str_remove_all()</a></li>
-<li class="chapter" data-level="9.2.4" data-path="Textmining.html"><a href="Textmining.html#글자-수-확인해서-의미-없는-칼럼-날리기-nchar-range"><i class="fa fa-check"></i><b>9.2.4</b> 글자 수 확인해서 의미 없는 칼럼 날리기 nchar(), range()</a></li>
-<li class="chapter" data-level="9.2.5" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.2.5</b> id 칼럼 붙이기</a></li>
+<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-분석-프로세스"><i class="fa fa-check"></i><b>9.1</b> 텍스트 분석 프로세스</a></li>
+<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-준비"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 준비</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기"><i class="fa fa-check"></i><b>9.2.1</b> 텍스트 데이터 읽어 오기</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#형태소-분석-r_parser_r"><i class="fa fa-check"></i><b>9.3</b> 형태소 분석 r_parser_r()</a></li>
-<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리tm-패키지-활용"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(tm 패키지 활용)</a><ul>
-<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#corpus-생성-vcorpus-vectorsource"><i class="fa fa-check"></i><b>9.4.1</b> Corpus 생성 Vcorpus() vectorSource()</a></li>
-<li class="chapter" data-level="9.4.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리-tm_map"><i class="fa fa-check"></i><b>9.4.2</b> 텍스트 데이터 전처리 tm_map</a></li>
+<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리1"><i class="fa fa-check"></i><b>9.3</b> 텍스트 데이터 전처리(1)</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="Textmining.html"><a href="Textmining.html#결측치-처리"><i class="fa fa-check"></i><b>9.3.1</b> 결측치 처리</a></li>
+<li class="chapter" data-level="9.3.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거"><i class="fa fa-check"></i><b>9.3.2</b> 중복 행 제거</a></li>
+<li class="chapter" data-level="9.3.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거"><i class="fa fa-check"></i><b>9.3.3</b> 텍스트 공백 제거</a></li>
+<li class="chapter" data-level="9.3.4" data-path="Textmining.html"><a href="Textmining.html#의미-없는-텍스트-제거"><i class="fa fa-check"></i><b>9.3.4</b> 의미 없는 텍스트 제거</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리2"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(2)</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.4.1</b> id 칼럼 붙이기</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="Textmining.html"><a href="Textmining.html#형태소-분석nlp4kec-패키지"><i class="fa fa-check"></i><b>9.5</b> 형태소 분석(NLP4kec 패키지)</a></li>
+<li class="chapter" data-level="9.6" data-path="Textmining.html"><a href="Textmining.html#corpus-생성tm패키지-활용"><i class="fa fa-check"></i><b>9.6</b> Corpus 생성(tm패키지 활용)</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="Textmining.html"><a href="Textmining.html#데이터-전처리3"><i class="fa fa-check"></i><b>9.6.1</b> 데이터 전처리(3)</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="Textmining-dtm.html"><a href="Textmining-dtm.html"><i class="fa fa-check"></i><b>10</b> 텍스트 데이터-재료 준비</a></li>
@@ -296,11 +299,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>R에 기본 내장되어 있는 <strong>iris</strong> 데이터는 5개 열과 150줄로 구성되어 있습니다.<br />
 따라서, observation은 150, variables는 5 로 표시되어야 합니다.</p></li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="data-glimpse.html#cb1-1"></a><span class="co"># 앞으로 자주 사용하게 될 tidyverse library를 로드해줍니다. </span></span>
-<span id="cb1-2"><a href="data-glimpse.html#cb1-2"></a><span class="co"># 아직 설치가 되어 있지 않으시다면, install.package(&#39;tidyverse&#39;)로 설치해주세요. </span></span>
-<span id="cb1-3"><a href="data-glimpse.html#cb1-3"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="data-glimpse.html#cb2-1"></a><span class="co"># R에 내장되어 있는 iris Data를 glimpse 함수를 활용하여 힐끗 봅니다. </span></span>
-<span id="cb2-2"><a href="data-glimpse.html#cb2-2"></a><span class="kw">glimpse</span>(iris)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="data-glimpse.html#cb4-1"></a><span class="co"># 앞으로 자주 사용하게 될 tidyverse library를 로드해줍니다. </span></span>
+<span id="cb4-2"><a href="data-glimpse.html#cb4-2"></a><span class="co"># 아직 설치가 되어 있지 않으시다면, install.package(&#39;tidyverse&#39;)로 설치해주세요. </span></span>
+<span id="cb4-3"><a href="data-glimpse.html#cb4-3"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="data-glimpse.html#cb5-1"></a><span class="co"># R에 내장되어 있는 iris Data를 glimpse 함수를 활용하여 힐끗 봅니다. </span></span>
+<span id="cb5-2"><a href="data-glimpse.html#cb5-2"></a><span class="kw">glimpse</span>(iris)</span></code></pre></div>
 <pre><code>## Rows: 150
 ## Columns: 5
 ## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5.4, …
@@ -343,14 +346,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>데이터 구조를 확인하고 싶을 때는 str() 함수를 사용하시면 됩니다.</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="data-glimpse.html#cb7-1"></a><span class="kw">str</span>(iris)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="data-glimpse.html#cb10-1"></a><span class="kw">str</span>(iris)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:	150 obs. of  5 variables:
 ##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
 ##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
 ##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
 ##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
 ##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="data-glimpse.html#cb9-1"></a><span class="co">#iris Data는 data frame 구조를 갖는다는 것을 알 수 있습니다. </span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="data-glimpse.html#cb12-1"></a><span class="co">#iris Data는 data frame 구조를 갖는다는 것을 알 수 있습니다. </span></span></code></pre></div>
 <p>※ 데이터 구조에 대해서는 아래 링크 추가 확인 부탁 드립니다.</p>
 <p><a href="https://m.blog.naver.com/PostView.nhn?blogId=definitice&amp;logNo=220967729928&amp;proxyReferer=https:%2F%2Fwww.google.com%2F">R의 데이터 구조</a></p>
 </div>
@@ -364,7 +367,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 저는 각 열 단위로 클래스를 확인하기 위해 apply함수와<br />
 class 함수를 아래와 같이 활용합니다.</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="data-glimpse.html#cb10-1"></a><span class="kw">apply</span>(iris,<span class="dv">2</span>,class)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="data-glimpse.html#cb13-1"></a><span class="kw">apply</span>(iris,<span class="dv">2</span>,class)</span></code></pre></div>
 <pre><code>## Sepal.Length  Sepal.Width Petal.Length  Petal.Width      Species 
 ##  &quot;character&quot;  &quot;character&quot;  &quot;character&quot;  &quot;character&quot;  &quot;character&quot;</code></pre>
 </div>
@@ -379,10 +382,10 @@ class 함수를 아래와 같이 활용합니다.</li>
 <li><p>아래와 같이 iris 데이터의 Species 항목에 대해 unique 함수를 시행하면 고유 값이 출력됩니다.</p></li>
 <li><p>저는 제가 다루는 데이터의 직급/직위, 회사 등이 제대로 해당 열에 들어 있는지 파악하는데 unique함수를 주로 사용하고 있습니다.</p></li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="data-glimpse.html#cb12-1"></a><span class="kw">unique</span>(iris<span class="op">$</span>Species)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="data-glimpse.html#cb15-1"></a><span class="kw">unique</span>(iris<span class="op">$</span>Species)</span></code></pre></div>
 <pre><code>## [1] setosa     versicolor virginica 
 ## Levels: setosa versicolor virginica</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="data-glimpse.html#cb14-1"></a><span class="co">#iris 데이터의 Species 열은 어떤 값들로 구성되어 있는지 확인할 수 있습니다. </span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="data-glimpse.html#cb17-1"></a><span class="co">#iris 데이터의 Species 열은 어떤 값들로 구성되어 있는지 확인할 수 있습니다. </span></span></code></pre></div>
 </div>
 <div id="결측치na-확인" class="section level2">
 <h2><span class="header-section-number">2.4</span> 결측치(NA) 확인</h2>
@@ -393,7 +396,7 @@ class 함수를 아래와 같이 활용합니다.</li>
 <li>데이터에 결측치(NA) 가 있는지 확인하는 is.na()
 데이터에 결측치가 들어있는지 TRUE/FALSE를 통해 확인합니다.</li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="data-glimpse.html#cb15-1"></a><span class="kw">is.na</span>(iris)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="data-glimpse.html#cb18-1"></a><span class="kw">is.na</span>(iris)</span></code></pre></div>
 <pre><code>##        Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ##   [1,]        FALSE       FALSE        FALSE       FALSE   FALSE
 ##   [2,]        FALSE       FALSE        FALSE       FALSE   FALSE
@@ -549,7 +552,7 @@ class 함수를 아래와 같이 활용합니다.</li>
 <li>위와 같이 TRUE/FALSE로 값을 반환한 것은 한 눈에 보기 쉽지 않기에,<br />
 보통 sum() 함수를 같이 사용하여 몇 개의 결측치가 있는지 파악합니다.</li>
 </ul>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="data-glimpse.html#cb17-1"></a><span class="kw">sum</span>(<span class="kw">is.na</span>(iris))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="data-glimpse.html#cb20-1"></a><span class="kw">sum</span>(<span class="kw">is.na</span>(iris))</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <ul>
 <li>NA 값이 있는 경우, 어떻게 처리를 하는지는 다음 R Tips에서 공유 드리겠습니다.</li>
@@ -567,7 +570,7 @@ class 함수를 아래와 같이 활용합니다.</li>
 1분위수 이하, 3분위수 이상의 값들을 제거하고 분석하곤 합니다.</p></li>
 <li><p>이 외에도, summary 함수는 정말 유용하게 많이 활용됩니다.</p></li>
 </ul>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="data-glimpse.html#cb19-1"></a><span class="kw">summary</span>(iris)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="data-glimpse.html#cb22-1"></a><span class="kw">summary</span>(iris)</span></code></pre></div>
 <pre><code>##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
 ##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
 ##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
@@ -596,15 +599,15 @@ class 함수를 아래와 같이 활용합니다.</li>
 상관/회귀/빈도 등 다양한 정보를 알 수 있습니다.</p></li>
 <li><p>분석할 데이터의 class는 보고자 하는 결과 형식에 따라 바꿔주시면 됩니다.</p></li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="data-glimpse.html#cb21-1"></a><span class="co">#iris는 shiny app 기반으로 동작하므로, 새로운 창에서 동작합니다. </span></span>
-<span id="cb21-2"><a href="data-glimpse.html#cb21-2"></a><span class="co"># 아래 코드를 # 없이 구동해보세요! </span></span>
-<span id="cb21-3"><a href="data-glimpse.html#cb21-3"></a><span class="co"># library(ExPanDaR)</span></span>
-<span id="cb21-4"><a href="data-glimpse.html#cb21-4"></a><span class="co"># ExPanDaR::ExPanD(iris)</span></span>
-<span id="cb21-5"><a href="data-glimpse.html#cb21-5"></a></span>
-<span id="cb21-6"><a href="data-glimpse.html#cb21-6"></a><span class="co">#dlookr는 한국분이 만드신 EDA 패키지로, 다양한 기능들이 있으며, 데이터의 전반을 파악하는데 매우 유용하게 사용됩니다. </span></span>
-<span id="cb21-7"><a href="data-glimpse.html#cb21-7"></a></span>
-<span id="cb21-8"><a href="data-glimpse.html#cb21-8"></a><span class="kw">library</span>(dlookr)</span>
-<span id="cb21-9"><a href="data-glimpse.html#cb21-9"></a>dlookr<span class="op">::</span><span class="kw">diagnose</span>(iris)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="data-glimpse.html#cb24-1"></a><span class="co">#iris는 shiny app 기반으로 동작하므로, 새로운 창에서 동작합니다. </span></span>
+<span id="cb24-2"><a href="data-glimpse.html#cb24-2"></a><span class="co"># 아래 코드를 # 없이 구동해보세요! </span></span>
+<span id="cb24-3"><a href="data-glimpse.html#cb24-3"></a><span class="co"># library(ExPanDaR)</span></span>
+<span id="cb24-4"><a href="data-glimpse.html#cb24-4"></a><span class="co"># ExPanDaR::ExPanD(iris)</span></span>
+<span id="cb24-5"><a href="data-glimpse.html#cb24-5"></a></span>
+<span id="cb24-6"><a href="data-glimpse.html#cb24-6"></a><span class="co">#dlookr는 한국분이 만드신 EDA 패키지로, 다양한 기능들이 있으며, 데이터의 전반을 파악하는데 매우 유용하게 사용됩니다. </span></span>
+<span id="cb24-7"><a href="data-glimpse.html#cb24-7"></a></span>
+<span id="cb24-8"><a href="data-glimpse.html#cb24-8"></a><span class="kw">library</span>(dlookr)</span>
+<span id="cb24-9"><a href="data-glimpse.html#cb24-9"></a>dlookr<span class="op">::</span><span class="kw">diagnose</span>(iris)</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 6
 ##   variables    types   missing_count missing_percent unique_count unique_rate
 ##   &lt;chr&gt;        &lt;chr&gt;           &lt;int&gt;           &lt;dbl&gt;        &lt;int&gt;       &lt;dbl&gt;
@@ -674,6 +677,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

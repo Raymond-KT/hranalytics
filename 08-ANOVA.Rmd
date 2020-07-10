@@ -60,7 +60,7 @@ IBM.HR <- readRDS('IBM.HR.RDS')
 * 독립변인은 지난 번 t Test와 동일하게 '학력'으로 두고, 종속변인은 '직무만족' 으로 두겠습니다.  
   
 ```{r Data Selection082}
-IBM.HR%>%select(Education,JobSatisfaction)->IBM.HR.test
+IBM.HR%>%dplyr::select(Education,JobSatisfaction)->IBM.HR.test
 ```
 
 * IBM.HR 데이터 중, Education과 JobSatisfaction 변수만 골라서 IBM.HR.test 데이터로 저장했고, 데이터를 확인해보겠습니다. 
@@ -115,9 +115,8 @@ glimpse(IBM.HR.test)
   
 * 코드는 아래와 같이 구성하시면 됩니다.  
   
-  ```
-  aov(독립변수~종속변수(그룹변수), data=데이터명)
-  ```
+  >  aov(독립변수~종속변수(그룹변수), data=데이터명)
+  
   
 * 학력에 따라 직무만족에 유의미한 차이가 있는지 ANOVA 해보겠습니다. 
 
@@ -155,7 +154,7 @@ aov(JobSatisfaction ~ Education, data=IBM.HR.test)%>%tidy
   
   
 ```{r bartlett test}
-bartlett.test(JobSatisfaction ~ Education, IBM.HR.test)
+bartlett.test(JobSatisfaction ~ Education, data=IBM.HR.test)
 ```
   
   

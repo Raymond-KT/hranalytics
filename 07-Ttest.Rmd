@@ -106,9 +106,9 @@ unique(IBM.HR$WorkLifeBalance)
 IBM.HR%>%is.na%>%sum
 ```    
   
-  ```
-  IBM.HR%>%is.na%>%sum
-  ```  
+  
+  > IBM.HR%>%is.na%>%sum
+    
 * IBM.HR 데이터에 결측치가 있는 경우 TRUE 값을 반환하는 is.na 함수에 넣고, TRUE의 수를 더해서 알려주는 sum에 넣으라는 뜻입니다.  
   
 * 결과는 0으로 결측치가 없는 것으로 확인되었습니다.  
@@ -125,15 +125,14 @@ IBM.HR%>%is.na%>%sum
 * 대졸과 전문대졸 미만의 학력을 갖고 있는 인원의 직무만족 데이터만 가져오기 위해 아래와 같이 ***select 함수, subset 함수***를 활용했습니다. 
 
 ```{r Data Selection}
-IBM.HR%>%select(Education,JobSatisfaction)%>%
+IBM.HR%>%dplyr::select(Education,JobSatisfaction)%>%
   subset(Education=="1"|Education=="3")->IBM.HR.test
 glimpse(IBM.HR.test)
 ``` 
  
-  ```
-  IBM.HR%>%select(Education,JobSatisfaction)%>%subset(Education=="1"|Education=="3")->IBM.HR.test
-  ```
-
+  >  IBM.HR%>%select(Education,JobSatisfaction)%>%subset(Education=="1"|Education=="3")->IBM.HR.test  
+  
+  
 * IBM.HR 데이터에서 Education 과 JobSatisfaction 열만 Select 하고, Education 관측치 중 1과 3인 데이터만 IBM.HR.test 변수에 넣으라는 뜻입니다.  
 
 ### 데이터의 등분산성 확인  
@@ -165,10 +164,10 @@ var.test(IBM.HR.test[IBM.HR.test$Education=="1",2],
 ```
  
 
-```
-var.test(IBM.HR.test[IBM.HR.test$Education=="1",2],
+
+  > var.test(IBM.HR.test[IBM.HR.test$Education=="1",2],
          IBM.HR.test[IBM.HR.test$Education=="3",2], conf.level = 0.95)
-```
+
   
 * *I BM.HR.test[IBM.HR.test$Education=="1",2]*는 IBM.HR.test 데이터에서   Education이 1(전문대졸 미만)인 관측치의 JobSatisfaction 만 가져오라는 것이며,  
   

@@ -1,46 +1,51 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
 # 텍스트 데이터-전처리 {#Textmining}  
-  
-<body><font color="black"><span style="background-color:#FF0000">
-죄송합니다. 아직 작성중에 있습니다. 
-</sapn></body>
   
 ```{r setup9, include=FALSE}
 knitr::opts_chunk$set(fig.align = "center", message=F, warning=F, fig.height = 4, cache=T, dpi = 300)
 ```
   
 
-* 텍스트 분석 역시 범위가 매우 넓지만,  
-우선, 그동안 제가 활용해온 텍스트 분석 기법 중심으로 간략하게 소개드리려고 합니다.  
+* 텍스트 분석 역시 범위가 매우 넓지만, 그동안 제가 활용해온 텍스트 분석 기법 중심으로 간략하게 소개드리려고 합니다.  
+  
+* 텍스트 분석을 시작하시기 전, *데이터홀릭 EP(41.3) 인트로 오브 형태소오오오!/형태소의 개념과 텍스트 분석* 팟캐스트를 출/퇴근길을 활용하여 들으시기를 추천드립니다.   
+  
+    [유튜브: 데이터홀릭-인트로 오브 형태소](ttps://www.youtube.com/watch?v=yJyl4Mhvd6g)  
+    [팟빵: 데이터홀릭-인트로 오브 형태소 ](http://www.podbbang.com/ch/1771386)  
   
   
+## 텍스트 분석 프로세스
   
-* 일반적인 텍스트 마이닝 프로세스에서는 텍스트 데이터를 가져오는 것부터 시작하지만,  
-저희는 이미 데이터가 확보되어 있는 상황에서 분석을 하기 때문에 해당 단계는 생략하고,  
-아래와 같은 순서대로 공유 드리겠습니다.  
+* 일반적인 텍스트 마이닝 프로세스에서는 텍스트 데이터를 웹이나 다른 곳에서  가져오는 것부터 시작하지만, 저희는 이미 데이터가 확보되어 있는 상황에서 분석을 하기 때문에 해당 단계는 생략하고, 아래와 같은 순서대로 공유 드리겠습니다.  
   
   
   |순서|내용|
-  |:---:|:---:|
+  |:---:|:---|
   |(1)| 텍스트 전처리(Tidyverse, tm 패키지 활용) |
   |(2)| 형태소 분석 (NLP4kec 패키지 활용) |
   |(3)| Corpus 생성 (tm 패키지 활용) |
   |(4)| Document Term Matrix, Term Document Matrix 생성 (tm패키지)|
-  |#|사용자 사전을 만들 경우, 1~4로 사용자 사전을 만든 후, 2 ~ 4과정 반복 |
-  |(5)|여러 분석 기법 활용하여 분석|
+  |(반복)|   사용자 사전을 활용 할 경우, 1~4로 사용자 사전을 만든 후, 2 ~ 4과정 반복 |
+  |(5)|여러 분석 기법 활용하여 분석|  
   
-
-* 아울러, 텍스트 분석을 시작하시기 전, *데이터홀릭 EP(41.3) 인트로 오브 형태소오오오!/형태소의 개념과 텍스트 분석* 팟캐스트를 출/퇴근길을 활용하여 들으시기를 추천드립니다.   
   
-    [유튜브: 데이터홀릭-인트로 오브 형태소](ttps://www.youtube.com/watch?v=yJyl4Mhvd6g)  
-    [팟빵: 데이터홀릭-인트로 오브 형태소 ](http://www.podbbang.com/ch/1771386)  
+## 텍스트 데이터 준비 
 
+* 텍스트 분석 실습은, 지난 해 크롤링 해두었던 **잡플래닛의 현대자동차 평판 데이터 중 장점 항목 **을 활용하여 진행 하겠습니다. 
 
-* 텍스트 분석은, 지난 해 크롤링 해두었던 '잡플래닛의 현대자동차 평판 데이터'를 기반으로 진행하겠습니다. 
+* **[이곳](https://www.notion.so/yeahbeeat/c1eabcc7c3b044fbb2a61c6cde14c78f)**에서 RDS 데이터를 다운 받으신 후 진행하시면 되며, **데이터는 반드시 프로젝트 폴더 안에 넣어주세요. **
+  
+* 웹크롤링을 하실 때는 데이터의 사용 가능여부를 잘 살펴보셔야 합니다.  잡플래닛 데이터의 경우, 개인적인 분석 연습 목적으로 사용하는데는 문제가 없지만, 상업적으로 사용하시는 경우에는 문제가 될 수도 있습니다.  
 
-* **[이곳](https://www.notion.so/yeahbeeat/c1eabcc7c3b044fbb2a61c6cde14c78f)**에서 RDS 데이터를 다운 받으신 후 진행하시면 됩니다.  
-데이터는 반드시 프로젝트 폴더 안에 넣어주세요.  
-
-* 사용할 패키지를 불러옵니다.
+* 크롤링 하시기 전, 웹페이지 홈디렉토리에 있는,robots.txt 파일을 확인해주시면 됩니다. 웹크롤링 저작권에 대해서는 향후 데이터 크롤링에 대해 공유드릴 때 더 자세히 안내드리겠습니다.  
+  
+  [누구도 알려주지 않는 크롤링의 함정 - SlideShare](https://www.slideshare.net/herrenstudy/ss-152303813)
+  
+* 텍스트 전처리에 사용할 패키지를 불러옵니다.  
 ```{r library9-1, include=FALSE}
 pacman::p_load('tidymodels','tidytext','NLP4kec' ,'stringr','tm')
 ```
@@ -49,9 +54,8 @@ pacman::p_load('tidymodels','tidytext','NLP4kec' ,'stringr','tm')
 pacman::p_load('tidymodels','tidytext','NLP4kec' ,'stringr','tm')
 ```
 
----
 
-## 텍스트 데이터 읽어 오기 readRDS()  
+### 텍스트 데이터 읽어 오기 
   
 > **readRDS(RDS파일): RDS데이터를 읽어주세요**
   
@@ -68,21 +72,24 @@ HMC_txt%>%nrow
 * 총 1,367행의 텍스트 데이터가 있음을 알 수 있습니다.  
   
   
-## 텍스트 데이터 기본 처리 
-
-### 결측치(NA) 처리 sum(), is.na()
-
+## 텍스트 데이터 전처리(1)  
+  
+* 보유하고 있는 텍스트 데이터를 파악하고, 가장 기본적인 전처리를 해줍니다. 
+  
+### 결측치 처리  
+  
 * 결측치 확인 결과, 없는 것으로 확인되었습니다.  
   
 ```{r is.na}
 sum(is.na(HMC_txt))
 ```
   
-* 결측치가 있을 경우, 그에 맞는 조치를 취해 주셔야 합니다.  
+* 결측치가 있을 경우, 그에 맞는 조치를 취해 주셔야 하는데, 앞서 공유드린 [결측치 제거](#na_omit) 항목 참고하시어, NA 값을 제거해주시면 됩니다.  
   
   
-### 중복 행 제거 unique()  
-
+  
+### 중복 행 제거  
+  
 > **unique(데이터) : 데이터의 unique한 값만 보여주세요**  
   
 * 중복된 행을 제거해줍니다.  
@@ -91,22 +98,25 @@ HMC_txt <- unique(HMC_txt)
 HMC_txt%>%nrow()
 ```
   
-    
+   
 * 행이 1,367개에서, 1,214개로 줄었습니다. 
 
-### 텍스트 공백 제거 str_remove_all()  
+### 텍스트 공백 제거   
   
 > **str_remove_all(데이터, 패턴)  : 데이터 안에 패턴 문자열을 제거해주세요**
   
 * 텍스트에 포함되어 있는 공백을 제거합니다.  
   
-str_remove_all 함수에서 pattern 에 정규표현식 을 입력하면, 정규표현식에 해당되는 문자가 제거됩니다.   
+* str_remove_all 함수에서 pattern 에 정규표현식 을 입력하면, 정규표현식에 해당되는 문자가 제거됩니다.   
   
-정규표현식 \\s+는 한개 이상의 공백을 의미하며, 정규표현식 및 데이터 전처리에 대한 세부 내용은 **[링크 참조](https://mrchypark.github.io/dabrp_classnote3/class4#43)** 부탁 드립니다.   
+* 정규표현식 \\s+는 한개 이상의 공백을 의미하며, 정규표현식 및 데이터 전처리에 대한 세부 내용은 **[링크 참조](https://mrchypark.github.io/dabrp_classnote3/class4#43)** 부탁 드립니다.   
+  
   
 ```{r text prep}
 # 텍스트의 공백을 제거합니다. NLP4kec 형태소 분석기가 띄어쓰기를 구분합니다
-HMC_txt %>% str_remove_all(pattern = '\\s+')
+HMC_txt <- sapply(HMC_txt,str_remove_all,'\\s+')
+HMC_txt <- as.data.frame(HMC_txt,stringsAsFactors = FALSE)
+colnames(HMC_txt) <- c('content')
 ```
   
   
@@ -120,7 +130,7 @@ HMC_txt %>% str_remove_all(pattern = '\\s+')
 형태소/Corpus 변환 후, tm 라이브러리에 있는 tm_map 함수를 활용하시는 것이 훨씬 간편합니다. 
 
 
-### 글자 수 확인해서 의미 없는 칼럼 날리기 nchar(), range()
+### 의미 없는 텍스트 제거
 
 > **nchar() : 글자 수를 세어주세요**  
   
@@ -128,17 +138,27 @@ HMC_txt %>% str_remove_all(pattern = '\\s+')
 
 * 글자 수를 확인하여, 최소 글자 수, 최대 글자 수를 구합니다. 
 
-```{r column}
-HMC_txt_range <- HMC_txt %>% nchar() %>% range()
+```{r text range}
+HMC_txt_range <- HMC_txt$content %>% nchar %>% range  
+  
 print(HMC_txt_range)
-# 다섯 글자 기준 미만에 포함된 열이 무엇인지 확인해봅니다. 
-HMC_txt$content[nchar(x = HMC_txt$content) < 5]
 ```
+
+```{r column check}
+# 다섯 글자 기준 미만에 포함된 열이 무엇인지 확인해봅니다  
   
-* 다섯글자 미만 단어 중, *임금,고용안정* 단어도 의미가 있어 보여서, 우선 그대로 형태소 분석을 진행해보겠습니다.  
+HMC_txt$content[nchar(x = HMC_txt$content) < 5]
+```  
   
-### id 칼럼 붙이기 
-* 형태소 분석 이후 원본 Data를 보존하기 위해 id 칼럼을 붙여줍니다.  
+* 다섯글자 미만 단어 중, *임금,고용안정, 연봉복지* 같은 단어도 의미가 있어 보여서, 우선 그대로 형태소 분석을 진행해보겠습니다.  
+  
+  
+## 텍스트 데이터 전처리(2)
+  
+* 어느정도 기본적인 전처리가 완료되었으므로, 이제는 형태소 분석을 위한 전처리를 진행합니다.  
+  
+### id 칼럼 붙이기  
+* 형태소 분석 이후 원본 Data를 보존하기 위해 id 칼럼을 붙여줍니다. 토픽모델링, 단어 네트워크맵 등 어떤 분석을 해도, 원본 Data를 확인하는 것은 중요합니다. 
   
 * 이를 위해, 먼저 객체에 id를 추가하는 함수를 생성합니다.  
 
@@ -169,8 +189,9 @@ HMC_txt$id <- generateIDs(obj = HMC_txt, index = 'doc')
 #열 이름을 content와 id로 설정해줍니다. 
 names(HMC_txt) <- c("content","id")
 ```
-
-## 형태소 분석 r_parser_r()
+  
+  
+## 형태소 분석(NLP4kec 패키지)  
   
 > **r_parser_r():텍스트를 형태소단위로 parsing 해주세요**
   
@@ -183,22 +204,20 @@ names(HMC_txt) <- c("content","id")
 **[링크](https://passerby14.tistory.com/3)**를 참조하시면, 형태소 분석기 성능 비교를 해놓은 것을 확인하실 수 있습니다.  
   
   
-  
 * 직접 Tokenizing 을 하는 것은 쉽지 않기 때문에 형태소 분석기의 성능이 중요합니다.  
   
 * 저는 주로 mecab 기반의 NLP4kec 형태소 분석기를 사용하기에,  
 이번에도 NLP4kec 를 사용하여 형태소 분석을 진행하겠습니다.   
 
-* NLP4kec 패키지는 http://bit.ly/NLP4kec_win_1_4 에서 다운 하실 수 있으며,  
-https://github.com/NamyounKim/NLP4kec 여기 보시고 설치하시면 됩니다.  
+* NLP4kec 패키지는 [이곳](http://bit.ly/NLP4kec_win_1_4)에서 다운받으실 수 있으며, [NLP4kec github](https://github.com/NamyounKim/NLP4kec)에 나와있는 설치 방법 보시고 설치하시면 됩니다.  
   
-  
+    
 * NLP4kec 패키지는 한글은 '은전한닢 형태소 분석기' 를 사용하고, 영어, 중국어는 Stanford core NLP를 사용합니다.  
   
 * NLP4kec 패키지를 사용하시면 텍스트 데이터를 입력 받아 형태소를 분석 한 뒤 tm 패키지에서 사용할 수 있습니다.  
   
-* HMC_txt의 텍스트 데이터를 r_parser_r 함수를 기반으로 parsing 해보겠습니다. 
-
+* HMC_txt의 텍스트 데이터를 r_parser_r 함수를 기반으로 parsing 해보겠습니다.  
+  
 ```{r parsing}
 Parsed_HMC <- r_parser_r(HMC_txt$content,language = "ko")
 
@@ -217,28 +236,25 @@ Parsed_HMC <- r_parser_r(HMC_txt$content,language = "ko")
   
 *이러한 단어들은 사용자 사전을 구축해서 제대로 처리되도록 할 수도 있고, 한 단어씩 수정해줄 수도 있습니다.   
   
-*이제 형태소 분석된 데이터를 tm 패키지로 넘겨서 데이터 전처리를 마무리 해보겠습니다. 
-
+*이제 형태소 분석된 데이터를 tm 패키지로 넘겨서 데이터 전처리를 마무리 해보겠습니다.  
+  
 ```{r parsed data}
  Parsed_HMC[1:10]
 ```
-
-
-## 텍스트 데이터 전처리(tm 패키지 활용)  
   
-* tm은 text mining의 약자로 Corpus(말뭉치)를 기본으로 텍스트 데이터 전처리를 
-매우 쉽게 진행할 수 있게 해줍니다.  
   
-* tm 패키지 활용에 앞서 https://statkclee.github.io/ml/ml-wordcloud.html 이곳의 글을 읽으시면  
+## Corpus 생성(tm패키지 활용)
+  
+* tm은 text mining의 약자로 Corpus(말뭉치)를 기본으로 텍스트 데이터 전처리를 매우 쉽게 진행할 수 있게 해줍니다.  
+  
+* tm 패키지 활용에 앞서 [이곳](https://statkclee.github.io/ml/ml-wordcloud.html)의 글을 읽으시면  
 전체적으로 이해하시는데 큰 도움을 받으실 수 있을 것 같습니다.  
   
-### Corpus 생성 Vcorpus() vectorSource()  
+* 앞서 parsing한 데이터를 갖고 말뭉치(Corpus)를 만들어줍니다.  
   
-앞서 parsing한 데이터를 갖고 말뭉치(Corpus)를 만들어줍니다.  
+* VectorSource() 함수는 Character Vector로부터 Corpus를 만들어주는 중간다리 역할을 하는 함수라고 생각하시면 되며, 데이터 프레임 형태에 따라 Vector이면 Vectorsource(), Dataframe 형태이면 DataframeSource()를 활용하시면 됩니다.  
   
-* VectorSource() 함수는 Character Vector로부터 Corpus를 만들어주는 중간다리 역할을 하는 함수라고 생각하시면 되며,  
-데이터 프레임 형태에 따라 Vector이면 Vectorsource(), Dataframe 형태이면   DataframeSource()를 활용하시면 됩니다.  
-Vcorpus 함수는 앞서 Source로 만들어준 데이터를 corpus로 만들어주는 역할을 합니다. 
+* Vcorpus 함수는 앞서 Source로 만들어준 데이터를 corpus로 만들어주는 역할을 합니다.  
    
   
 * 말뭉치(Corpus)는 Content 와 Meta를 가지는 특정한 형태의 텍스트 데이터 뭉치 라고 보시면 됩니다.  
@@ -251,9 +267,9 @@ inspect(corp[1])
   
   
   
-### 텍스트 데이터 전처리 tm_map  
+### 데이터 전처리(3)
   
-* corpus형태로 만들면 tm패키지의 데이터 전처리 함수를 쉽게 사용하실 수 있습니다.
+* corpus형태로 만들면 tm패키지의 데이터 전처리 함수를 쉽게 사용하실 수 있습니다. 기본적인 전처리는 해주었지만, 형태소 분석 이후 corpus 형태에서 전처리를 한번 더 해주셔야 합니다. 
 
 * 우선 저는 특수문자 제거만 해보겠습니다.  
   
@@ -262,11 +278,10 @@ corp <-  tm_map(corp, removePunctuation)
 ```
   
 * tm_map 함수를 활용하면 공백제거, 숫자제거, 특수문자 제거 등을 편하게 하실 수 있습니다.   
-자세한 내용은 https://wikidocs.net/33918 참조하시면 됩니다.  
+자세한 내용은 [이곳](https://wikidocs.net/33918) 참고하시면 됩니다.  
   
   
-* 오늘은 Corpus 생성까지 진행해보았으며, 다음 시간에 Document Term Matrix를 활용하여  
-아래의 텍스트 분석 기법을 적용하는 방법에 대해 하나씩 공유 드리겠습니다.  
+* 오늘은 Corpus 생성까지 진행해보았으며, 다음 시간에 Document Term Matrix를 활용하여 아래의 텍스트 분석 기법을 적용하는 방법에 대해 하나씩 공유 드리겠습니다.  
   
   **텍스트 분석 기법**
   ```

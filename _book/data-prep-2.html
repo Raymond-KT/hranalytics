@@ -24,7 +24,7 @@
 <meta name="author" content="김광태" />
 
 
-<meta name="date" content="2020-07-06" />
+<meta name="date" content="2020-07-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -151,11 +151,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-prep-1.html"><a href="data-prep-1.html"><i class="fa fa-check"></i><b>3</b> Data 전처리-결측치 처리</a><ul>
 <li class="chapter" data-level="3.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-처리하기"><i class="fa fa-check"></i><b>3.1</b> 결측치 처리하기</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치를-제거해주는-na.omit데이터"><i class="fa fa-check"></i><b>3.1.1</b> 결측치를 제거해주는 na.omit(데이터)</a></li>
+<li class="chapter" data-level="3.1.1" data-path="data-prep-1.html"><a href="data-prep-1.html#na_omit"><i class="fa fa-check"></i><b>3.1.1</b> 결측치 제거</a></li>
 <li class="chapter" data-level="3.1.2" data-path="data-prep-1.html"><a href="data-prep-1.html#각-함수의-결측치-제거-옵션-활용"><i class="fa fa-check"></i><b>3.1.2</b> 각 함수의 결측치 제거 옵션 활용</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-요약-및-시각화-naniar-패키지"><i class="fa fa-check"></i><b>3.2</b> 결측치 요약 및 시각화 naniar 패키지</a></li>
-<li class="chapter" data-level="3.3" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-대체하기"><i class="fa fa-check"></i><b>3.3</b> 결측치 대체하기</a></li>
+<li class="chapter" data-level="3.2" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-대체하기"><i class="fa fa-check"></i><b>3.2</b> 결측치 대체하기</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="data-prep-2.html"><a href="data-prep-2.html"><i class="fa fa-check"></i><b>4</b> Data 전처리-이상치 처리</a><ul>
 <li class="chapter" data-level="4.1" data-path="data-prep-2.html"><a href="data-prep-2.html#이상치-확인"><i class="fa fa-check"></i><b>4.1</b> 이상치 확인</a></li>
@@ -213,18 +212,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="Textmining.html"><a href="Textmining.html"><i class="fa fa-check"></i><b>9</b> 텍스트 데이터-전처리</a><ul>
-<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기-readrds"><i class="fa fa-check"></i><b>9.1</b> 텍스트 데이터 읽어 오기 readRDS()</a></li>
-<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-기본-처리"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 기본 처리</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#결측치na-처리-sum-is.na"><i class="fa fa-check"></i><b>9.2.1</b> 결측치(NA) 처리 sum(), is.na()</a></li>
-<li class="chapter" data-level="9.2.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거-unique"><i class="fa fa-check"></i><b>9.2.2</b> 중복 행 제거 unique()</a></li>
-<li class="chapter" data-level="9.2.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거-str_remove_all"><i class="fa fa-check"></i><b>9.2.3</b> 텍스트 공백 제거 str_remove_all()</a></li>
-<li class="chapter" data-level="9.2.4" data-path="Textmining.html"><a href="Textmining.html#글자-수-확인해서-의미-없는-칼럼-날리기-nchar-range"><i class="fa fa-check"></i><b>9.2.4</b> 글자 수 확인해서 의미 없는 칼럼 날리기 nchar(), range()</a></li>
-<li class="chapter" data-level="9.2.5" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.2.5</b> id 칼럼 붙이기</a></li>
+<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-분석-프로세스"><i class="fa fa-check"></i><b>9.1</b> 텍스트 분석 프로세스</a></li>
+<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-준비"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 준비</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기"><i class="fa fa-check"></i><b>9.2.1</b> 텍스트 데이터 읽어 오기</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#형태소-분석-r_parser_r"><i class="fa fa-check"></i><b>9.3</b> 형태소 분석 r_parser_r()</a></li>
-<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리tm-패키지-활용"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(tm 패키지 활용)</a><ul>
-<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#corpus-생성-vcorpus-vectorsource"><i class="fa fa-check"></i><b>9.4.1</b> Corpus 생성 Vcorpus() vectorSource()</a></li>
-<li class="chapter" data-level="9.4.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리-tm_map"><i class="fa fa-check"></i><b>9.4.2</b> 텍스트 데이터 전처리 tm_map</a></li>
+<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리1"><i class="fa fa-check"></i><b>9.3</b> 텍스트 데이터 전처리(1)</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="Textmining.html"><a href="Textmining.html#결측치-처리"><i class="fa fa-check"></i><b>9.3.1</b> 결측치 처리</a></li>
+<li class="chapter" data-level="9.3.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거"><i class="fa fa-check"></i><b>9.3.2</b> 중복 행 제거</a></li>
+<li class="chapter" data-level="9.3.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거"><i class="fa fa-check"></i><b>9.3.3</b> 텍스트 공백 제거</a></li>
+<li class="chapter" data-level="9.3.4" data-path="Textmining.html"><a href="Textmining.html#의미-없는-텍스트-제거"><i class="fa fa-check"></i><b>9.3.4</b> 의미 없는 텍스트 제거</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리2"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(2)</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.4.1</b> id 칼럼 붙이기</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="Textmining.html"><a href="Textmining.html#형태소-분석nlp4kec-패키지"><i class="fa fa-check"></i><b>9.5</b> 형태소 분석(NLP4kec 패키지)</a></li>
+<li class="chapter" data-level="9.6" data-path="Textmining.html"><a href="Textmining.html#corpus-생성tm패키지-활용"><i class="fa fa-check"></i><b>9.6</b> Corpus 생성(tm패키지 활용)</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="Textmining.html"><a href="Textmining.html#데이터-전처리3"><i class="fa fa-check"></i><b>9.6.1</b> 데이터 전처리(3)</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="Textmining-dtm.html"><a href="Textmining-dtm.html"><i class="fa fa-check"></i><b>10</b> 텍스트 데이터-재료 준비</a></li>
@@ -278,11 +281,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>R에서는 boxplot을 통해 간단하게 이상치가 있는지 확인하실 수 있습니다.<br />
 먼저, mtcars 데이터를 살펴볼까요?</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="data-prep-2.html#cb1-1"></a><span class="co"># tidyverse 라이브러리를 불러옵니다.  </span></span>
-<span id="cb1-2"><a href="data-prep-2.html#cb1-2"></a><span class="kw">library</span>(tidyverse) </span>
-<span id="cb1-3"><a href="data-prep-2.html#cb1-3"></a></span>
-<span id="cb1-4"><a href="data-prep-2.html#cb1-4"></a><span class="co"># R 내장 데이터인 mtcars를 살펴봅니다.</span></span>
-<span id="cb1-5"><a href="data-prep-2.html#cb1-5"></a><span class="kw">glimpse</span>(mtcars)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="data-prep-2.html#cb36-1"></a><span class="co"># tidyverse 라이브러리를 불러옵니다.  </span></span>
+<span id="cb36-2"><a href="data-prep-2.html#cb36-2"></a><span class="kw">library</span>(tidyverse) </span>
+<span id="cb36-3"><a href="data-prep-2.html#cb36-3"></a></span>
+<span id="cb36-4"><a href="data-prep-2.html#cb36-4"></a><span class="co"># R 내장 데이터인 mtcars를 살펴봅니다.</span></span>
+<span id="cb36-5"><a href="data-prep-2.html#cb36-5"></a><span class="kw">glimpse</span>(mtcars)</span></code></pre></div>
 <pre><code>## Rows: 32
 ## Columns: 11
 ## $ mpg  &lt;dbl&gt; 21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.…
@@ -313,25 +316,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>mtcars 데이터의 wt 값의 이상치를 보기 위해 아래와 같이 박스플롯을 그려보았습니다.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="data-prep-2.html#cb4-1"></a><span class="co"># mtcars 데이터 중 wt데이터에 이상치가 있는지 살펴봅니다. </span></span>
-<span id="cb4-2"><a href="data-prep-2.html#cb4-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb4-3"><a href="data-prep-2.html#cb4-3"></a><span class="kw">boxplot</span>(mtcars<span class="op">$</span>wt)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="data-prep-2.html#cb39-1"></a><span class="co"># mtcars 데이터 중 wt데이터에 이상치가 있는지 살펴봅니다. </span></span>
+<span id="cb39-2"><a href="data-prep-2.html#cb39-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb39-3"><a href="data-prep-2.html#cb39-3"></a><span class="kw">boxplot</span>(mtcars<span class="op">$</span>wt)</span></code></pre></div>
 <p><img src="RTIPS_files/figure-html/boxplot%20with%20mtcars-1.png" width="2100" style="display: block; margin: auto;" /></p>
 <ul>
 <li><p>상위 극단치 경계값을 넘어가는 값이 보입니다.</p></li>
 <li><p>boxplot을 통해 위와 같이 극단치를 넘어가는 이상치가 있는 것으로 확인 된 경우,<br />
 아래와 같이 summary 함수, IQR 함수, which 함수를 통해 이상치가 포함되어 있는 행을 확인하실 수 있습니다.</p></li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="data-prep-2.html#cb5-1"></a><span class="co"># summary 함수를 통해 분위수를 확인하고, </span></span>
-<span id="cb5-2"><a href="data-prep-2.html#cb5-2"></a><span class="kw">summary</span>(mtcars<span class="op">$</span>wt)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="data-prep-2.html#cb40-1"></a><span class="co"># summary 함수를 통해 분위수를 확인하고, </span></span>
+<span id="cb40-2"><a href="data-prep-2.html#cb40-2"></a><span class="kw">summary</span>(mtcars<span class="op">$</span>wt)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   1.513   2.581   3.325   3.217   3.610   5.424</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="data-prep-2.html#cb7-1"></a><span class="co"># 3분위 값에 1.5IQR을 더한 상위 극단치보다 큰 값이 몇 행에 있는지 확인합니다. </span></span>
-<span id="cb7-2"><a href="data-prep-2.html#cb7-2"></a><span class="kw">which</span>(mtcars<span class="op">$</span>wt<span class="op">&gt;</span><span class="kw">summary</span>(mtcars<span class="op">$</span>wt)[<span class="dv">5</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span><span class="kw">IQR</span>(mtcars<span class="op">$</span>wt))</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="data-prep-2.html#cb42-1"></a><span class="co"># 3분위 값에 1.5IQR을 더한 상위 극단치보다 큰 값이 몇 행에 있는지 확인합니다. </span></span>
+<span id="cb42-2"><a href="data-prep-2.html#cb42-2"></a><span class="kw">which</span>(mtcars<span class="op">$</span>wt<span class="op">&gt;</span><span class="kw">summary</span>(mtcars<span class="op">$</span>wt)[<span class="dv">5</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span><span class="kw">IQR</span>(mtcars<span class="op">$</span>wt))</span></code></pre></div>
 <pre><code>## [1] 15 16 17</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="data-prep-2.html#cb9-1"></a><span class="co"># 15, 16, 17번째 행의 wt 값이 이상치로 확인되었습니다. </span></span>
-<span id="cb9-2"><a href="data-prep-2.html#cb9-2"></a><span class="co"># boxplot에서 확인했듯이 하위 극단치는 없는 것으로 나옵니다. </span></span>
-<span id="cb9-3"><a href="data-prep-2.html#cb9-3"></a><span class="kw">which</span>(mtcars<span class="op">$</span>wt<span class="op">&lt;</span><span class="kw">summary</span>(mtcars<span class="op">$</span>wt)[<span class="dv">2</span>] <span class="op">-</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span><span class="kw">IQR</span>(mtcars<span class="op">$</span>wt))</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="data-prep-2.html#cb44-1"></a><span class="co"># 15, 16, 17번째 행의 wt 값이 이상치로 확인되었습니다. </span></span>
+<span id="cb44-2"><a href="data-prep-2.html#cb44-2"></a><span class="co"># boxplot에서 확인했듯이 하위 극단치는 없는 것으로 나옵니다. </span></span>
+<span id="cb44-3"><a href="data-prep-2.html#cb44-3"></a><span class="kw">which</span>(mtcars<span class="op">$</span>wt<span class="op">&lt;</span><span class="kw">summary</span>(mtcars<span class="op">$</span>wt)[<span class="dv">2</span>] <span class="op">-</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span><span class="kw">IQR</span>(mtcars<span class="op">$</span>wt))</span></code></pre></div>
 <pre><code>## integer(0)</code></pre>
 </div>
 <div id="이상치-제거-및-대체" class="section level2">
@@ -343,9 +346,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
 <li>이상치를 제거하기 위해서는 아래와 같이 이상치를 갖고 있는 행만 제거해주면 됩니다.</li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="data-prep-2.html#cb11-1"></a>mtcars_reshape &lt;-<span class="st"> </span>mtcars[<span class="op">-</span><span class="kw">which</span>(mtcars<span class="op">$</span>wt<span class="op">&gt;</span><span class="kw">summary</span>(mtcars<span class="op">$</span>wt)[<span class="dv">5</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span><span class="kw">IQR</span>(mtcars<span class="op">$</span>wt)),]</span>
-<span id="cb11-2"><a href="data-prep-2.html#cb11-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb11-3"><a href="data-prep-2.html#cb11-3"></a><span class="kw">boxplot</span>(mtcars_reshape<span class="op">$</span>wt)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="data-prep-2.html#cb46-1"></a>mtcars_reshape &lt;-<span class="st"> </span>mtcars[<span class="op">-</span><span class="kw">which</span>(mtcars<span class="op">$</span>wt<span class="op">&gt;</span><span class="kw">summary</span>(mtcars<span class="op">$</span>wt)[<span class="dv">5</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span><span class="kw">IQR</span>(mtcars<span class="op">$</span>wt)),]</span>
+<span id="cb46-2"><a href="data-prep-2.html#cb46-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb46-3"><a href="data-prep-2.html#cb46-3"></a><span class="kw">boxplot</span>(mtcars_reshape<span class="op">$</span>wt)</span></code></pre></div>
 <p><img src="RTIPS_files/figure-html/eliminate-1.png" width="2100" style="display: block; margin: auto;" /></p>
 <ul>
 <li><p>mtcars[-which(mtcars$wt&gt;summary(mtcars$wt)[5] + 1.5*IQR(mtcars$wt)),] 의 뜻은<br />
@@ -363,8 +366,8 @@ mtcars 데이터 중, 극단치보다 높은 행만 - 제거 하겠다는 것입
 <ul>
 <li>위의 행을 실행하고 나면, 이상치가 있던 15,16,17행에 NA 값이 들어가 있는 것을 보실 수 있습니다.</li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="data-prep-2.html#cb12-1"></a>mtcars[<span class="kw">which</span>(mtcars<span class="op">$</span>wt<span class="op">&gt;</span><span class="kw">summary</span>(mtcars<span class="op">$</span>wt)[<span class="dv">5</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span><span class="kw">IQR</span>(mtcars<span class="op">$</span>wt)),]<span class="op">$</span>wt &lt;-<span class="st"> </span><span class="ot">NA</span></span>
-<span id="cb12-2"><a href="data-prep-2.html#cb12-2"></a>mtcars<span class="op">$</span>wt</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="data-prep-2.html#cb47-1"></a>mtcars[<span class="kw">which</span>(mtcars<span class="op">$</span>wt<span class="op">&gt;</span><span class="kw">summary</span>(mtcars<span class="op">$</span>wt)[<span class="dv">5</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span><span class="kw">IQR</span>(mtcars<span class="op">$</span>wt)),]<span class="op">$</span>wt &lt;-<span class="st"> </span><span class="ot">NA</span></span>
+<span id="cb47-2"><a href="data-prep-2.html#cb47-2"></a>mtcars<span class="op">$</span>wt</span></code></pre></div>
 <pre><code>##  [1] 2.620 2.875 2.320 3.215 3.440 3.460 3.570 3.190 3.150 3.440 3.440 4.070
 ## [13] 3.730 3.780    NA    NA    NA 2.200 1.615 1.835 2.465 3.520 3.435 3.840
 ## [25] 3.845 1.935 2.140 1.513 3.170 2.770 3.570 2.780</code></pre>

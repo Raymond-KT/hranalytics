@@ -1,14 +1,14 @@
 
 # Data 전처리-결측치 처리 {#data_prep_1}
 
-* 데이터 전처리는 크게 **(1) 결측치 처리**와 **(2) 이상값 처리** 로 나눌 수 있습니다.  
-이번 chapter에서는 결측치를 파악하고, 처리 하는 법을 공유 드리겠습니다.     
-  
 
 ```{r setup3, include=FALSE}
 knitr::opts_chunk$set(fig.align = "center", message=F, warning=F, fig.height = 5, cache=T, dpi = 300)
 ```
 
+
+* 데이터 전처리는 크게 **(1) 결측치 처리**와 **(2) 이상값 처리** 로 나눌 수 있습니다.  
+이번 chapter에서는 결측치를 파악하고, 처리 하는 법을 공유 드리겠습니다.     
 
 * 이번에는 R에 기본 내장되어 있는 **naniar 패키지의 riskfactors 데이터**를 활용하겠습니다.   
     
@@ -18,14 +18,14 @@ knitr::opts_chunk$set(fig.align = "center", message=F, warning=F, fig.height = 5
 ```{r library3-1, warning=FALSE, include=FALSE}
 
 #데이터 구조를 시각적으로 확인할 수 있는 visdat 패키지도 호출합니다. 
-library('tidyverse','naniar', 'visdat')
+pacman::p_load('tidyverse','naniar', 'visdat')
 
 ```
 
 ```{r library3-2, warning=FALSE, eval=FALSE}
 
 #데이터 구조를 시각적으로 확인할 수 있는 visdat 패키지도 호출합니다. 
-library('tidyverse', 'naniar', 'visdat')
+pacman::p_load('tidyverse', 'naniar', 'visdat')
 
 ```
   
@@ -45,11 +45,12 @@ str(riskfactors)
 tibble 데이터 구조를 갖고 있음을 알 수 있습니다. 
       
       
----
-## 결측치 처리하기 
+---  
+  
+## 결측치 처리하기   
    
    
-### 결측치를 제거해주는 na.omit(데이터)    
+### 결측치 제거 {#na_omit}
       
 > **na.omit(데이터) : 데이터의 결측치를 제거하라**
   
@@ -114,7 +115,7 @@ lm(bmi~pregnant,riskfactors,na.action = na.omit)
 이에 따라 결측치가 제거된 후 위와 같이 회귀분석이 실행됩니다.  
 
 ---
-## 결측치 요약 및 시각화 naniar 패키지
+## 결측치 요약 및 시각화(naniar 패키지)
   
 * naniar 패키지를 활용하시면 결측치를 쉽고 빠르게 파악하실 수 있습니다.  
 * 우선 **miss_case_summary** 함수를 활용하시면 행 기준으로 결측치가 몇 개 있는지  

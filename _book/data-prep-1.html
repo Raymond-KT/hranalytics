@@ -24,7 +24,7 @@
 <meta name="author" content="김광태" />
 
 
-<meta name="date" content="2020-07-06" />
+<meta name="date" content="2020-07-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -150,7 +150,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6" data-path="data-glimpse.html"><a href="data-glimpse.html#eda탐험적-데이터분석-패키지-소개"><i class="fa fa-check"></i><b>2.6</b> EDA(탐험적 데이터분석) 패키지 소개</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-prep-1.html"><a href="data-prep-1.html"><i class="fa fa-check"></i><b>3</b> Data 전처리-결측치 처리</a><ul>
-<li class="chapter" data-level="3.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-요약-및-시각화-naniar-패키지"><i class="fa fa-check"></i><b>3.1</b> 결측치 요약 및 시각화 naniar 패키지</a></li>
+<li class="chapter" data-level="3.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-처리하기"><i class="fa fa-check"></i><b>3.1</b> 결측치 처리하기</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-prep-1.html"><a href="data-prep-1.html#na_omit"><i class="fa fa-check"></i><b>3.1.1</b> 결측치 제거</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-prep-1.html"><a href="data-prep-1.html#각-함수의-결측치-제거-옵션-활용"><i class="fa fa-check"></i><b>3.1.2</b> 각 함수의 결측치 제거 옵션 활용</a></li>
+</ul></li>
 <li class="chapter" data-level="3.2" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-대체하기"><i class="fa fa-check"></i><b>3.2</b> 결측치 대체하기</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="data-prep-2.html"><a href="data-prep-2.html"><i class="fa fa-check"></i><b>4</b> Data 전처리-이상치 처리</a><ul>
@@ -209,18 +212,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="Textmining.html"><a href="Textmining.html"><i class="fa fa-check"></i><b>9</b> 텍스트 데이터-전처리</a><ul>
-<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기-readrds"><i class="fa fa-check"></i><b>9.1</b> 텍스트 데이터 읽어 오기 readRDS()</a></li>
-<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-기본-처리"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 기본 처리</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#결측치na-처리-sum-is.na"><i class="fa fa-check"></i><b>9.2.1</b> 결측치(NA) 처리 sum(), is.na()</a></li>
-<li class="chapter" data-level="9.2.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거-unique"><i class="fa fa-check"></i><b>9.2.2</b> 중복 행 제거 unique()</a></li>
-<li class="chapter" data-level="9.2.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거-str_remove_all"><i class="fa fa-check"></i><b>9.2.3</b> 텍스트 공백 제거 str_remove_all()</a></li>
-<li class="chapter" data-level="9.2.4" data-path="Textmining.html"><a href="Textmining.html#글자-수-확인해서-의미-없는-칼럼-날리기-nchar-range"><i class="fa fa-check"></i><b>9.2.4</b> 글자 수 확인해서 의미 없는 칼럼 날리기 nchar(), range()</a></li>
-<li class="chapter" data-level="9.2.5" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.2.5</b> id 칼럼 붙이기</a></li>
+<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-분석-프로세스"><i class="fa fa-check"></i><b>9.1</b> 텍스트 분석 프로세스</a></li>
+<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-준비"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 준비</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기"><i class="fa fa-check"></i><b>9.2.1</b> 텍스트 데이터 읽어 오기</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#형태소-분석-r_parser_r"><i class="fa fa-check"></i><b>9.3</b> 형태소 분석 r_parser_r()</a></li>
-<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리tm-패키지-활용"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(tm 패키지 활용)</a><ul>
-<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#corpus-생성-vcorpus-vectorsource"><i class="fa fa-check"></i><b>9.4.1</b> Corpus 생성 Vcorpus() vectorSource()</a></li>
-<li class="chapter" data-level="9.4.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리-tm_map"><i class="fa fa-check"></i><b>9.4.2</b> 텍스트 데이터 전처리 tm_map</a></li>
+<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리1"><i class="fa fa-check"></i><b>9.3</b> 텍스트 데이터 전처리(1)</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="Textmining.html"><a href="Textmining.html#결측치-처리"><i class="fa fa-check"></i><b>9.3.1</b> 결측치 처리</a></li>
+<li class="chapter" data-level="9.3.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거"><i class="fa fa-check"></i><b>9.3.2</b> 중복 행 제거</a></li>
+<li class="chapter" data-level="9.3.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거"><i class="fa fa-check"></i><b>9.3.3</b> 텍스트 공백 제거</a></li>
+<li class="chapter" data-level="9.3.4" data-path="Textmining.html"><a href="Textmining.html#의미-없는-텍스트-제거"><i class="fa fa-check"></i><b>9.3.4</b> 의미 없는 텍스트 제거</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리2"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(2)</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.4.1</b> id 칼럼 붙이기</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="Textmining.html"><a href="Textmining.html#형태소-분석nlp4kec-패키지"><i class="fa fa-check"></i><b>9.5</b> 형태소 분석(NLP4kec 패키지)</a></li>
+<li class="chapter" data-level="9.6" data-path="Textmining.html"><a href="Textmining.html#corpus-생성tm패키지-활용"><i class="fa fa-check"></i><b>9.6</b> Corpus 생성(tm패키지 활용)</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="Textmining.html"><a href="Textmining.html#데이터-전처리3"><i class="fa fa-check"></i><b>9.6.1</b> 데이터 전처리(3)</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="Textmining-dtm.html"><a href="Textmining-dtm.html"><i class="fa fa-check"></i><b>10</b> 텍스트 데이터-재료 준비</a></li>
@@ -252,13 +259,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>이번에는 R에 기본 내장되어 있는 <strong>naniar 패키지의 riskfactors 데이터</strong>를 활용하겠습니다.</p></li>
 <li><p>먼저, 필요한 라이브러리를 호출합니다.</p></li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="data-prep-1.html#cb1-1"></a><span class="co">#데이터 구조를 시각적으로 확인할 수 있는 visdat 패키지도 호출합니다. </span></span>
-<span id="cb1-2"><a href="data-prep-1.html#cb1-2"></a><span class="kw">library</span>(<span class="st">&#39;tidyverse&#39;</span>, <span class="st">&#39;naniar&#39;</span>, <span class="st">&#39;visdat&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="data-prep-1.html#cb26-1"></a><span class="co">#데이터 구조를 시각적으로 확인할 수 있는 visdat 패키지도 호출합니다. </span></span>
+<span id="cb26-2"><a href="data-prep-1.html#cb26-2"></a><span class="kw">library</span>(<span class="st">&#39;tidyverse&#39;</span>, <span class="st">&#39;naniar&#39;</span>, <span class="st">&#39;visdat&#39;</span>)</span></code></pre></div>
 <ul>
 <li><p>이제 오늘 활용할 riskfactors 데이터를 파악해 보겠습니다.</p></li>
 <li><p>str함수를 통해 riskfactors 데이터가 어떤 자료형과 어떤 구조로 되어 있는지 확인하실 수 있습니다.</p></li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="data-prep-1.html#cb2-1"></a><span class="kw">str</span>(riskfactors)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="data-prep-1.html#cb27-1"></a><span class="kw">str</span>(riskfactors)</span></code></pre></div>
 <pre><code>## tibble [245 × 34] (S3: tbl_df/tbl/data.frame)
 ##  $ state           : Factor w/ 52 levels &quot;1&quot;,&quot;2&quot;,&quot;5&quot;,&quot;6&quot;,..: 22 36 52 38 28 15 40 50 14 5 ...
 ##  $ sex             : Factor w/ 2 levels &quot;Male&quot;,&quot;Female&quot;: 2 2 2 1 2 1 1 2 1 2 ...
@@ -298,60 +305,93 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>riskfactors 데이터는 34개의 변수(열)와 245개의 관측치(행)로 구성되어 있으며,<br />
 tibble 데이터 구조를 갖고 있음을 알 수 있습니다.</li>
 </ul>
-<div id="결측치-요약-및-시각화-naniar-패키지" class="section level2">
-<h2><span class="header-section-number">3.1</span> 결측치 요약 및 시각화 naniar 패키지</h2>
-<ul>
-<li><p>naniar 패키지를 활용하시면 결측치를 쉽고 빠르게 파악하실 수 있습니다.<br />
-</p></li>
-<li><p>우선 <strong>miss_case_summary</strong> 함수를 활용하시면 행 기준으로 결측치가 몇 개 있는지<br />
-결측치가 그 행의 전체 데이터 중 몇 퍼센트를 차지하는지 알려줍니다.</p></li>
-<li><p><strong>miss_var_summary</strong> 함수는 열 기준으로 알려줍니다.</p></li>
-</ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="data-prep-1.html#cb4-1"></a><span class="co"># 관찰값(행) 기준의 결측치 탐색</span></span>
-<span id="cb4-2"><a href="data-prep-1.html#cb4-2"></a><span class="kw">miss_case_summary</span>(riskfactors) </span></code></pre></div>
-<pre><code>## # A tibble: 245 x 3
-##     case n_miss pct_miss
-##    &lt;int&gt;  &lt;int&gt;    &lt;dbl&gt;
-##  1    91     15     44.1
-##  2   133     15     44.1
-##  3     4     12     35.3
-##  4    49     12     35.3
-##  5   185     12     35.3
-##  6    10     11     32.4
-##  7   231     10     29.4
-##  8    14      9     26.5
-##  9    61      8     23.5
-## 10    80      8     23.5
-## # ... with 235 more rows</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="data-prep-1.html#cb6-1"></a><span class="co"># 변수(열) 기준의 결측치 탐색</span></span>
-<span id="cb6-2"><a href="data-prep-1.html#cb6-2"></a><span class="kw">miss_var_summary</span>(riskfactors) </span></code></pre></div>
-<pre><code>## # A tibble: 34 x 3
-##    variable      n_miss pct_miss
-##    &lt;chr&gt;          &lt;int&gt;    &lt;dbl&gt;
-##  1 pregnant         215    87.8 
-##  2 smoke_stop       212    86.5 
-##  3 smoke_last       161    65.7 
-##  4 drink_average    135    55.1 
-##  5 drink_days       134    54.7 
-##  6 smoke_days       128    52.2 
-##  7 health_poor      113    46.1 
-##  8 bmi               11     4.49
-##  9 weight_lbs        10     4.08
-## 10 diet_fruit         8     3.27
-## # ... with 24 more rows</code></pre>
-<ul>
-<li><strong>vis_miss</strong> 함수를 활용하여 간단하게 시각화하여 확인할 수도 있습니다.</li>
-</ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="data-prep-1.html#cb8-1"></a><span class="kw">vis_miss</span>(riskfactors)</span></code></pre></div>
-<p><img src="RTIPS_files/figure-html/vis_miss%20%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE-1.png" width="2100" style="display: block; margin: auto;" /></p>
-<ul>
-<li><p><strong>gg_miss_upset</strong> 함수를 활용하시면, 어떤 패턴으로 결측치가 존재하는지 확인하실 수 있습니다.</p></li>
-<li><p>아래의 예를 보시면, 5개 데이터가 모두 없는 경우가 72건으로 가장 많았고,<br />
-그 다음은 smoke_last, smoke_stop, pregnant 값이 없는 경우가 42건으로 많았습니다</p></li>
-</ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="data-prep-1.html#cb9-1"></a><span class="kw">gg_miss_upset</span>(riskfactors)</span></code></pre></div>
-<p><img src="RTIPS_files/figure-html/gg_miss_upset-1.png" width="2100" style="display: block; margin: auto;" /></p>
 <hr />
+<div id="결측치-처리하기" class="section level2">
+<h2><span class="header-section-number">3.1</span> 결측치 처리하기</h2>
+<div id="na_omit" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> 결측치 제거</h3>
+<blockquote>
+<p><strong>na.omit(데이터) : 데이터의 결측치를 제거하라</strong></p>
+</blockquote>
+<ul>
+<li><p>데이터에 값이 들어 있지 않은 경우, NA로 표시가 됩니다.</p></li>
+<li><p>저는 처음 데이터 분석을 진행할 때는 NA를 처리하지 않고 진행하시는 것을 추천 드립니다.</p></li>
+<li><p>NA가 한 개만 들어있어도 해당 줄을 다 날리기 때문에<br />
+아까운 다른 데이터까지 다 날려버릴 수도 있습니다.</p></li>
+<li><p>아래의 예제를 보시면, na.omit으로 결측치를 날렸을 때<br />
+riskfactors의 관측치가 0으로, 모든 값 (행)이 없어진 것을 확인하실 수 있습니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="data-prep-1.html#cb29-1"></a><span class="kw">glimpse</span>(<span class="kw">na.omit</span>(riskfactors))</span></code></pre></div>
+<pre><code>## Rows: 0
+## Columns: 34
+## $ state            &lt;fct&gt; 
+## $ sex              &lt;fct&gt; 
+## $ age              &lt;int&gt; 
+## $ weight_lbs       &lt;int&gt; 
+## $ height_inch      &lt;int&gt; 
+## $ bmi              &lt;dbl&gt; 
+## $ marital          &lt;fct&gt; 
+## $ pregnant         &lt;fct&gt; 
+## $ children         &lt;int&gt; 
+## $ education        &lt;fct&gt; 
+## $ employment       &lt;fct&gt; 
+## $ income           &lt;fct&gt; 
+## $ veteran          &lt;fct&gt; 
+## $ hispanic         &lt;fct&gt; 
+## $ health_general   &lt;fct&gt; 
+## $ health_physical  &lt;int&gt; 
+## $ health_mental    &lt;int&gt; 
+## $ health_poor      &lt;int&gt; 
+## $ health_cover     &lt;fct&gt; 
+## $ provide_care     &lt;fct&gt; 
+## $ activity_limited &lt;fct&gt; 
+## $ drink_any        &lt;fct&gt; 
+## $ drink_days       &lt;int&gt; 
+## $ drink_average    &lt;int&gt; 
+## $ smoke_100        &lt;fct&gt; 
+## $ smoke_days       &lt;fct&gt; 
+## $ smoke_stop       &lt;fct&gt; 
+## $ smoke_last       &lt;fct&gt; 
+## $ diet_fruit       &lt;int&gt; 
+## $ diet_salad       &lt;int&gt; 
+## $ diet_potato      &lt;int&gt; 
+## $ diet_carrot      &lt;int&gt; 
+## $ diet_vegetable   &lt;int&gt; 
+## $ diet_juice       &lt;int&gt;</code></pre>
+<ul>
+<li>na.omit 함수 안에 데이터를 넣으시면 해당 데이터의 NA값이 포함된 관측치(행)을 제거합니다.</li>
+</ul>
+</div>
+<div id="각-함수의-결측치-제거-옵션-활용" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> 각 함수의 결측치 제거 옵션 활용</h3>
+<ul>
+<li><p>저는 결측지는 우선 그대로 두고, 분석을 진행해 보시는 것을 추천드립니다.</p></li>
+<li><p>회귀, 상관 등 대부분의 분석 함수들이 na값을 제외하고 분석을 진행하는 옵션을 갖추고 있습니다.</p></li>
+<li><p>NA를 처리 하지 않은 상태에서 함수의 NA처리 옵션을 활용하여 돌려 보시고, 이후 NA를 처리하시고 돌려보시는 것을 추천 드립니다.</p></li>
+<li><p>대부분의 함수에 na값을 제외하고 돌릴 수 있는 인자가 있습니다.</p></li>
+<li><p>sum 함수의 경우, na.rm 옵션으로 na값을 제외하고 구할 수 있습니다.<br />
+</p></li>
+<li><p>아래의 예를 보시면, na.rm 옵션이 없을 때는 결과가 NA가 나오지만,<br />
+</p></li>
+<li><p>na.rm 옵션이 있을 때는 NA 값을 제외한 값들의 sum 결과가 표시됨을 보실 수 있습니다.</p></li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="data-prep-1.html#cb31-1"></a><span class="co"># NA값이 포함되어 있는 데이터의 sum을 구하면, 결과값이 NA로 나옵니다. </span></span>
+<span id="cb31-2"><a href="data-prep-1.html#cb31-2"></a><span class="kw">sum</span>(riskfactors<span class="op">$</span>diet_fruit)</span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="data-prep-1.html#cb33-1"></a><span class="co"># sum 함수에서 NA값을 제거하고 sum하는 옵션인 na.rm=T 를 넣으면 값이 나옵니다. </span></span>
+<span id="cb33-2"><a href="data-prep-1.html#cb33-2"></a><span class="kw">sum</span>(riskfactors<span class="op">$</span>diet_fruit,<span class="dt">na.rm=</span>T)</span></code></pre></div>
+<pre><code>## [1] 76956</code></pre>
+<ul>
+<li>회귀분석의 경우에는 na.action 옵션이 있습니다.<br />
+</li>
+<li>na.action 옵션에 따라 잔차에 차이가 발생합니다.</li>
+</ul>
+<pre><code>lm(bmi~pregnant,riskfactors,na.action = na.omit) </code></pre>
+<ul>
+<li>na.action 조건을 na.omit으로 주었을 경우, NA값을 제외 시키며,<br />
+이에 따라 결측치가 제거된 후 위와 같이 회귀분석이 실행됩니다.</li>
+</ul>
+</div>
 </div>
 <div id="결측치-대체하기" class="section level2">
 <h2><span class="header-section-number">3.2</span> 결측치 대체하기</h2>
@@ -423,6 +463,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

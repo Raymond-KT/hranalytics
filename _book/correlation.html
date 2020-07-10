@@ -24,7 +24,7 @@
 <meta name="author" content="김광태" />
 
 
-<meta name="date" content="2020-07-06" />
+<meta name="date" content="2020-07-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -151,10 +151,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-prep-1.html"><a href="data-prep-1.html"><i class="fa fa-check"></i><b>3</b> Data 전처리-결측치 처리</a><ul>
 <li class="chapter" data-level="3.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-처리하기"><i class="fa fa-check"></i><b>3.1</b> 결측치 처리하기</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치를-제거해주는-na.omit데이터"><i class="fa fa-check"></i><b>3.1.1</b> 결측치를 제거해주는 na.omit(데이터)</a></li>
+<li class="chapter" data-level="3.1.1" data-path="data-prep-1.html"><a href="data-prep-1.html#na_omit"><i class="fa fa-check"></i><b>3.1.1</b> 결측치 제거</a></li>
 <li class="chapter" data-level="3.1.2" data-path="data-prep-1.html"><a href="data-prep-1.html#각-함수의-결측치-제거-옵션-활용"><i class="fa fa-check"></i><b>3.1.2</b> 각 함수의 결측치 제거 옵션 활용</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-요약-및-시각화-naniar-패키지"><i class="fa fa-check"></i><b>3.2</b> 결측치 요약 및 시각화 naniar 패키지</a></li>
+<li class="chapter" data-level="3.2" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-요약-및-시각화naniar-패키지"><i class="fa fa-check"></i><b>3.2</b> 결측치 요약 및 시각화(naniar 패키지)</a></li>
 <li class="chapter" data-level="3.3" data-path="data-prep-1.html"><a href="data-prep-1.html#결측치-대체하기"><i class="fa fa-check"></i><b>3.3</b> 결측치 대체하기</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="data-prep-2.html"><a href="data-prep-2.html"><i class="fa fa-check"></i><b>4</b> Data 전처리-이상치 처리</a><ul>
@@ -175,10 +175,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1.1" data-path="regression.html"><a href="regression.html#독립변수-종속변수-설정하기"><i class="fa fa-check"></i><b>6.1.1</b> 독립변수 / 종속변수 설정하기</a></li>
 <li class="chapter" data-level="6.1.2" data-path="regression.html"><a href="regression.html#단순-회귀분석-하고-결과-보기"><i class="fa fa-check"></i><b>6.1.2</b> 단순 회귀분석 하고 결과 보기</a></li>
 <li class="chapter" data-level="6.1.3" data-path="regression.html"><a href="regression.html#단순-회귀분석-모델-성능-파악하기"><i class="fa fa-check"></i><b>6.1.3</b> 단순 회귀분석 모델 성능 파악하기</a></li>
-<li class="chapter" data-level="6.1.4" data-path="regression.html"><a href="regression.html#단순-선형-회귀분석-기본-가정-확인"><i class="fa fa-check"></i><b>6.1.4</b> 단순 선형 회귀분석 기본 가정 확인</a></li>
+<li class="chapter" data-level="6.1.4" data-path="regression.html"><a href="regression.html#회귀분석-기본-가정-확인"><i class="fa fa-check"></i><b>6.1.4</b> 회귀분석 기본 가정 확인</a></li>
 <li class="chapter" data-level="6.1.5" data-path="regression.html"><a href="regression.html#회귀분석-그림으로-표현하기"><i class="fa fa-check"></i><b>6.1.5</b> 회귀분석 그림으로 표현하기</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="regression.html"><a href="regression.html#다중-선형회귀분석"><i class="fa fa-check"></i><b>6.2</b> 다중 선형회귀분석</a><ul>
+<li class="chapter" data-level="6.2" data-path="regression.html"><a href="regression.html#다중-선형-회귀분석"><i class="fa fa-check"></i><b>6.2</b> 다중 선형 회귀분석</a><ul>
 <li class="chapter" data-level="6.2.1" data-path="regression.html"><a href="regression.html#독립변수종속변수-설정하기"><i class="fa fa-check"></i><b>6.2.1</b> 독립변수/종속변수 설정하기</a></li>
 <li class="chapter" data-level="6.2.2" data-path="regression.html"><a href="regression.html#다중회귀분석-시행하기"><i class="fa fa-check"></i><b>6.2.2</b> 다중회귀분석 시행하기</a></li>
 <li class="chapter" data-level="6.2.3" data-path="regression.html"><a href="regression.html#다중회귀분석-결과-확인"><i class="fa fa-check"></i><b>6.2.3</b> 다중회귀분석 결과 확인</a></li>
@@ -213,21 +213,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="Textmining.html"><a href="Textmining.html"><i class="fa fa-check"></i><b>9</b> 텍스트 데이터-전처리</a><ul>
-<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기-readrds"><i class="fa fa-check"></i><b>9.1</b> 텍스트 데이터 읽어 오기 readRDS()</a></li>
-<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-기본-처리"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 기본 처리</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#결측치na-처리-sum-is.na"><i class="fa fa-check"></i><b>9.2.1</b> 결측치(NA) 처리 sum(), is.na()</a></li>
-<li class="chapter" data-level="9.2.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거-unique"><i class="fa fa-check"></i><b>9.2.2</b> 중복 행 제거 unique()</a></li>
-<li class="chapter" data-level="9.2.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거-str_remove_all"><i class="fa fa-check"></i><b>9.2.3</b> 텍스트 공백 제거 str_remove_all()</a></li>
-<li class="chapter" data-level="9.2.4" data-path="Textmining.html"><a href="Textmining.html#글자-수-확인해서-의미-없는-칼럼-날리기-nchar-range"><i class="fa fa-check"></i><b>9.2.4</b> 글자 수 확인해서 의미 없는 칼럼 날리기 nchar(), range()</a></li>
-<li class="chapter" data-level="9.2.5" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.2.5</b> id 칼럼 붙이기</a></li>
+<li class="chapter" data-level="9.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-분석-프로세스"><i class="fa fa-check"></i><b>9.1</b> 텍스트 분석 프로세스</a></li>
+<li class="chapter" data-level="9.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-준비"><i class="fa fa-check"></i><b>9.2</b> 텍스트 데이터 준비</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-읽어-오기"><i class="fa fa-check"></i><b>9.2.1</b> 텍스트 데이터 읽어 오기</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#형태소-분석-r_parser_r"><i class="fa fa-check"></i><b>9.3</b> 형태소 분석 r_parser_r()</a></li>
-<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리tm-패키지-활용"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(tm 패키지 활용)</a><ul>
-<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#corpus-생성-vcorpus-vectorsource"><i class="fa fa-check"></i><b>9.4.1</b> Corpus 생성 Vcorpus() vectorSource()</a></li>
-<li class="chapter" data-level="9.4.2" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리-tm_map"><i class="fa fa-check"></i><b>9.4.2</b> 텍스트 데이터 전처리 tm_map</a></li>
+<li class="chapter" data-level="9.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리1"><i class="fa fa-check"></i><b>9.3</b> 텍스트 데이터 전처리(1)</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="Textmining.html"><a href="Textmining.html#결측치-처리"><i class="fa fa-check"></i><b>9.3.1</b> 결측치 처리</a></li>
+<li class="chapter" data-level="9.3.2" data-path="Textmining.html"><a href="Textmining.html#중복-행-제거"><i class="fa fa-check"></i><b>9.3.2</b> 중복 행 제거</a></li>
+<li class="chapter" data-level="9.3.3" data-path="Textmining.html"><a href="Textmining.html#텍스트-공백-제거"><i class="fa fa-check"></i><b>9.3.3</b> 텍스트 공백 제거</a></li>
+<li class="chapter" data-level="9.3.4" data-path="Textmining.html"><a href="Textmining.html#의미-없는-텍스트-제거"><i class="fa fa-check"></i><b>9.3.4</b> 의미 없는 텍스트 제거</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="Textmining.html"><a href="Textmining.html#텍스트-데이터-전처리2"><i class="fa fa-check"></i><b>9.4</b> 텍스트 데이터 전처리(2)</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="Textmining.html"><a href="Textmining.html#id-칼럼-붙이기"><i class="fa fa-check"></i><b>9.4.1</b> id 칼럼 붙이기</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="Textmining.html"><a href="Textmining.html#형태소-분석nlp4kec-패키지"><i class="fa fa-check"></i><b>9.5</b> 형태소 분석(NLP4kec 패키지)</a></li>
+<li class="chapter" data-level="9.6" data-path="Textmining.html"><a href="Textmining.html#corpus-생성tm패키지-활용"><i class="fa fa-check"></i><b>9.6</b> Corpus 생성(tm패키지 활용)</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="Textmining.html"><a href="Textmining.html#데이터-전처리3"><i class="fa fa-check"></i><b>9.6.1</b> 데이터 전처리(3)</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="Textmining-dtm.html"><a href="Textmining-dtm.html"><i class="fa fa-check"></i><b>10</b> 텍스트 데이터-재료 준비</a></li>
+<li class="chapter" data-level="10" data-path="Textmining-dtm.html"><a href="Textmining-dtm.html"><i class="fa fa-check"></i><b>10</b> 텍스트 데이터-재료 준비</a><ul>
+<li class="chapter" data-level="10.1" data-path="Textmining-dtm.html"><a href="Textmining-dtm.html#dtm-corpus-생각해보기"><i class="fa fa-check"></i><b>10.1</b> dtm, corpus 생각해보기</a></li>
+<li class="chapter" data-level="10.2" data-path="Textmining-dtm.html"><a href="Textmining-dtm.html#tm-패키지-활용"><i class="fa fa-check"></i><b>10.2</b> tm 패키지 활용</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -465,7 +472,7 @@ mtcars에 있는 모든 변수에 대해 상관계수 검정을 진행해보겠�
 <li><p>Rstudo에서 할 때는 dev.new() 로 새 창을 열어주고, 아래의 내용을 실행하여 그림을 그려줍니다.</p></li>
 </ul>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="correlation.html#cb12-1"></a><span class="co"># dev.new()  실습할 때는 # 제거후 확인 </span></span>
-<span id="cb12-2"><a href="correlation.html#cb12-2"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span>cor <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">corrplot.mixed</span>(<span class="dt">p.mat=</span>p.value[[<span class="dv">1</span>]], <span class="dt">sig.level=</span>.<span class="dv">05</span>, <span class="dt">lower =</span> <span class="st">&#39;number&#39;</span>, <span class="dt">upper=</span><span class="st">&#39;pie&#39;</span>, <span class="dt">tl.cex=</span>.<span class="dv">6</span>, <span class="dt">tl.col=</span><span class="st">&#39;black&#39;</span>,<span class="dt">order=</span><span class="st">&#39;hclust&#39;</span>)</span></code></pre></div>
+<span id="cb12-2"><a href="correlation.html#cb12-2"></a>mtcars <span class="op">%&gt;%</span><span class="st"> </span>na.omit<span class="op">%&gt;%</span>cor <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">corrplot.mixed</span>(<span class="dt">p.mat=</span>p.value[[<span class="dv">1</span>]], <span class="dt">sig.level=</span>.<span class="dv">05</span>, <span class="dt">lower =</span> <span class="st">&#39;number&#39;</span>, <span class="dt">upper=</span><span class="st">&#39;pie&#39;</span>, <span class="dt">tl.cex=</span>.<span class="dv">6</span>, <span class="dt">tl.col=</span><span class="st">&#39;black&#39;</span>, <span class="dt">order=</span><span class="st">&#39;hclust&#39;</span>)</span></code></pre></div>
 <p><img src="RTIPS_files/figure-html/corrplot%20with%20p.value-1.png" width="2100" style="display: block; margin: auto;" /></p>
 <ul>
 <li><p>위와 같이 상관분석 결과를 한눈에 보실 수 있으며, 파란색이 진해질수록 정적 상관이, 붉은색이 진해질수록 부적 상관이 크고, pie를 차지하는 면적이 클수록 상관계수가 큼을 알 수 있습니다.</p>
@@ -476,7 +483,7 @@ mtcars에 있는 모든 변수에 대해 상관계수 검정을 진행해보겠�
 <pre><code>* p.mat : 상관계수 검정결과  
 * sig.level : 유의확율이며, sig.level 보다 큰 경우, 그림에 x표시됨  
 * upper/lower : 윗부분/아랫부분을 어떤 타입을 나타낼지 선택해줌  
-* order = hclust : 는 계층적 군집 결과에 따라 변수의 순서를 배열해줌  
+* order = hclust : 계층적 군집 결과에 따라 변수의 순서를 배열해줌  
 * tl.col =&#39;black&#39; : 중간 대각선 텍스트 라벨의 색을 검정색으로 지정함  
 * tl.cex = .6 : 중간 대각선 텍스트 라벨의 크기를 0.6으로 정함  </code></pre></li>
 <li><p>이 외에도 corrplot에는 다양한 기능들이 있는데, 더 자세한 내용은 아래 링크 참조 부탁드립니다.</p>
